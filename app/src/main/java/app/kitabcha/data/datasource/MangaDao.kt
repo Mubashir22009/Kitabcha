@@ -18,8 +18,8 @@ interface MangaDao {
     suspend fun delete(manga: MangaEntity)
 
     @Query("SELECT * FROM MangasEntity WHERE manga_title LIKE '%' || :search || '%'")
-    fun getLikeMangas(search: String): Flow<List<MangaEntity>>
+    fun searchMangas(search: String): Flow<List<MangaEntity?>>
 
     @Query("SELECT * FROM MangasEntity")
-    fun getAllMangas(): Flow<List<MangaEntity>>
+    fun getAllMangas(): Flow<List<MangaEntity?>>
 }
