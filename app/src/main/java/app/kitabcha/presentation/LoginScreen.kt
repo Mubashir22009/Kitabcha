@@ -77,10 +77,6 @@ fun Content(loginViewModel: LoginScreenViewModel , navController: NavController)
         }) {
             Text(text = "Register")
         }
-        OutlinedButton(onClick = {
-            navController.navigate(Routes.secondScreen)
-        }) {
-            Text(text = "next screen")
-        }
+
     }
 }

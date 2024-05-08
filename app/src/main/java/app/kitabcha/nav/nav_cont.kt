@@ -26,10 +26,10 @@ fun navCont()
       {
         LoginScreen(navController)
       }
-      composable(Routes.secondScreen)
+      /*composable(Routes.secondScreen)
       {
             secondPage(navController)
-      }
+      }*/
 
     } )
 
