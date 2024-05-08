@@ -18,16 +18,18 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import app.kitabcha.data.entity.UserEntity
+import app.kitabcha.nav.Routes
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     val viewModel = hiltViewModel<LoginScreenViewModel>()
-    Content(loginViewModel = viewModel)
+    Content(loginViewModel = viewModel , navController)
 }
 
 @Composable
-fun Content(loginViewModel: LoginScreenViewModel) {
+fun Content(loginViewModel: LoginScreenViewModel , navController: NavController) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -74,6 +76,11 @@ fun Content(loginViewModel: LoginScreenViewModel) {
             )
         }) {
             Text(text = "Register")
+        }
+        OutlinedButton(onClick = {
+            navController.navigate(Routes.secondScreen)
+        }) {
+            Text(text = "next screen")
         }
     }
 }
