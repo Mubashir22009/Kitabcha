@@ -6,10 +6,12 @@ import app.kitabcha.data.datasource.LibraryDao
 import app.kitabcha.data.datasource.MangaDao
 import app.kitabcha.data.entity.UserEntity
 import app.kitabcha.data.datasource.UserDao
+import app.kitabcha.data.entity.LibraryEntity
+import app.kitabcha.data.entity.MangaEntity
 
 
 @Database(
-    entities = [UserEntity::class],
+    entities = [UserEntity::class, MangaEntity::class, LibraryEntity::class],
     version= 1, exportSchema = false
 )
 abstract class KitabchaDatabase : RoomDatabase() {
