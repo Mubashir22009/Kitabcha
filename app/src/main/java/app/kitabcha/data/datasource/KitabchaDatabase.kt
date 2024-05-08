@@ -8,7 +8,7 @@ import app.kitabcha.data.datasource.UserDao
 
 @Database(
     entities = [UserEntity::class],
-    version= 1
+    version= 1, exportSchema = false
 )
 abstract class KitabchaDatabase : RoomDatabase() {
     abstract val userDao: UserDao
