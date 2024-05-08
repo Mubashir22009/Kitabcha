@@ -45,7 +45,6 @@ fun LoginScreen() {
 fun Content(loginViewModel: LoginScreenViewModel) {
 
     // this variable will determine the diplay of login screen or signup screen
-    var login_or_signup by remember { mutableStateOf(true) }
     var showPassword by remember { mutableStateOf(value = false) }
     Column(
         modifier = Modifier
@@ -64,17 +63,10 @@ fun Content(loginViewModel: LoginScreenViewModel) {
         val onSubmit: (value: UserEntity) -> Unit = remember {
             return@remember loginViewModel::insertUser
         }
-        var x: String = ""
-        if(login_or_signup)
-        {
-            x="Enter Account info to Login"
-        }
-        else
-        {
-            x= "Enter Account info to Sign Up"
-        }
+
+
         Text(
-            text = x,
+            text = "Enter Accout Info for Login/SignUp",
             modifier = Modifier
                 .padding(bottom = 16.dp, top = 40.dp,start = 5.dp)
                 .align(alignment = Alignment.CenterHorizontally)
@@ -133,45 +125,23 @@ fun Content(loginViewModel: LoginScreenViewModel) {
         Row()
         {
             Button(onClick = {
-                login_or_signup = !login_or_signup
+                loginViewModel.forAccountExistence(username,password)
+                // TODO: Use navigator to go to manga screen if we receive
             }) {
-                if(login_or_signup)
-                {
-                    Text(text = stringResource(R.string.want_to_signup))
-                }
-                else
-                {
-                    Text(text = stringResource(R.string.want_to_login))
-                }
-
+                    Text(text = stringResource(R.string.Login))
             }
 
             Spacer(modifier= Modifier.padding(start=10.dp))
 
             Button(onClick = {
-                if(login_or_signup)
-                {
-                    onSubmit(
-                        UserEntity(
-                            userName = username,
-                            password = password
-                        )
+                onSubmit(
+                    UserEntity(
+                        userName = username,
+                        password = password
                     )
-                }
-//                else
-//                {
-//
-//                }
-
+                )
             }) {
-                if(login_or_signup)
-                {
-                    Text(text = stringResource(R.string.Login))
-                }
-                else
-                {
                     Text(text = stringResource(R.string.Sign_Up))
-                }
             }
         }
 

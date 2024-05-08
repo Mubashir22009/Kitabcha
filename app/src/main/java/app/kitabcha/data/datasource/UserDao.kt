@@ -18,7 +18,7 @@ interface UserDao {
     suspend fun delete(user: UserEntity)
 
     @Query("SELECT * FROM UsersEntity WHERE :userName= user_name AND :userPassword= password")
-    fun forAccountExistence(userName: String,userPassword: String): Flow<List<UserEntity?>>
+    fun forAccountExistence(userName: String,userPassword: String): List<UserEntity?>
 
     @Query("SELECT user_name FROM UsersEntity")
     fun getAllUserNames(): Flow<List<String>>
