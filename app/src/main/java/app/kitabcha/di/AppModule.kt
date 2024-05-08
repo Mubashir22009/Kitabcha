@@ -2,6 +2,10 @@ package com.mkrdeveloper.viewmodeljetpack.app.kitabcha.di
 
 import android.app.Application
 import androidx.room.Room
+import app.kitabcha.data.repository.LibraryRepository
+import app.kitabcha.data.repository.LibraryRepositoryImpl
+import app.kitabcha.data.repository.MangaRepository
+import app.kitabcha.data.repository.MangaRepositoryImpl
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.data.datasource.KitabchaDatabase
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.data.repository.UserRepository
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.data.repository.UserRepositoryImpl
@@ -30,4 +34,17 @@ object AppModule {
     fun provideUserRepository(db: KitabchaDatabase): UserRepository {
         return UserRepositoryImpl(db.userDao)
     }
+
+    @Provides
+    @Singleton
+    fun provideMangaRepository(db: KitabchaDatabase): MangaRepository {
+        return MangaRepositoryImpl(db.mangaDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLibraryRepository(db: KitabchaDatabase): LibraryRepository {
+        return LibraryRepositoryImpl(db.libraryDao)
+    }
+
 }
