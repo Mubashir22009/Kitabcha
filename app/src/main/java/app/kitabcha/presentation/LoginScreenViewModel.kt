@@ -6,6 +6,7 @@ import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.data.repository.UserReposi
 import app.kitabcha.data.entity.UserEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -22,6 +23,16 @@ class LoginScreenViewModel @Inject constructor(
         }
     }
 
+//    fun forAccountExistence(userName: String, userPassword: String): Flow<List<UserEntity?>>
+//    {
+//        var lst: Flow<List<UserEntity?>>
+//        viewModelScope.launch(IO)
+//        {
+//           lst=repository.forAccountExistence(userName,userPassword)
+//        }
+//        // return lst
+//    }
+
     private val _userName = MutableStateFlow("")
     val userName = _userName.asStateFlow()
     fun setUserName(name: String) {
@@ -36,5 +47,5 @@ class LoginScreenViewModel @Inject constructor(
 
 
 
-
 }
+
