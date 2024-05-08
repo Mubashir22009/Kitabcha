@@ -2,7 +2,7 @@
     <string name="app_name">Kitabcha</string>
     <string name="Login">Login</string>
     <string name="Sign_Up">Sign Up</string>
-    <string name="want_to_signup">want to signup</string>
-    <string name="want_to_login">Want to Login</string>
+    <string name="want_to_signup">Signup instead</string>
+    <string name="want_to_login">Login instead</string>
 
 </resources>
