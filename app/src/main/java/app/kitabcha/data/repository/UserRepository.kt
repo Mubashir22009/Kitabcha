@@ -13,7 +13,7 @@ interface UserRepository {
 
     suspend fun delete(user: UserEntity)
 
-    suspend fun getPassword(userName: String): Flow<List<String>>
+    suspend fun forAccountExistence(userName: String, userPassword: String): Flow<List<UserEntity ?>>
 
     suspend fun getAllUserNames(): Flow<List<String>>
 }
@@ -33,9 +33,9 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPassword(userName: String): Flow<List<String>> {
+    override suspend fun forAccountExistence(userName: String, userPassword: String): Flow<List<UserEntity ?>> {
         return withContext(IO) {
-            dao.getPassword(userName)
+            dao.forAccountExistence(userName,userPassword)
         }
     }
 
