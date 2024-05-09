@@ -9,7 +9,7 @@ import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.LoginScreen
 @Composable
 fun NavCont()
 {
-  val navController = rememberNavController()
+    val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Routes.LoginScreen, builder = {
       composable(Routes.LoginScreen)
       {
