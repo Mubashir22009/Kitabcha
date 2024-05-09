@@ -27,17 +27,19 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import app.kitabcha.R
 import app.kitabcha.data.entity.UserEntity
+import app.kitabcha.navcont.Routes
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     val viewModel = hiltViewModel<LoginScreenViewModel>()
-    Content(loginViewModel = viewModel)
+    Content(loginViewModel = viewModel , navController)
 }
 
 @Composable
-fun Content(loginViewModel: LoginScreenViewModel) {
+fun Content(loginViewModel: LoginScreenViewModel , navController: NavController) {
 
     // this variable will determine the diplay of login screen or signup screen
     var doLogin by remember { mutableStateOf(true) }
@@ -123,6 +125,7 @@ fun Content(loginViewModel: LoginScreenViewModel) {
                             Toast.makeText(localContext, "Logged in :D", Toast.LENGTH_SHORT)
                                 .show()
                             // TODO: navigate
+                            // navController.navigate(Routes.library)
                         }
                     }
                 } else {
