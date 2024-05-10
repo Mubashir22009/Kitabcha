@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-@Entity(tableName= UsersEntity,indices = [Index(value = ["user_name", "password"], unique =true)])
+@Entity(tableName= UsersEntity,indices = [Index(value = ["user_name"], unique =true)])
 data class UserEntity (
     @PrimaryKey(autoGenerate=true)
     val id: Int = 0,
