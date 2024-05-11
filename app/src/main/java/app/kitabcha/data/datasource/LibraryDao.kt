@@ -19,9 +19,9 @@ interface LibraryDao {
     suspend fun delete(lib: LibraryEntity)
 
     @Query("SELECT owner_id FROM LibrariesEntity WHERE libID = :lID")
-    fun getUserID(lID: Int): Flow<List<Int>>
+    fun getUserID(lID: Int): Int
 
     @Query("SELECT libID FROM LibrariesEntity WHERE libID = :usrID")
-    fun getLibID(usrID: Int): Flow<List<Int>>
+    fun getLibID(usrID: Int): Int
 
 }
