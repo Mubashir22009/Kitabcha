@@ -2,6 +2,7 @@ package app.kitabcha.data.repository
 
 import app.kitabcha.data.datasource.CategoryMangaDao
 import app.kitabcha.data.entity.CategoryMangaEntity
+import app.kitabcha.data.entity.MangaEntity
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -13,7 +14,7 @@ interface CategoryMangaRepository {
 
     suspend fun delete(cM: CategoryMangaEntity)
 
-    suspend fun getAllMangasIDInCurrCategory(categID: Int): Flow<List<Int>>
+    suspend fun getAllMangasIDInCurrCategory(categID: Int): Flow<List<MangaEntity>>
 
 }
 
@@ -32,7 +33,7 @@ class CategoryMangaRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getAllMangasIDInCurrCategory(categID: Int): Flow<List<Int>> {
+    override suspend fun getAllMangasIDInCurrCategory(categID: Int): Flow<List<MangaEntity>> {
         return withContext(IO) {
             dao.getAllMangasIDInCurrCategory(categID)
         }
