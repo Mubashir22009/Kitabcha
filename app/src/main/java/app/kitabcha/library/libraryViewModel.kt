@@ -9,13 +9,10 @@ import app.kitabcha.data.repository.LibraryRepository
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.kitabcha.data.entity.CategoryEntity
-import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.data.repository.UserRepository
-import app.kitabcha.data.entity.UserEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -37,7 +34,12 @@ class libraryScreenViewModel @Inject constructor(
             repository.delete(id)
         }
     }
-
+    suspend fun getCategories(id:CategoryEntity)
+    {
+        return withContext(IO) {
+            repository.getCategories(id)
+        }
+    }
 
 
 }
