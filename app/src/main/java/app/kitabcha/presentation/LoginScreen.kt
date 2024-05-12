@@ -30,21 +30,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import app.kitabcha.R
 import app.kitabcha.data.entity.UserEntity
-import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.library.libraryScreenViewModel
+import app.kitabcha.navcont.Routes
 
 @Composable
 fun LoginScreen(navController: NavController) {
-    val loginviewModel = hiltViewModel<LoginScreenViewModel>()
-    //val libraryViewModel = ()
-    Content(loginViewModel = viewModel, navController, viewModel)
+    val viewModel = hiltViewModel<LoginScreenViewModel>()
+    Content(loginViewModel = viewModel , navController)
 }
 
 @Composable
-fun Content(
-    loginViewModel: LoginScreenViewModel,
-    navController: NavController,
-    libraryViewModel: libraryScreenViewModel
-) {
+fun Content(loginViewModel: LoginScreenViewModel , navController: NavController) {
 
     // this variable will determine the diplay of login screen or signup screen
     var doLogin by remember { mutableStateOf(true) }
