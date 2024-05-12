@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,22 +30,26 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import app.kitabcha.R
 import app.kitabcha.data.entity.UserEntity
+import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.library.libraryScreenViewModel
 
 @Composable
 fun LoginScreen(navController: NavController) {
-    val viewModel = hiltViewModel<LoginScreenViewModel>()
-    Content(loginViewModel = viewModel , navController)
+    val loginviewModel = hiltViewModel<LoginScreenViewModel>()
+    //val libraryViewModel = ()
+    Content(loginViewModel = viewModel, navController, viewModel)
 }
 
 @Composable
-fun Content(loginViewModel: LoginScreenViewModel , navController: NavController) {
+fun Content(
+    loginViewModel: LoginScreenViewModel,
+    navController: NavController,
+    libraryViewModel: libraryScreenViewModel
+) {
 
     // this variable will determine the diplay of login screen or signup screen
     var doLogin by remember { mutableStateOf(true) }
     val showPassword by remember { mutableStateOf(value = false) }
     val localContext = LocalContext.current
-
-    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
