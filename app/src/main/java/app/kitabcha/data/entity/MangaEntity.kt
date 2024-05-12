@@ -20,7 +20,9 @@ data class MangaEntity (
     @ColumnInfo(name = "manga_tags")
     val mangaTag: String,
     @ColumnInfo(name = "author_name")
-    val mangaAuthor: String
+    val mangaAuthor: String,
+    @ColumnInfo(name = "source_id")
+    val sourceID: Long
 )
 
 const val MangasEntity = "MangasEntity"

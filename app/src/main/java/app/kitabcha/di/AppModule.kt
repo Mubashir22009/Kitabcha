@@ -2,6 +2,8 @@ package com.mkrdeveloper.viewmodeljetpack.app.kitabcha.di
 
 import android.app.Application
 import androidx.room.Room
+import app.kitabcha.data.repository.CategoryMangaRepository
+import app.kitabcha.data.repository.CategoryMangaRepositoryImpl
 import app.kitabcha.data.repository.CategoryRepository
 import app.kitabcha.data.repository.CategoryRepositoryImpl
 import app.kitabcha.data.repository.LibraryRepository
@@ -55,4 +57,9 @@ object AppModule {
         return CategoryRepositoryImpl(db.categoryDao)
     }
 
+    @Provides
+    @Singleton
+    fun provideCategoryMangaRepository(db: KitabchaDatabase): CategoryMangaRepository {
+        return CategoryMangaRepositoryImpl(db.categorymangaDao)
+    }
 }
