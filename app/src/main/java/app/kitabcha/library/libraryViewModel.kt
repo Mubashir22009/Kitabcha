@@ -9,6 +9,7 @@ import app.kitabcha.data.repository.LibraryRepository
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.kitabcha.data.entity.CategoryEntity
+import app.kitabcha.data.entity.UserEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -40,7 +41,12 @@ class libraryScreenViewModel @Inject constructor(
             repository.getCategories(id)
         }
     }
-    fun getCategoryIdUsingCategoryId
+    fun getCategoryIdUsingCategoryId(id: UserEntity)
+    {
+        return withContext(IO)   {
+            repository.(id)
+        }
+    }
 
 
 }
