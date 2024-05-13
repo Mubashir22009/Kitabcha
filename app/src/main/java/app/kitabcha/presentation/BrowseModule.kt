@@ -33,7 +33,6 @@ fun browseScreen(BrowseViewModel: BrowseScreenViewModel, navController: NavContr
 {
     val searchManga by BrowseViewModel.manga_searched.collectAsStateWithLifecycle()
     val searchingInProgress by BrowseViewModel.searchingInProgress.collectAsStateWithLifecycle()
-    val mangasFoundBySearch by BrowseViewModel.mangasFoundBySearch.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -50,8 +49,10 @@ fun browseScreen(BrowseViewModel: BrowseScreenViewModel, navController: NavContr
                     .padding(top = 30.dp),
                 placeholder = {Text(text="Search")},
                 maxLines = 1)
-//            Button(onClick = ( /*TODO*/ )) {
-//                Text(text="search")
+
+            Button(onClick = ( {} ))
+            {
+                Text(text = "search")
             }
         }
 
@@ -64,7 +65,7 @@ fun browseScreen(BrowseViewModel: BrowseScreenViewModel, navController: NavContr
         ) {
 
 
-            }
+
 
 
         }

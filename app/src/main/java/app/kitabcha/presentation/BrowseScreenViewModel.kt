@@ -26,28 +26,29 @@ class BrowseScreenViewModel @Inject constructor(
     // manga list will be the list we will receive from the server with respect to our query
     private val mangaList = MutableStateFlow(listOf<Int>()) // TODO: Add data type of this list
 
+
     // mangasFoundBySearch
-    val mangasFoundBySearch = manga_searched.combine(mangaList)
-    { text, mangaFoundBySearch ->
-        // the code in this block will run when either the "manga_searched" variable changes or "mangaList" changes
-        // and the final result will be in the "mangaFoundBySearch" variable
-        if(text.isBlank()) // if list is empty jut display empty
-        {
-            null
-            // mangasFoundBySearch
-        }else
-        {
-            // TODO:
-            //mangasFoundBySearch.filter{
-                // here we will add our query with 'it.ourquery' ourquery will be of our class
-            //}
-        }
-    }.stateIn(
-        viewModelScope,
-        // the block above will be executed for 5 seconds if the ui of search bar stops updating
-        SharingStarted.WhileSubscribed(5000),
-        mangaList.value // show default value of manga List we
-    )
+//    val mangasFoundBySearch = manga_searched.combine(mangaList)
+//    { text, mangaFoundBySearch ->
+//        // the code in this block will run when either the "manga_searched" variable changes or "mangaList" changes
+//        // and the final result will be in the "mangaFoundBySearch" variable
+//        if(text.isBlank()) // if list is empty jut display empty
+//        {
+//            null
+//            // mangasFoundBySearch
+//        }else
+//        {
+//            // TODO:
+//            //mangasFoundBySearch.filter{
+//                // here we will add our query with 'it.ourquery' ourquery will be of our class
+//            //}
+//        }
+//    }.stateIn(
+//        viewModelScope,
+//        // the block above will be executed for 5 seconds if the ui of search bar stops updating
+//        SharingStarted.WhileSubscribed(5000),
+//        mangaList.value // show default value of manga List we
+//    )
 
 
     // this will detect when something changes in the ui of our search bar
