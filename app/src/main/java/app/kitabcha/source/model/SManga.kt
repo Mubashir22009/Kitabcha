@@ -1,12 +1,12 @@
 package app.kitabcha.source.model
 
 class SManga(
-    title: String,
-    url: String,
-    cover: String = "",
-    author: String = "",
-    artist: String = "",
-    description: String = "",
-    tags: List<String> = emptyList(),
-    chapters: List<SChapter>
+    val title: String,
+    val url: String,
+    val cover: String = "",
+    val author: String = "",
+    val artist: String = "",
+    val description: String = "",
+    val tags: List<String> = emptyList(),
+    val chapters: List<SChapter> = emptyList()
 )
