@@ -14,7 +14,7 @@ interface LibraryRepository {
 
     suspend fun delete(lib: LibraryEntity)
 
-    suspend fun getLibID(usrID: Int): Int
+    suspend fun getLibID(lib: Int): Int
 
     suspend fun getAllCategoriesOfUser(usrID: Int): Flow<List<CategoryEntity>>
 }
