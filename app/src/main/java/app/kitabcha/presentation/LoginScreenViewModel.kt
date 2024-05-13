@@ -2,8 +2,10 @@ package com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.kitabcha.data.entity.LibraryEntity
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.data.repository.UserRepository
 import app.kitabcha.data.entity.UserEntity
+import app.kitabcha.data.repository.LibraryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,12 +15,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
-    private val repository: UserRepository
+    private val repository: UserRepository,
+    private val libraryRepository: LibraryRepository
 ) : ViewModel() {
 
     fun insertUser(user: UserEntity) {
         viewModelScope.launch(IO) {
             repository.insert(user)
+            val usrID = repository.getUser(user.userName,user.password)
+            if (usrID != null) {
+                libraryRepository.insert(
+                    LibraryEntity(
+                        ownerUserID = usrID.id
+                    )
+                )
+            }
         }
     }
 
