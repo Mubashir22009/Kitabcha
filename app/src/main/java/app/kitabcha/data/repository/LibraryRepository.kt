@@ -1,6 +1,7 @@
 package app.kitabcha.data.repository
 
 import app.kitabcha.data.datasource.LibraryDao
+import app.kitabcha.data.entity.CategoryEntity
 import app.kitabcha.data.entity.LibraryEntity
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +16,7 @@ interface LibraryRepository {
 
     suspend fun getUserID(lID: Int): Int
 
-    suspend fun getLibID(usrID: Int): Int
+    suspend fun getAllCategoriesOfUser(usrID: Int): Flow<List<CategoryEntity>>
 }
 
 class LibraryRepositoryImpl @Inject constructor(
@@ -39,9 +40,9 @@ class LibraryRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getLibID(usrID: Int): Int{
+    override suspend fun getAllCategoriesOfUser(usrID: Int): Flow<List<CategoryEntity>>{
         return withContext(IO) {
-            dao.getLibID(usrID)
+            dao.getAllCategoriesOfUser(usrID)
         }
     }
 }

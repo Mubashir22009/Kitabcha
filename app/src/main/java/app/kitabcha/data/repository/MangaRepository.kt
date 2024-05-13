@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 interface MangaRepository {
 
-    suspend fun insert(manga: MangaEntity)
+    suspend fun insert(vararg manga: MangaEntity)
 
     suspend fun delete(manga: MangaEntity)
 
@@ -21,9 +21,9 @@ interface MangaRepository {
 class MangaRepositoryImpl @Inject constructor(
     private val dao: MangaDao
 ) : MangaRepository {
-    override suspend fun insert(manga: MangaEntity) {
+    override suspend fun insert(vararg manga: MangaEntity) {
         withContext(IO) {
-            dao.insert(manga)
+            dao.insert(*manga)
         }
     }
 

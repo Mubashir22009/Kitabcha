@@ -6,6 +6,8 @@ import app.kitabcha.data.repository.CategoryMangaRepository
 import app.kitabcha.data.repository.CategoryMangaRepositoryImpl
 import app.kitabcha.data.repository.CategoryRepository
 import app.kitabcha.data.repository.CategoryRepositoryImpl
+import app.kitabcha.data.repository.ChapterRepository
+import app.kitabcha.data.repository.ChapterRepositoryImpl
 import app.kitabcha.data.repository.LibraryRepository
 import app.kitabcha.data.repository.LibraryRepositoryImpl
 import app.kitabcha.data.repository.MangaRepository
@@ -61,5 +63,11 @@ object AppModule {
     @Singleton
     fun provideCategoryMangaRepository(db: KitabchaDatabase): CategoryMangaRepository {
         return CategoryMangaRepositoryImpl(db.categorymangaDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideChapterRepository(db: KitabchaDatabase): ChapterRepository {
+        return ChapterRepositoryImpl(db.chapterDao)
     }
 }
