@@ -14,7 +14,7 @@ interface LibraryRepository {
 
     suspend fun delete(lib: LibraryEntity)
 
-    suspend fun getUserID(lID: Int): Int
+    suspend fun getLibID(usrID: Int): Int
 
     suspend fun getAllCategoriesOfUser(usrID: Int): Flow<List<CategoryEntity>>
 }
@@ -34,9 +34,9 @@ class LibraryRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getUserID(lID: Int): Int {
+    override suspend fun getLibID(usrID: Int): Int {
         return withContext(IO) {
-            dao.getUserID(lID)
+            dao.getLibID(usrID)
         }
     }
 
