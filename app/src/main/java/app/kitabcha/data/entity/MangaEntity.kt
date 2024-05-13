@@ -2,11 +2,12 @@ package app.kitabcha.data.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-@Entity(tableName= MangasEntity)
+@Entity(tableName= MangasEntity,indices = [Index(value = ["manga_url","source_id"], unique =true)])
 data class MangaEntity (
     @PrimaryKey(autoGenerate=true)
     val mangaID: Int = 0,
