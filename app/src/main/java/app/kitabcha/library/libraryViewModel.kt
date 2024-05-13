@@ -40,6 +40,7 @@ class libraryScreenViewModel @Inject constructor(
             repository.getCategories(id)
         }
     }
+    fun getCategoryIdUsingCategoryId
 
 
 }

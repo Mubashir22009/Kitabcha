@@ -30,6 +30,7 @@ fun LoginScreen(navController: NavController) {
 @Composable
 fun Content(libraryViewModel: libraryScreenViewModel , navController: NavController)
 {
+    var assuming_userid = 12344
     var isTextFieldVisible by remember  { mutableStateOf(false) }
     var text by remember { mutableStateOf("") }
     //libraryViewModel.getCategories() maybe library id
