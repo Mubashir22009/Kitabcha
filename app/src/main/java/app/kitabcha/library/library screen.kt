@@ -53,6 +53,7 @@ fun Content(libraryViewModel: libraryScreenViewModel , navController: NavControl
 
         Button(onClick = {
             if(isTextFieldVisible) {
+
                 libraryViewModel.insertCategory(text)//text as category name
             }
             isTextFieldVisible = !isTextFieldVisible
