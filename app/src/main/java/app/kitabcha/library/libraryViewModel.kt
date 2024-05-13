@@ -61,18 +61,13 @@ class libraryScreenViewModel @Inject constructor(
             repository.getCategories(id)
         }
     }
-     suspend fun getCategoryIdUsingUserId(id: UserEntity): Flow<List<CategoryEntity>>
-    {
-        return withContext(IO)   {
-            repository2.getAllCategoriesOfUser(id.id)
-        }
+
+
+   suspend  fun getCategoryIdUsingUserId(id: UserEntity): Flow<List<CategoryEntity>> {
+        return repository2.getAllCategoriesOfUser(id.id)
     }
-    suspend fun getMangaIdUsingCategoryId(id: CategoryEntity): Flow<List<MangaEntity>>
-    {
-        return withContext(IO)
-        {
-            repository3.getAllMangasIDInCurrCategory(id.catID)
-        }
+    suspend fun getMangaIdUsingCategoryId(id: CategoryEntity): Flow<List<MangaEntity>> {
+        return repository3.getAllMangasIDInCurrCategory(id.catID)
     }
 
 

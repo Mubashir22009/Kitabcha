@@ -55,7 +55,7 @@ import app.kitabcha.data.entity.UserEntity
 
 
 @Composable
-fun LibraryScreen(navController: NavController,UserEnti: UserEntity) {
+suspend fun LibraryScreen(navController: NavController,UserEnti: UserEntity) { // suspend problem  in repositories and as well as in the view model
     val viewModel = hiltViewModel<libraryScreenViewModel>()
 
     Content(viewModel , navController, UserEnti)
