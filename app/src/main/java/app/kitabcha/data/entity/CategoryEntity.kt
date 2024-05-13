@@ -16,7 +16,7 @@ import kotlinx.serialization.Serializable
     )])
 data class CategoryEntity (
     @PrimaryKey(autoGenerate=true)
-    val catD: Int = 0,
+    val catID: Int = 0,
 
     @ColumnInfo(name ="library_id")
     val myLibrary: Int,
