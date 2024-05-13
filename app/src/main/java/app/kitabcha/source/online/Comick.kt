@@ -1,6 +1,5 @@
 package app.kitabcha.source.online
 
-import android.content.Context
 import app.kitabcha.source.HttpSource
 import app.kitabcha.source.helper.get
 import app.kitabcha.source.helper.getStringOrNull
@@ -12,7 +11,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.jsoup.parser.Parser
 
-class Comick(context: Context) : HttpSource(context) {
+class Comick : HttpSource() {
 
     override val name = "Comick"
 

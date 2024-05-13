@@ -3,9 +3,7 @@ package app.kitabcha.data.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.serialization.Serializable
 
-@Serializable
 @Entity(tableName= MangasEntity)
 data class MangaEntity (
     @PrimaryKey(autoGenerate=true)

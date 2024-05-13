@@ -10,7 +10,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import app.kitabcha.navcont.navCont
 import app.kitabcha.ui.theme.KitabchaTheme
-import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.LoginScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
