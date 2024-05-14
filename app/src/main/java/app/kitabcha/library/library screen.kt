@@ -76,7 +76,7 @@ fun Content(libraryViewModel: libraryScreenViewModel, navController: NavControll
 
         )
     {
-        
+
         Button(onClick = { isPopupVisible = true }
 
         ) {
