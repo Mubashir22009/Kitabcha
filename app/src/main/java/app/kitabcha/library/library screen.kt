@@ -24,7 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import app.kitabcha.data.entity.UserEntity
-
+import app.kitabcha.navcont.Routes
 
 
 @Composable fun LibraryScreen(navController: NavController,UserId: Int) { // suspend problem  in repositories and as well as in the view model
@@ -56,11 +56,6 @@ fun Content(libraryViewModel: libraryScreenViewModel, navController: NavControll
     }
 }
 
-
-
-
-
-
     var isPopupVisible by remember { mutableStateOf( false) }
     var text by remember { mutableStateOf("") }
 
@@ -75,7 +70,12 @@ fun Content(libraryViewModel: libraryScreenViewModel, navController: NavControll
 
         )
     {
+        Button(onClick = { navController.navigate(route = "${Routes.SourceScreen}/${UserId}")}
 
+        ) {
+            Text("Source Screen")
+
+        }
         Button(onClick = { isPopupVisible = true }
 
         ) {
