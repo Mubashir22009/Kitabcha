@@ -35,7 +35,7 @@ import app.kitabcha.navcont.Routes
 fun Content(libraryViewModel: libraryScreenViewModel, navController: NavController, UserId: Int) {
 
     //var allCategories = libraryViewModel.getCategoryIdUsingUserId(currentUserEntiity)
-    val allCategores by libraryViewModel.CategoriesUser.collectAsStateWithLifecycle()
+    val allCategores  by  libraryViewModel.CategoriesUser.collectAsStateWithLifecycle()
     val AllManga by libraryViewModel.AllManga.collectAsStateWithLifecycle()
 
 
