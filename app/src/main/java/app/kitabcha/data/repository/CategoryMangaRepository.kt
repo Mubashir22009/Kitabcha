@@ -14,7 +14,7 @@ interface CategoryMangaRepository {
 
     suspend fun delete(cM: CategoryMangaEntity)
 
-    suspend fun getAllMangasIDInCurrCategory(categID: Int): Flow<List<MangaEntity>>
+    suspend fun getAllMangasIDInCurrCategory(categID: Int): List<MangaEntity>
 
 }
 
@@ -33,9 +33,11 @@ class CategoryMangaRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getAllMangasIDInCurrCategory(categID: Int): Flow<List<MangaEntity>> {
+    override suspend fun getAllMangasIDInCurrCategory(categID: Int): List<MangaEntity> {
+
         return withContext(IO) {
             dao.getAllMangasIDInCurrCategory(categID)
         }
+
     }
 }

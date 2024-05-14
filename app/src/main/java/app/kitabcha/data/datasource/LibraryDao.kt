@@ -23,6 +23,6 @@ interface LibraryDao {
     fun getLibID(usrID: Int): Int
 
     @Query("SELECT c.* FROM LibrariesEntity l JOIN CategoriesEntity c ON l.libID=c.library_id WHERE l.owner_id = :usrID")
-    fun getAllCategoriesOfUser(usrID: Int): Flow<List<CategoryEntity>>
+    fun getAllCategoriesOfUser(usrID: Int): List<CategoryEntity>
 
 }

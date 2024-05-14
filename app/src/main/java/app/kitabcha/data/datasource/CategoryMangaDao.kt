@@ -19,6 +19,6 @@ interface CategoryMangaDao {
     suspend fun delete(cM: CategoryMangaEntity)
 
     @Query("SELECT m.* FROM CategoryMangasEntity cm JOIN MangasEntity m ON cm.manga_id=m.mangaID  WHERE cm.owner_Category_id = :categID")
-    fun getAllMangasIDInCurrCategory(categID: Int): Flow<List<MangaEntity>>
+    fun getAllMangasIDInCurrCategory(categID: Int): List<MangaEntity>
 
 }

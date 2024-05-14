@@ -31,6 +31,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -47,6 +49,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import app.kitabcha.data.entity.CategoryEntity
@@ -54,8 +57,7 @@ import app.kitabcha.data.entity.UserEntity
 
 
 
-@Composable
-suspend fun LibraryScreen(navController: NavController,UserEnti: UserEntity) { // suspend problem  in repositories and as well as in the view model
+@Composable fun LibraryScreen(navController: NavController,UserEnti: UserEntity) { // suspend problem  in repositories and as well as in the view model
     val viewModel = hiltViewModel<libraryScreenViewModel>()
 
     Content(viewModel , navController, UserEnti)
@@ -64,10 +66,22 @@ suspend fun LibraryScreen(navController: NavController,UserEnti: UserEntity) { /
 fun Content(libraryViewModel: libraryScreenViewModel, navController: NavController, currentUserEntiity: UserEntity)
 {
 
-
     //var allCategories = libraryViewModel.getCategoryIdUsingUserId(currentUserEntiity)
+    val allCategores by libraryViewModel.CategoriesUser.collectAsStateWithLifecycle()
+    val AllManga by libraryViewModel.AllManga.collectAsStateWithLifecycle()
 
 
+     LazyColumn {
+         itemsIndexed(
+             listOf (allCategores)
+         )
+         {
+             index,CategoryE ->
+             Text(text = index.toString() + "    "+CategoryE[index].catTitle)
+
+
+         }
+     }
 
 
 
@@ -80,13 +94,16 @@ fun Content(libraryViewModel: libraryScreenViewModel, navController: NavControll
 
     Column(
 
-        modifier = Modifier.padding(40.dp).fillMaxHeight(),
+        modifier = Modifier
+            .padding(40.dp)
+            .fillMaxHeight(),
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.End,
 
 
         )
     {
+        
         Button(onClick = { isPopupVisible = true }
 
         ) {

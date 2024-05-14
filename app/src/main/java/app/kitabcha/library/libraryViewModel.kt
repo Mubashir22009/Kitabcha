@@ -1,6 +1,10 @@
 package com.mkrdeveloper.viewmodeljetpack.app.kitabcha.library
 //package app.kitabcha.library
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import app.kitabcha.data.repository.CategoryRepository
 import app.kitabcha.data.repository.LibraryRepository
 
@@ -19,6 +23,8 @@ import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.data.repository.UserReposi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -62,12 +68,21 @@ class libraryScreenViewModel @Inject constructor(
         }
     }
 
-
-   suspend  fun getCategoryIdUsingUserId(id: UserEntity): Flow<List<CategoryEntity>> {
-        return repository2.getAllCategoriesOfUser(id.id)
+    private val CategUser = MutableStateFlow(emptyList<CategoryEntity>())
+    val CategoriesUser = CategUser.asStateFlow()
+    suspend fun getCategoryIdUsingUserId(id: UserEntity) {
+       withContext(IO) {
+           val cats = repository2.getAllCategoriesOfUser(id.id)
+           CategUser.tryEmit(cats)
+       }
     }
-    suspend fun getMangaIdUsingCategoryId(id: CategoryEntity): Flow<List<MangaEntity>> {
-        return repository3.getAllMangasIDInCurrCategory(id.catID)
+    private val MangaCategvar = MutableStateFlow(emptyList<MangaEntity>())
+    val AllManga = MangaCategvar.asStateFlow()
+    suspend fun getMangaIdUsingCategoryId(id: CategoryEntity) {
+        withContext(IO) {
+            val MangaOfCateg =  repository3.getAllMangasIDInCurrCategory(id.catID)
+            MangaCategvar.tryEmit(MangaOfCateg)
+        }
     }
 
 
