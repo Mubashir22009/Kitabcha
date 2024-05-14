@@ -1,7 +1,5 @@
 package com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation
 
-
-
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
