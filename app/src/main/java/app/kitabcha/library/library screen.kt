@@ -27,13 +27,13 @@ import app.kitabcha.data.entity.UserEntity
 
 
 
-@Composable fun LibraryScreen(navController: NavController,UserEnti: UserEntity) { // suspend problem  in repositories and as well as in the view model
+@Composable fun LibraryScreen(navController: NavController,UserId: Int) { // suspend problem  in repositories and as well as in the view model
     val viewModel = hiltViewModel<libraryScreenViewModel>()
 
-    Content(viewModel , navController, UserEnti)
+    Content(viewModel , navController, UserId)
 }
 @Composable
-fun Content(libraryViewModel: libraryScreenViewModel, navController: NavController, currentUserEntiity: UserEntity)
+fun Content(libraryViewModel: libraryScreenViewModel, navController: NavController, UserId: Int)
 {
 
     //var allCategories = libraryViewModel.getCategoryIdUsingUserId(currentUserEntiity)
@@ -91,7 +91,7 @@ fun Content(libraryViewModel: libraryScreenViewModel, navController: NavControll
             onDismiss = { isPopupVisible = false },
             libraryViewModel = libraryViewModel,
             navController=  navController,
-            currentUserEntiity = currentUserEntiity
+            UserId = UserId
         )
     }
 
@@ -103,7 +103,7 @@ fun PopupTextField(
     onDismiss: () -> Unit,
     libraryViewModel: libraryScreenViewModel,
     navController: NavController,
-    currentUserEntiity : UserEntity
+    UserId: Int
 ) {
     AlertDialog(
         onDismissRequest = { onDismiss() },
@@ -118,7 +118,7 @@ fun PopupTextField(
         confirmButton = {
             Button(onClick = {
                 if(text1.isNotEmpty()){
-                libraryViewModel.insertCategory(text1,currentUserEntiity.id)
+                libraryViewModel.insertCategory(text1,UserId)
                 text1.removeRange(0,text1.length)}
 
                 onDismiss() }) {

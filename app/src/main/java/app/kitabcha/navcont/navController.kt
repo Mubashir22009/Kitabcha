@@ -31,9 +31,9 @@ fun navCont()
         {
             LoginScreen(navController)
         }
-        composable(Routes.libraryScreen)
+        composable(Routes.libraryScreen+"/{n}")
         {
-            LibraryScreen(navController, a)
+            LibraryScreen(navController, dummyId)
         }
 
 

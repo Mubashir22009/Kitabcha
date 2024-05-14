@@ -1,5 +1,7 @@
 package com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation
 
+
+
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -124,8 +126,8 @@ fun Content(loginViewModel: LoginScreenViewModel , navController: NavController)
                         } else {
                             Toast.makeText(localContext, "Logged in :D", Toast.LENGTH_SHORT)
                                 .show()
-                            // TODO: navigate
-                            // navController.navigate(Routes.library)
+
+                             navController.navigate(Routes.libraryScreen+user.id)
                         }
                     }
                 } else {
