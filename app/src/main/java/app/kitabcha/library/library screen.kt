@@ -149,7 +149,7 @@ fun PopupTextField(
         },
         confirmButton = {
             Button(onClick = {
-                if(text1.length!=0){
+                if(text1.isNotEmpty()){
                 libraryViewModel.insertCategory(text1,currentUserEntiity.id)
                 text1.removeRange(0,text1.length)}
 
