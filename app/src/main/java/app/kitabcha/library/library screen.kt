@@ -74,10 +74,11 @@ fun Content(libraryViewModel: libraryScreenViewModel, navController: NavControll
      LazyColumn {
          itemsIndexed(
              listOf (allCategores)
+
          )
          {
              index,CategoryE ->
-             Text(text = index.toString() + "    "+CategoryE[index].catTitle)
+             Text(text = index.toString() + "    " +CategoryE[index].catTitle)
 
 
          }
