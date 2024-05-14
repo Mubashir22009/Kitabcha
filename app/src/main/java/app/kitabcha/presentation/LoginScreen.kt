@@ -127,7 +127,7 @@ fun Content(loginViewModel: LoginScreenViewModel , navController: NavController)
                             Toast.makeText(localContext, "Logged in :D", Toast.LENGTH_SHORT)
                                 .show()
 
-                             navController.navigate(Routes.libraryScreen+user.id)
+                             navController.navigate("${Routes.libraryScreen}/${user.id}")
                         }
                     }
                 } else {

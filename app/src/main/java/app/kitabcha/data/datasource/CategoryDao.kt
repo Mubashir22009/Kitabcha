@@ -18,6 +18,6 @@ interface CategoryDao {
     suspend fun delete(cat: CategoryEntity)
 
     @Query("SELECT * FROM CategoriesEntity WHERE library_id = :lID")
-    fun getCategories(lID: CategoryEntity): Flow<List<CategoryEntity>>
+    fun getCategories(lID: Int): Flow<List<CategoryEntity>>
 
 }

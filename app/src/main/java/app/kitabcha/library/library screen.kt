@@ -33,29 +33,28 @@ import app.kitabcha.data.entity.UserEntity
     Content(viewModel , navController, UserId)
 }
 @Composable
-fun Content(libraryViewModel: libraryScreenViewModel, navController: NavController, UserId: Int)
-{
+fun Content(libraryViewModel: libraryScreenViewModel, navController: NavController, UserId: Int) {
 
     //var allCategories = libraryViewModel.getCategoryIdUsingUserId(currentUserEntiity)
     val allCategores by libraryViewModel.CategoriesUser.collectAsStateWithLifecycle()
     val AllManga by libraryViewModel.AllManga.collectAsStateWithLifecycle()
 
+    if (allCategores.isNotEmpty()) {
 
-     LazyColumn {
-         itemsIndexed(
-             listOf (allCategores)
+    LazyColumn {
+        itemsIndexed(
+            listOf(allCategores)
 
-         )
-         {
-             index,categoryE ->
-             Text(text = index.toString() + "    " +categoryE[index].catTitle ,
-                 modifier = Modifier  .clickable { // call to another screen getting a list<MangaEntity>
-                  })
+        )
+        { index, categoryE ->
+            Text(text = index.toString() + "    " + categoryE[index].catTitle,
+                modifier = Modifier.clickable { // call to another screen getting a list<MangaEntity>
+                })
 
 
-         }
-     }
-
+        }
+    }
+}
 
 
 
@@ -96,6 +95,7 @@ fun Content(libraryViewModel: libraryScreenViewModel, navController: NavControll
     }
 
 }
+
 @Composable
 fun PopupTextField(
     text1: String,

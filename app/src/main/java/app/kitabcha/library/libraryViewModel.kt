@@ -33,14 +33,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class libraryScreenViewModel @Inject constructor(
-    UserEnti:UserEntity ,
-
     private val repository: CategoryRepository,
     private val repository2: LibraryRepository,
     private val repository3: CategoryMangaRepository,
-    private val repository4: UserRepository
-
-    , navController: NavController
 ) : ViewModel() {
 
     fun insertCategory(id: String, userId:Int) {
@@ -64,7 +59,7 @@ class libraryScreenViewModel @Inject constructor(
     suspend fun getCategories(id:CategoryEntity)
     {
         return withContext(IO)   {
-            repository.getCategories(id)
+            repository.getCategories(id.myLibrary)
         }
     }
 
