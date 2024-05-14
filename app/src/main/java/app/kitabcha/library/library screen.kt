@@ -5,7 +5,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.library.libraryScreenViewModel
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import app.kitabcha.data.entity.UserEntity
+import app.kitabcha.data.entity.CategoryEntity
 import app.kitabcha.navcont.Routes
 
 
@@ -39,58 +38,77 @@ fun Content(libraryViewModel: libraryScreenViewModel, navController: NavControll
     val allCategores by libraryViewModel.CategoriesUser.collectAsStateWithLifecycle()
     val AllManga by libraryViewModel.AllManga.collectAsStateWithLifecycle()
 
-    if (allCategores.isNotEmpty()) {
-
-    LazyColumn {
-        itemsIndexed(
-            listOf(allCategores)
-
-        )
-        { index, categoryE ->
-            Text(text = index.toString() + "    " + categoryE[index].catTitle,
-                modifier = Modifier.clickable { // call to another screen getting a list<MangaEntity>
-                })
-
-
-        }
-    }
-}
 
     var isPopupVisible by remember { mutableStateOf( false) }
     var text by remember { mutableStateOf("") }
 
-    Column(
+    Box(
 
         modifier = Modifier
-            .padding(40.dp)
-            .fillMaxHeight(),
-        verticalArrangement = Arrangement.Bottom,
-        horizontalAlignment = Alignment.End,
+            .padding(10.dp)
+            .fillMaxSize()
+
 
 
         )
     {
-        Button(onClick = { navController.navigate(route = "${Routes.SourceScreen}/${UserId}")}
+        Row( horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically ,
+            modifier = Modifier
+            .padding(20.dp)
+            .align(alignment = Alignment.BottomEnd)
+            ) {
 
-        ) {
-            Text("Source Screen")
+            Button( modifier = Modifier.padding(10.dp).align(alignment = Alignment.Top),
+                onClick = { navController.navigate(route = "${Routes.SourceScreen}/${UserId}") }
 
+            ) {
+
+                Text("Source Screen")
+
+            }
+            Button(modifier = Modifier.padding(10.dp).align(alignment = Alignment.CenterVertically),onClick = { isPopupVisible = true }
+
+            ) {
+                Text("Add category")
+
+            }
         }
-        Button(onClick = { isPopupVisible = true }
+        Spacer(modifier = Modifier .padding(25.dp))
 
-        ) {
-            Text("Add category")
 
+        if (allCategores.isNotEmpty()) {
+
+            LazyColumn {
+
+                itemsIndexed(
+                    listOf(allCategores)
+
+
+                )
+                { index, categoryE ->
+                    Text(text = index.toString() + "    " + categoryE[index].catTitle,
+                        modifier = Modifier.padding(15.dp).clickable { // call to another screen getting a list<MangaEntity>
+                        })
+
+
+                }
+            }
         }
+        else if(allCategores.isEmpty())
+        {
+            Text(  modifier = Modifier.padding(30.dp) , text ="empty " )
+        }
+
     }
     if (isPopupVisible) {
         PopupTextField(
-            text1 = text,
+            text = text,
             onTextChanged = { text = it },
             onDismiss = { isPopupVisible = false },
             libraryViewModel = libraryViewModel,
             navController=  navController,
-            UserId = UserId
+            UserId = UserId,
         )
     }
 
@@ -98,31 +116,33 @@ fun Content(libraryViewModel: libraryScreenViewModel, navController: NavControll
 
 @Composable
 fun PopupTextField(
-    text1: String,
+    text: String ,
     onTextChanged: (String) -> Unit,
     onDismiss: () -> Unit,
     libraryViewModel: libraryScreenViewModel,
     navController: NavController,
-    UserId: Int
+    UserId: Int,
 ) {
     AlertDialog(
         onDismissRequest = { onDismiss() },
         title = { Text("Category Name") },
         text = {
             TextField(
-                value = text1,
+                value = text,
                 onValueChange = { onTextChanged(it) },
                 modifier = Modifier.fillMaxWidth()
             )
         },
         confirmButton = {
             Button(onClick = {
-                if(text1.isNotEmpty()){
-                libraryViewModel.insertCategory(text1,UserId)
-                text1.removeRange(0,text1.length)}
+                if(text.isNotEmpty()){
+                libraryViewModel.insertCategory(text,UserId)
+                text.removeRange(0,text.length)}
 
                 onDismiss() }) {
                 Text("ok")
+
+
 
             }
         }
