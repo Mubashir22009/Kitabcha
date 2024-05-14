@@ -1,26 +1,16 @@
 package app.kitabcha.navcont
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import app.kitabcha.ui.theme.KitabchaTheme
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.LoginScreen
-import dagger.hilt.android.AndroidEntryPoint
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import app.kitabcha.data.entity.UserEntity
 import app.kitabcha.library.LibraryScreen
-import dagger.hilt.internal.ComponentEntryPoint
 
 @Composable
 fun navCont()
@@ -34,7 +24,7 @@ fun navCont()
             LoginScreen(navController)
         }
 
-        composable(route=  "libraryScreen/{id}" , arguments =
+        composable(route=  "${Routes.libraryScreen}/{id}" , arguments =
         listOf( navArgument("id"){type= NavType.IntType}))
         {
             val _userId=it.arguments!!.getInt("id")
@@ -43,7 +33,7 @@ fun navCont()
 
 
         //mukees screen
-        composable("SourceScreen/{id}" , arguments =
+        composable("${Routes.SourceScreen}/{id}" , arguments =
         listOf( navArgument("id"){type= NavType.IntType}))
         {
             var Id= it.arguments!!.getInt("id")
@@ -53,7 +43,7 @@ fun navCont()
 
 
         //ahmad screen
-        composable("browseScreen/{id}/{sourceId}", arguments =
+        composable("${Routes.browseScreen}/{id}/{sourceId}", arguments =
         listOf( navArgument("id"){type= NavType.IntType} , navArgument("sourceId"){type= NavType.IntType}))
         {
             var sourceId= it.arguments!!.getInt("sourceId")
@@ -73,7 +63,10 @@ fun navCont()
 fun sourceScreen(navController: NavController, id:Int)
 {
 
+ val sourceId:Int=0
 
+
+ navController.navigate(route = "${Routes.browseScreen}/${id}/${sourceId}")
 
 }
 
@@ -82,6 +75,7 @@ fun sourceScreen(navController: NavController, id:Int)
 fun BrowseScreen(navController: NavController, id:Int, sourceId:Int)
 {
 
+    navController.navigate(route = "${Routes.SourceScreen}/${id}")
 
 
 }
