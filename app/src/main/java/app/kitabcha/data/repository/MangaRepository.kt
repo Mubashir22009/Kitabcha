@@ -16,6 +16,8 @@ interface MangaRepository {
     suspend fun searchMangas(search: String): Flow<List<MangaEntity?>>
 
     suspend fun getAllMangas(): Flow<List<MangaEntity?>>
+
+    fun getDBMangaFromSource(mUrl: String, srcId: Long): Int
 }
 
 class MangaRepositoryImpl @Inject constructor(
@@ -44,4 +46,9 @@ class MangaRepositoryImpl @Inject constructor(
             dao.getAllMangas()
         }
     }
+
+   override fun getDBMangaFromSource(mUrl: String, srcId: Long): Int{
+       return dao.getDBMangaFromSource(mUrl,srcId)
+   }
+
 }

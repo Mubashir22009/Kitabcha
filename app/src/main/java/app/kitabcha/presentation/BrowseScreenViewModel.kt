@@ -1,18 +1,27 @@
 package app.kitabcha.presentation
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.kitabcha.data.entity.CategoryEntity
 import app.kitabcha.data.entity.MangaEntity
+import app.kitabcha.data.repository.CategoryMangaRepository
+import app.kitabcha.data.repository.CategoryRepository
+import app.kitabcha.data.repository.LibraryRepository
 import app.kitabcha.data.repository.MangaRepository
 import app.kitabcha.source.AvailableSources
 import app.kitabcha.source.model.SManga
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -20,25 +29,39 @@ import javax.inject.Inject
 @HiltViewModel
 class BrowseScreenViewModel @Inject constructor(
     //TODO :  Add Manga repository in which we are going to inject
-    private val repository: MangaRepository
+    private val repository: MangaRepository,
+    private val libraryRepository: LibraryRepository,
+    private val categoryMangaRepository: CategoryMangaRepository,
+    private val MangaRepo: MangaRepository
 ): ViewModel() {
 
-    
+    private var pageNumber =  MutableStateFlow(1) // page numbers for our browse screen
+    var _pagenumber = pageNumber.asStateFlow()
+
+    private var _currentManga = MutableStateFlow<MangaEntity?>(null)
+    var currentManga = _currentManga.asStateFlow()
+
     val lazyListFlag = MutableStateFlow(false)
+
     private val _searched_manga = MutableStateFlow("")
     val manga_searched = _searched_manga.asStateFlow()
 
     private val _isSearching = MutableStateFlow(false)
     val searchingInProgress = _isSearching.asStateFlow()
-    val _source = AvailableSources.sources.values.first()
+
+    private var _ListOfCatagory = MutableStateFlow(listOf<CategoryEntity>())
+    var ListOfCategory = _ListOfCatagory.asStateFlow()
 
     // manga list will be the list we will receive from the server with respect to our query
     val mangaList_toDisplay = MutableStateFlow(listOf<MangaEntity>()) // TODO: Add data type of this list
 
-    fun getMangas(source: Long)
+// FUNCTIONS: ++++++++++++++++++++++++++++++++++++++++=
+
+    fun getMangas(sourceID: Long,pagenumber: Int)
     {
+        val _source = AvailableSources.sources[sourceID]!!
         viewModelScope.launch {
-            _source.getListing(1)
+            _source.getListing(pagenumber)
                 .map { // TODO: pass page number properly
                 MangaEntity(
                     mangaURL = it.url,
@@ -49,16 +72,28 @@ class BrowseScreenViewModel @Inject constructor(
                     sourceID = 1L // TODO:
                 )
             }.also { repository.insert(*it.toTypedArray()) } .also { mangaList_toDisplay.tryEmit(it) }.also{lazyListFlag.tryEmit(true)}
+                .also{pageNumber.tryEmit(pagenumber+1)}
         }
     }
 
+    // function for getting categories from database
+    fun getCategory(userID: Int)
+    {
+            _ListOfCatagory.tryEmit(libraryRepository.getAllCategoriesOfUser(userID))
+    }
 
+    // this function is used for
+    fun updateMangaEntity (Manga: MangaEntity)
+    {
+        _currentManga.tryEmit(Manga)
+    }
 
-//    fun loginUser(userName: String, password: String, callback: (UserEntity?) -> Unit) {
-//        viewModelScope.launch {
-//            callback(repository.getUser(userName, password))
-//        }
-//    }
+    fun pushMangaInCategoty(MangaURL: String,SourceID:Int)
+    {
+        var MangaId = MangaRepo.getDBMangaFromSource(MangaURL,) // TODO Pass Appropriate parameters here
+
+    }
+
 
 
     // this will detect when something changes in the ui of our search bar
@@ -72,25 +107,3 @@ class BrowseScreenViewModel @Inject constructor(
 
 
 
-// mangasFoundBySearch.
-//    val mangasFoundBySearch = manga_searched.combine(mangaList)
-//    { text, mangaFoundBySearch ->
-//        // the code in this block will run when either the "manga_searched" variable changes or "mangaList" changes
-//        // and the final result will be in the "mangaFoundBySearch" variable
-//        if(text.isBlank()) // if list is empty jut display empty
-//        {
-//            null
-//            // mangasFoundBySearch
-//        }else
-//        {
-//            // TODO:
-//            //mangasFoundBySearch.filter{
-//                // here we will add our query with 'it.ourquery' ourquery will be of our class
-//            //}
-//        }
-//    }.stateIn(
-//        viewModelScope,
-//        // the block above will be executed for 5 seconds if the ui of search bar stops updating
-//        SharingStarted.WhileSubscribed(5000),
-//        mangaList.value // show default value of manga List we
-//    )
