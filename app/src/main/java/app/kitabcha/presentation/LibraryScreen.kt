@@ -99,7 +99,7 @@ fun Content(libraryViewModel: LibraryScreenViewModel, navController: NavControll
                     Text(text = (index+1).toString() + " - " + categoryE.catTitle,
                         modifier = Modifier
                             .padding(15.dp)
-                            .clickable { // call to another screen getting a list<MangaEntity>
+                            .clickable {  navController.navigate("${Routes.mangaLibraryScreen}/${UserId}/${categoryE.catID}")
                             })
 
 

@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import app.kitabcha.data.entity.UserEntity
 import app.kitabcha.presentation.LibraryScreen
 import app.kitabcha.presentation.SourceScreen
+import app.kitabcha.presentation.mangaLibraryScreen
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.LoginScreen
 
 @Composable
@@ -35,6 +36,15 @@ fun navCont()
         {
             val _id = it.arguments!!.getInt("id")
             SourceScreen(_id, navController)
+        }
+
+        composable("${Routes.mangaLibraryScreen}/{userId}/{Catid}" , arguments =
+        listOf( navArgument("userId"){type= NavType.IntType}
+             ,  navArgument("Catid"){type= NavType.IntType}))
+        {
+            val _catId = it.arguments!!.getInt("Catid")
+            val Id = it.arguments!!.getInt("userId")
+            mangaLibraryScreen(navController = navController, UserId = id, cateId = _catId )
         }
 //
 //
