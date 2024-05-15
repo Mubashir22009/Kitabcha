@@ -40,7 +40,6 @@ fun Content(libraryViewModel: LibraryScreenViewModel, navController: NavControll
 
     //var allCategories = libraryViewModel.getCategoryIdUsingUserId(currentUserEntiity)
     val allCategores  by  libraryViewModel.CategoriesUser.collectAsStateWithLifecycle()
-    val AllManga by libraryViewModel.AllManga.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Unit) {
         runBlocking {
