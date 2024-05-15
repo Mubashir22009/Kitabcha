@@ -1,37 +1,42 @@
 package app.kitabcha.presentation
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
-import androidx.compose.foundation.clickable
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.unit.dp
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import app.kitabcha.navcont.Routes
 import kotlinx.coroutines.runBlocking
 
-
 @Composable fun LibraryScreen(navController: NavController,UserId: Int) { // suspend problem  in repositories and as well as in the view model
-    val viewModel = hiltViewModel<libraryScreenViewModel>()
+    val viewModel = hiltViewModel<LibraryScreenViewModel>()
 
     Content(viewModel , navController, UserId)
 }
+
 @Composable
-fun Content(libraryViewModel: libraryScreenViewModel, navController: NavController, UserId: Int) {
+fun Content(libraryViewModel: LibraryScreenViewModel, navController: NavController, UserId: Int) {
 
     //var allCategories = libraryViewModel.getCategoryIdUsingUserId(currentUserEntiity)
     val allCategores  by  libraryViewModel.CategoriesUser.collectAsStateWithLifecycle()
@@ -47,13 +52,9 @@ fun Content(libraryViewModel: libraryScreenViewModel, navController: NavControll
     var text by remember { mutableStateOf("") }
 
     Box(
-
         modifier = Modifier
             .padding(10.dp)
             .fillMaxSize()
-
-
-
         )
     {
         Row( horizontalArrangement = Arrangement.SpaceEvenly,
@@ -130,12 +131,11 @@ fun PopupTextField(
     text: String,
     onTextChanged: (String) -> Unit,
     onDismiss: () -> Unit,
-    libraryViewModel: libraryScreenViewModel,
+    libraryViewModel: LibraryScreenViewModel,
     navController: NavController,
     UserId: Int,
     clearText: () -> Unit,
 ) {
-
     AlertDialog(
         onDismissRequest = { onDismiss() },
         title = { Text("Category Name") },
@@ -156,47 +156,7 @@ fun PopupTextField(
 
                 onDismiss() }) {
                 Text("ok")
-
-
-
-
             }
         }
     )
 }
-
-
-/*
-*  if (isTextFieldVisible) {
-            BasicTextField(
-                value = text,
-                onValueChange = { newText -> text = newText },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            )
-        }
-
-        Button(onClick = {
-            if(isTextFieldVisible) {
-
-
-
-
-                libraryViewModel.insertCategory(text,currentUserEntiity.id)//text as category name
-            }
-            isTextFieldVisible = !isTextFieldVisible
-           }) {
-            if (isTextFieldVisible) {
-                Text("enter")
-            }
-            else {
-                Text("+")
-            }
-        }
-*
-* */
-
-
-
-
