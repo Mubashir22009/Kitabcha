@@ -7,7 +7,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import app.kitabcha.data.entity.CategoryEntity
 import kotlinx.coroutines.flow.Flow
-import java.util.Locale.Category
 
 @Dao
 interface CategoryDao {

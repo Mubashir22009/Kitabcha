@@ -1,5 +1,7 @@
 package com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation
 
+
+
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import app.kitabcha.R
 import app.kitabcha.data.entity.UserEntity
+import app.kitabcha.navcont.Routes
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -45,8 +47,6 @@ fun Content(loginViewModel: LoginScreenViewModel , navController: NavController)
     var doLogin by remember { mutableStateOf(true) }
     val showPassword by remember { mutableStateOf(value = false) }
     val localContext = LocalContext.current
-
-    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -126,8 +126,8 @@ fun Content(loginViewModel: LoginScreenViewModel , navController: NavController)
                         } else {
                             Toast.makeText(localContext, "Logged in :D", Toast.LENGTH_SHORT)
                                 .show()
-                            // TODO: navigate
-                            // navController.navigate(Routes.library)
+
+                             navController.navigate("${Routes.libraryScreen}/${user.id}")
                         }
                     }
                 } else {
