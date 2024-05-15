@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
         parentColumns = ["libID"],
         childColumns = ["library_id"],
         onDelete = ForeignKey.CASCADE
-    )])
+    )],indices = [androidx.room.Index(value = ["library_id","cat_title"], unique = true)])
 data class CategoryEntity (
     @PrimaryKey(autoGenerate=true)
     val catID: Int = 0,
