@@ -57,8 +57,8 @@ fun Content(libraryViewModel: LibraryScreenViewModel, navController: NavControll
             .fillMaxSize()
         )
     {
-        Row( horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically ,
+        Row( horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.Bottom,
             modifier = Modifier
                 .padding(20.dp)
                 .align(alignment = Alignment.BottomEnd)
@@ -106,7 +106,7 @@ fun Content(libraryViewModel: LibraryScreenViewModel, navController: NavControll
                 }
             }
         }
-        else if(allCategores.isEmpty())
+        else 
         {
             Text(  modifier = Modifier.padding(30.dp) , text ="empty " )
         }
@@ -119,12 +119,13 @@ fun Content(libraryViewModel: LibraryScreenViewModel, navController: NavControll
             onDismiss = { isPopupVisible = false },
             libraryViewModel = libraryViewModel,
             navController=  navController,
-            UserId = UserId,
+            userId = UserId,
             clearText = { text = "" }
         )
     }
 
 }
+
 
 @Composable
 fun PopupTextField(
@@ -133,7 +134,7 @@ fun PopupTextField(
     onDismiss: () -> Unit,
     libraryViewModel: LibraryScreenViewModel,
     navController: NavController,
-    UserId: Int,
+    userId: Int,
     clearText: () -> Unit,
 ) {
     AlertDialog(
@@ -151,7 +152,7 @@ fun PopupTextField(
                 if(text.isNotEmpty()){
 
 
-                libraryViewModel.insertCategory(text,UserId)
+                libraryViewModel.insertCategory(text,userId)
                 clearText()}
 
                 onDismiss() }) {
