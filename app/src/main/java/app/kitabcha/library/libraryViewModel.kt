@@ -1,6 +1,7 @@
 package com.mkrdeveloper.viewmodeljetpack.app.kitabcha.library
 //package app.kitabcha.library
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -65,9 +66,12 @@ class libraryScreenViewModel @Inject constructor(
 
     private val CategUser = MutableStateFlow(emptyList<CategoryEntity>())
     val CategoriesUser = CategUser.asStateFlow()
-    suspend fun getCategoryIdUsingUserId(id: UserEntity) {
+    suspend fun getCategoryIdUsingUserId(id: Int) {
        withContext(IO) {
-           val cats = repository2.getAllCategoriesOfUser(id.id)
+           val cats = repository2.getAllCategoriesOfUser(id)
+           cats.onEach {
+               Log.d("tayyab", it.toString())
+           }
            CategUser.tryEmit(cats)
        }
     }

@@ -10,7 +10,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.dp
-import  androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.setValue
@@ -18,12 +17,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import app.kitabcha.data.entity.CategoryEntity
+import app.kitabcha.data.entity.UsersEntity
 import app.kitabcha.navcont.Routes
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 @Composable fun LibraryScreen(navController: NavController,UserId: Int) { // suspend problem  in repositories and as well as in the view model
@@ -38,6 +42,11 @@ fun Content(libraryViewModel: libraryScreenViewModel, navController: NavControll
     val allCategores  by  libraryViewModel.CategoriesUser.collectAsStateWithLifecycle()
     val AllManga by libraryViewModel.AllManga.collectAsStateWithLifecycle()
 
+    LaunchedEffect(key1 = Unit) {
+        runBlocking {
+            libraryViewModel.getCategoryIdUsingUserId(UserId)
+        }
+    }
 
     var isPopupVisible by remember { mutableStateOf( false) }
     var text by remember { mutableStateOf("") }
@@ -55,11 +64,13 @@ fun Content(libraryViewModel: libraryScreenViewModel, navController: NavControll
         Row( horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically ,
             modifier = Modifier
-            .padding(20.dp)
-            .align(alignment = Alignment.BottomEnd)
+                .padding(20.dp)
+                .align(alignment = Alignment.BottomEnd)
             ) {
 
-            Button( modifier = Modifier.padding(10.dp).align(alignment = Alignment.Top),
+            Button( modifier = Modifier
+                .padding(10.dp)
+                .align(alignment = Alignment.Top),
                 onClick = { navController.navigate(route = "${Routes.SourceScreen}/${UserId}") }
 
             ) {
@@ -67,7 +78,9 @@ fun Content(libraryViewModel: libraryScreenViewModel, navController: NavControll
                 Text("Source Screen")
 
             }
-            Button(modifier = Modifier.padding(10.dp).align(alignment = Alignment.CenterVertically),onClick = { isPopupVisible = true }
+            Button(modifier = Modifier
+                .padding(10.dp)
+                .align(alignment = Alignment.CenterVertically),onClick = { isPopupVisible = true }
 
             ) {
                 Text("Add category")
@@ -76,20 +89,22 @@ fun Content(libraryViewModel: libraryScreenViewModel, navController: NavControll
         }
         Spacer(modifier = Modifier .padding(25.dp))
 
-
+        runBlocking {
+            libraryViewModel.getCategoryIdUsingUserId(UserId)
+        }
         if (allCategores.isNotEmpty()) {
-
             LazyColumn {
 
                 itemsIndexed(
-                    listOf(allCategores)
-
+                    allCategores
 
                 )
                 { index, categoryE ->
-                    Text(text = index.toString() + "    " + categoryE[index].catTitle,
-                        modifier = Modifier.padding(15.dp).clickable { // call to another screen getting a list<MangaEntity>
-                        })
+                    Text(text = (index+1).toString() + " - " + categoryE.catTitle,
+                        modifier = Modifier
+                            .padding(15.dp)
+                            .clickable { // call to another screen getting a list<MangaEntity>
+                            })
 
 
                 }
@@ -109,6 +124,7 @@ fun Content(libraryViewModel: libraryScreenViewModel, navController: NavControll
             libraryViewModel = libraryViewModel,
             navController=  navController,
             UserId = UserId,
+            clearText = { text = "" }
         )
     }
 
@@ -122,7 +138,9 @@ fun PopupTextField(
     libraryViewModel: libraryScreenViewModel,
     navController: NavController,
     UserId: Int,
+    clearText: () -> Unit,
 ) {
+
     AlertDialog(
         onDismissRequest = { onDismiss() },
         title = { Text("Category Name") },
@@ -136,11 +154,14 @@ fun PopupTextField(
         confirmButton = {
             Button(onClick = {
                 if(text.isNotEmpty()){
+
+
                 libraryViewModel.insertCategory(text,UserId)
-                text.removeRange(0,text.length)}
+                clearText()}
 
                 onDismiss() }) {
                 Text("ok")
+
 
 
 
