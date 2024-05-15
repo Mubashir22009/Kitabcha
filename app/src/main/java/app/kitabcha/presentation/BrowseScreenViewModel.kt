@@ -38,7 +38,7 @@ class BrowseScreenViewModel @Inject constructor(
     private var pageNumber =  MutableStateFlow(1) // page numbers for our browse screen
     var _pagenumber = pageNumber.asStateFlow()
 
-    private var _currentManga = MutableStateFlow<MangaEntity?>(null)
+    private var _currentManga = MutableStateFlow<MangaEntity?>(null) // variable used for getting manga clicked in
     var currentManga = _currentManga.asStateFlow()
 
     val lazyListFlag = MutableStateFlow(false)
@@ -88,12 +88,25 @@ class BrowseScreenViewModel @Inject constructor(
         _currentManga.tryEmit(Manga)
     }
 
-    fun pushMangaInCategoty(MangaURL: String,SourceID:Int)
+    fun pushMangaInCategory(MangaURL: String,SourceID:Int)
     {
-        var MangaId = MangaRepo.getDBMangaFromSource(MangaURL,) // TODO Pass Appropriate parameters here
+        //var MangaId = MangaRepo.getDBMangaFromSource(MangaURL,) // TODO Pass Appropriate parameters here
+
 
     }
 
+    // 1st we have dummy manga id when we are pushing in database after that the data base will assign
+    fun getRealMangaID (MangaURL: String,SourceID:Long) : Int
+    {
+         return MangaRepo.getDBMangaFromSource(MangaURL,SourceID)
+    }
+
+    // this function makes the manga variable which we got on clicking on the text in manga list,
+    // because this also triggers the dialog box
+    fun makeMangaVarNull ()
+    {
+        _currentManga.tryEmit(null)
+    }
 
 
     // this will detect when something changes in the ui of our search bar

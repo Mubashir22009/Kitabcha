@@ -12,16 +12,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -86,8 +92,7 @@ fun browseScreen(BrowseViewModel: BrowseScreenViewModel, navController: NavContr
 
 
 @Composable
-fun LazyColumnOfList (Manga: List<MangaEntity>,BrowseViewModel : BrowseScreenViewModel,_UserID:Int)
-{
+fun LazyColumnOfList (Manga: List<MangaEntity>,BrowseViewModel : BrowseScreenViewModel,_UserID:Int) {
 
     LazyColumn(
         modifier = Modifier
@@ -95,53 +100,99 @@ fun LazyColumnOfList (Manga: List<MangaEntity>,BrowseViewModel : BrowseScreenVie
     )
     {
         items(Manga.size) { index ->
-        Text(text = Manga[index].mangaTitle, modifier = Modifier.clickable {BrowseViewModel.updateMangaEntity(Manga[index])})
+            Text(
+                text = Manga[index].mangaTitle,
+                modifier = Modifier.clickable { BrowseViewModel.updateMangaEntity(Manga[index]) })
+        }
     }
-}
-
-@Composable
-fun MangaClicked(BrowseViewModel: BrowseScreenViewModel,manga: MangaEntity,UserID:Int)
-{
-    if(BrowseViewModel.ListOfCategory!=null)
-    {
-
-    }
-    BrowseViewModel.getCategory(UserID) // stores value in a variable in BrowserScreenViewModel named ListOfCategory
-
-    // TODO: Get MangaId ot Manga URl using the other (Mubashir you know about it)
 
 }
 
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PopupTextField(
-    text1: String,
-    onTextChanged: (String) -> Unit,
-    onDismiss: () -> Unit,
-    libraryViewModel: BrowseScreenViewModel,
+    text1: String, // It will have the text "Select Catagory"
+    onConfirmation: () ->Unit,
+    onDissmissRequest: () ->Unit, // dimiss when dismiss button is pressed
+    browseViewModel: BrowseScreenViewModel,
     navController: NavController,
-    UserId: Int
+    CategoryList: List<CategoryEntity>
 ) {
-    AlertDialog(
-        onDismissRequest = { onDismiss() },
-        title = { Text("Category Name") },
-        text = {
-            TextField(
-                value = text1,
-                onValueChange = { onTextChanged(it) },
-                modifier = Modifier.fillMaxWidth()
-            )
-        },
-        confirmButton = {
-            Button(onClick = {
-                if(text1.isNotEmpty()){
-                    libraryViewModel.insertCategory(text1,UserId)
-                    text1.removeRange(0,text1.length)}
-
-                onDismiss() }) {
-                Text("ok")
-
+    var SelectedOption  by remember { mutableStateOf(CategoryList[0]) }
+    Dialog(
+        onDismissRequest = { browseViewModel.makeMangaVarNull() },
+        // radio button for each option
+        content = {
+            CategoryList.forEach { option ->
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    content = {
+                        RadioButton(
+                            selected = (option == SelectedOption),
+                            onClick = { SelectedOption = option }
+                        )
+                        Text(text = option.catTitle, modifier = Modifier.padding(8.dp))
+                    }
+                )
             }
+            // this is dismiss button
+            TextButton(onClick = { browseViewModel.makeMangaVarNull() },
+                modifier = Modifier.padding(8.dp)) {
+                Text("Dismiss")
+            }
+            TextButton(onClick = { browseViewModel.makeMangaVarNull() },
+                modifier = Modifier.padding(8.dp)) {
+                Text("OK")
+            }
+
+
+        },
+//        confirmButton = {
+//            Button(onClick = {
+//                if (text1.isNotEmpty()) {
+//                    libraryViewModel.insertCategory(text1, UserId)
+//                    text1.removeRange(0, text1.length)
+//                }
+//
+//                onDismiss()
+//            }) {
+//                Text("ok")
+//
+//            }
+    )
+
+
+
         }
     )
 }
+
+
+
+
+
+    @Composable
+    fun MangaClicked(
+        BrowseViewModel: BrowseScreenViewModel,
+        manga: MangaEntity,
+        UserID: Int,
+        SourceID: Long
+    ) {
+        if (BrowseViewModel.currentManga != null) {
+
+            BrowseViewModel.getCategory(UserID) // stores value in a variable in BrowserScreenViewModel named ListOfCategory
+
+            // Getting the real MangaId generated by DB when we inserted the manga in our database
+            val MangaIdFromDB = BrowseViewModel.getRealMangaID(manga.mangaURL, SourceID)
+            PopupTextField()
+
+        }
+
+    }
+
+
