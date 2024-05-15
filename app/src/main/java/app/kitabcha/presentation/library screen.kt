@@ -1,9 +1,8 @@
-package app.kitabcha.library
+package app.kitabcha.presentation
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
-import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.library.libraryScreenViewModel
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,15 +17,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import app.kitabcha.data.entity.CategoryEntity
-import app.kitabcha.data.entity.UsersEntity
 import app.kitabcha.navcont.Routes
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 
@@ -132,7 +127,7 @@ fun Content(libraryViewModel: libraryScreenViewModel, navController: NavControll
 
 @Composable
 fun PopupTextField(
-    text: String ,
+    text: String,
     onTextChanged: (String) -> Unit,
     onDismiss: () -> Unit,
     libraryViewModel: libraryScreenViewModel,

@@ -1,11 +1,6 @@
-package com.mkrdeveloper.viewmodeljetpack.app.kitabcha.library
+package app.kitabcha.presentation
 //package app.kitabcha.library
 
-import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import app.kitabcha.data.repository.CategoryRepository
 import app.kitabcha.data.repository.LibraryRepository
 
@@ -13,17 +8,11 @@ import app.kitabcha.data.repository.LibraryRepository
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
-import androidx.room.ColumnInfo
 import app.kitabcha.data.entity.CategoryEntity
 import app.kitabcha.data.entity.MangaEntity
-import app.kitabcha.data.entity.UserEntity
 import app.kitabcha.data.repository.CategoryMangaRepository
-import app.kitabcha.data.repository.MangaRepository
-import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -69,9 +58,6 @@ class libraryScreenViewModel @Inject constructor(
     suspend fun getCategoryIdUsingUserId(id: Int) {
        withContext(IO) {
            val cats = repository2.getAllCategoriesOfUser(id)
-           cats.onEach {
-               Log.d("tayyab", it.toString())
-           }
            CategUser.tryEmit(cats)
        }
     }

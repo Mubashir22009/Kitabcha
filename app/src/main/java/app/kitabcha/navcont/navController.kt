@@ -10,7 +10,7 @@ import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.LoginScreen
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import app.kitabcha.data.entity.UserEntity
-import app.kitabcha.library.LibraryScreen
+import app.kitabcha.presentation.LibraryScreen
 
 @Composable
 fun navCont()
