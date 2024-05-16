@@ -1,5 +1,7 @@
 package app.kitabcha.navcont
 
+import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -27,6 +29,9 @@ fun navCont()
         composable(route=  "${Routes.libraryScreen}/{id}" , arguments =
         listOf( navArgument("id"){type= NavType.IntType}))
         {
+            BackHandler(true) {
+                Log.i("LOG_TAG", "Clicked back")
+            }
             val _userId=it.arguments!!.getInt("id")
             LibraryScreen(navController, _userId)
         }
@@ -60,3 +65,6 @@ fun navCont()
 //        }
     })
 }
+
+
+
