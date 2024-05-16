@@ -8,7 +8,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import app.kitabcha.data.entity.UserEntity
 import app.kitabcha.presentation.LibraryScreen
 import app.kitabcha.presentation.SourceScreen
 import app.kitabcha.presentation.mangaLibraryScreen
@@ -18,7 +17,6 @@ import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.LoginScreen
 fun navCont()
 {
     val navController = rememberNavController()
-    val a=UserEntity( userName = String() , password = String() )
 
     NavHost(navController = navController, startDestination = Routes.LoginScreen, builder = {
         composable(Routes.LoginScreen)
@@ -49,7 +47,7 @@ fun navCont()
         {
             val _catId = it.arguments!!.getInt("Catid")
             val Id = it.arguments!!.getInt("userId")
-            mangaLibraryScreen(navController = navController, UserId = id, cateId = _catId )
+            mangaLibraryScreen(navController = navController, UserId = Id, cateId = _catId )
         }
 //
 //
