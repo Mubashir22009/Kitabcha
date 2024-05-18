@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.kitabcha.data.entity.CategoryEntity
 import app.kitabcha.data.entity.MangaEntity
+import app.kitabcha.data.entity.UserEntity
 import app.kitabcha.data.repository.CategoryMangaRepository
 import app.kitabcha.data.repository.CategoryRepository
 import app.kitabcha.data.repository.LibraryRepository
+import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +22,10 @@ class LibraryScreenViewModel @Inject constructor(
     private val repository: CategoryRepository,
     private val repository2: LibraryRepository,
     private val repository3: CategoryMangaRepository,
+    private val repositoryUser: UserRepository,
+
+
+
 ) : ViewModel() {
 
     fun insertCategory(id: String, userId:Int) {
@@ -62,5 +68,10 @@ class LibraryScreenViewModel @Inject constructor(
             MangaCategvar.tryEmit(MangaOfCateg)
         }
     }
+    /*fun loginUser(id_ : Int) {
+        viewModelScope.launch {
+            callback( repositoryUser.delete(id_) )
+        }
+    }*/
 }
 
