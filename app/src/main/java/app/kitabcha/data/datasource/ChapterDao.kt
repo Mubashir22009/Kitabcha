@@ -17,5 +17,5 @@ interface ChapterDao {
     suspend fun delete(chp: ChapterEntity)
 
     @Query("SELECT * FROM ChaptersEntity WHERE owner_manga_id = :mngaID ORDER BY chapter_num")
-    fun getMangaChapters(mngaID: Int): Flow<List<ChapterEntity>>
+    fun getMangaChapters(mngaID: Int): List<ChapterEntity>
 }
