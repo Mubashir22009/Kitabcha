@@ -1,6 +1,5 @@
 package app.kitabcha.presentation
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -18,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import app.kitabcha.navigation.Routes
 import app.kitabcha.source.AvailableSources
 
 @Composable
@@ -27,7 +27,7 @@ fun SourceItem(
     userId: Int,
     navController: NavController,
 ) {
-    var context = LocalContext.current
+    val context = LocalContext.current
     Text(
         text = text,
         fontSize = 25.sp,
@@ -38,9 +38,7 @@ fun SourceItem(
                 .background(MaterialTheme.colorScheme.primaryContainer)
                 .padding(16.dp)
                 .clickable(onClick = {
-                    // TODO
-                    // navController.navigate()
-                    Toast.makeText(context, "oh yeah baby $sourceId", Toast.LENGTH_SHORT).show()
+                    navController.navigate("${Routes.browseScreen}/$userId/$sourceId")
                 }),
     )
     Spacer(modifier = Modifier.height(4.dp))
