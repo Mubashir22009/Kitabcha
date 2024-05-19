@@ -1,4 +1,4 @@
-package app.kitabcha.navigation
+package app.kitabcha.navcont
 
 import android.util.Log
 import androidx.activity.compose.BackHandler
@@ -8,9 +8,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import app.kitabcha.navigation.Routes
 import app.kitabcha.presentation.LibraryScreen
 import app.kitabcha.presentation.MangaLibraryScreen
 import app.kitabcha.presentation.SourceScreen
+import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.BrowseScreenDriver
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.LoginScreen
 
 @Composable
@@ -64,5 +66,15 @@ fun NavController() {
 //
 //            BrowseScreen(navController, Id, sourceId)
 //        }
+
+        //ahmad screen
+        composable("${Routes.browseScreen}/{id}/{sourceId}", arguments =
+        listOf( navArgument("id"){type= NavType.IntType} , navArgument("sourceId"){type= NavType.IntType}))
+        {
+            var sourceId= it.arguments!!.getInt("sourceId")
+            var Id = it.arguments!!.getInt("id")
+
+            BrowseScreenDriver(navController, Id, sourceId.toLong())
+        }
     })
 }
