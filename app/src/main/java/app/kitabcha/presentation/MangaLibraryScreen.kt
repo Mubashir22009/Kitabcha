@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import app.kitabcha.navigation.Routes
 import kotlinx.coroutines.runBlocking
 
 @Composable fun MangaLibraryScreen(
@@ -73,7 +74,9 @@ fun Content1(
                     modifier =
                         Modifier
                             .padding(20.dp)
-                            .clickable { // call to another screen opening manga :  manga screen
+                            .clickable {
+                                navController.navigate("${  Routes.mangaScreen}/$UserId/${categoryMAngas.mangaID}")
+
                             },
                 )
             }
