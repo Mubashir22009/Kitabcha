@@ -54,27 +54,16 @@ fun NavController() {
             val userId = it.arguments!!.getInt("userId")
             MangaLibraryScreen(navController = navController, UserId = userId, cateId = categoryId)
         }
-//
-//
-//
-//        //ahmad screen
-//        composable("${Routes.browseScreen}/{id}/{sourceId}", arguments =
-//        listOf( navArgument("id"){type= NavType.IntType} , navArgument("sourceId"){type= NavType.IntType}))
-//        {
-//            var sourceId= it.arguments!!.getInt("sourceId")
-//            var Id = it.arguments!!.getInt("id")
-//
-//            BrowseScreen(navController, Id, sourceId)
-//        }
 
-        //ahmad screen
-        composable("${Routes.browseScreen}/{id}/{sourceId}", arguments =
-        listOf( navArgument("id"){type= NavType.IntType} , navArgument("sourceId"){type= NavType.IntType}))
-        {
-            var sourceId= it.arguments!!.getInt("sourceId")
-            var Id = it.arguments!!.getInt("id")
+        composable(
+            "${Routes.browseScreen}/{id}/{sourceId}",
+            arguments =
+                listOf(navArgument("id") { type = NavType.IntType }, navArgument("sourceId") { type = NavType.IntType }),
+        ) {
+            val sourceId = it.arguments!!.getLong("sourceId")
+            val userId = it.arguments!!.getInt("id")
 
-            BrowseScreenDriver(navController, Id, sourceId.toLong())
+            BrowseScreenDriver(navController, userId, sourceId)
         }
     })
 }

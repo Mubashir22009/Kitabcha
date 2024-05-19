@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import app.kitabcha.navigation.NavController
+import app.kitabcha.navcont.NavController
 import app.kitabcha.ui.theme.KitabchaTheme
 import dagger.hilt.android.AndroidEntryPoint
 

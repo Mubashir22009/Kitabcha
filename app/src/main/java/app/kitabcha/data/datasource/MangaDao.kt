@@ -10,8 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MangaDao {
-
-    @Insert(onConflict= OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(vararg manga: MangaEntity)
 
     @Delete
@@ -24,5 +23,8 @@ interface MangaDao {
     fun getAllMangas(): Flow<List<MangaEntity?>>
 
     @Query("SELECT mangaID FROM MangasEntity WHERE manga_url = :mUrl AND source_id = :srcId")
-    fun getDBMangaFromSource(mUrl: String, srcId: Long): Int
+    fun getDBMangaFromSource(
+        mUrl: String,
+        srcId: Long,
+    ): Int
 }

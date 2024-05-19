@@ -1,10 +1,6 @@
 package com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation
 
-
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.rememberScrollableState
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,11 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.RadioButton
@@ -38,61 +31,62 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import app.kitabcha.data.entity.CategoryEntity
-import app.kitabcha.data.entity.CategoryMangasEntity
 import app.kitabcha.data.entity.MangaEntity
-import app.kitabcha.data.entity.UserEntity
 import app.kitabcha.presentation.BrowseScreenViewModel
 import app.kitabcha.source.AvailableSources
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 
-
 @Composable
-fun BrowseScreenDriver(navController: NavController,_UserID:Int,SourceID: Long)
-{
-    var br_viewModel = hiltViewModel<BrowseScreenViewModel>()
-    browseScreen(br_viewModel,navController= navController,_UserID,SourceID)
+fun BrowseScreenDriver(
+    navController: NavController,
+    userId: Int,
+    sourceId: Long,
+) {
+    val browseScreenViewModel = hiltViewModel<BrowseScreenViewModel>()
+    BrowseScreen(browseScreenViewModel, navController = navController, userId, sourceId)
 }
 
 @Composable
-fun browseScreen(BrowseViewModel: BrowseScreenViewModel, navController: NavController,_UserID:Int,sourceID: Long)
-{
-     // TODO: This will come from Navigator
+fun BrowseScreen(
+    browseScreenViewModel: BrowseScreenViewModel,
+    navController: NavController,
+    userId: Int,
+    sourceID: Long,
+) {
     val source = AvailableSources.sources[sourceID]!!
 
-    val categoryList by BrowseViewModel.ListOfCategory.collectAsStateWithLifecycle()
-    val searchManga by BrowseViewModel.manga_searched.collectAsStateWithLifecycle()
-    //val searchingInProgress by BrowseViewModel.searchingInProgress.collectAsStateWithLifecycle()
-    val mangaListToDisplay by BrowseViewModel.mangaList_toDisplay.collectAsStateWithLifecycle()
-    val flag by BrowseViewModel.lazyListFlag.collectAsStateWithLifecycle()
-    val pageNumber by BrowseViewModel._pagenumber.collectAsStateWithLifecycle()
+    val categoryList by browseScreenViewModel.categories.collectAsStateWithLifecycle()
+    val searchManga by browseScreenViewModel.searchQuery.collectAsStateWithLifecycle()
+    // val searchingInProgress by BrowseViewModel.searchingInProgress.collectAsStateWithLifecycle()
+    val mangaListToDisplay by browseScreenViewModel.remoteManga.collectAsStateWithLifecycle()
+    val flag by browseScreenViewModel.lazyListFlag.collectAsStateWithLifecycle()
+    val pageNumber by browseScreenViewModel.page.collectAsStateWithLifecycle()
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    )
-    {
-
-        TextField(value = searchManga,
-            onValueChange = BrowseViewModel::onSearchTextChange,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 30.dp),
-            placeholder = {Text(text="Search")},
-            maxLines = 1)
-        Spacer(modifier=Modifier.height(16.dp))
-        Button(onClick = ( {BrowseViewModel.getMangas(sourceID,pageNumber)} )) // TODO: pass sourceID from navigator
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+    ) {
+        TextField(
+            value = searchManga,
+            onValueChange = browseScreenViewModel::onSearchTextChange,
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 30.dp),
+            placeholder = { Text(text = "Search") },
+            maxLines = 1,
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = ({ browseScreenViewModel.getMangas(sourceID, pageNumber) })) // TODO: pass sourceID from navigator
         {
             Text(text = "search")
         }
-        Spacer(modifier=Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         // Lazy column to show all results of search
-        if(flag)
-        {
-            LazyColumnOfList(Manga = mangaListToDisplay,BrowseViewModel,_UserID,navController,sourceID)
+        if (flag) {
+            LazyColumnOfList(Manga = mangaListToDisplay, browseScreenViewModel, userId, navController, sourceID)
         }
-
     }
 }
 
@@ -103,56 +97,61 @@ fun MangaClicked(
     UserID: Int,
     SourceID: Long,
     _navControler: NavController,
-
-    ) {
+) {
     if (BrowseViewModel.currentManga != null) {
         LaunchedEffect(key1 = Unit) {
             runBlocking {
                 BrowseViewModel.getCategory(UserID) // stores value in a variable in BrowserScreenViewModel named ListOfCategory
             }
-
         }
         // Getting the real MangaId generated by DB when we inserted the manga in our database
-        val MangaIdFromDB = manga?.let { BrowseViewModel.getRealMangaID(it.mangaURL, SourceID) }
-        PopupTextField("Select Catagory",BrowseViewModel,_navControler,BrowseViewModel.ListOfCategory.collectAsStateWithLifecycle().value)
+        val mangaIdFromDB = manga?.let { BrowseViewModel.getRealMangaID(it.mangaURL, SourceID) }
+        PopupTextField(
+            "Select Catagory",
+            BrowseViewModel,
+            _navControler,
+            BrowseViewModel.categories.collectAsStateWithLifecycle().value,
+        )
         // TODO: Finih passing these parameters
     }
 }
 
-
 @Composable
-fun LazyColumnOfList (Manga: List<MangaEntity>,BrowseViewModel : BrowseScreenViewModel,_UserID:Int,navcontrol: NavController,SourceId:Long) {
-
+fun LazyColumnOfList(
+    Manga: List<MangaEntity>,
+    BrowseViewModel: BrowseScreenViewModel,
+    _UserID: Int,
+    navcontrol: NavController,
+    SourceId: Long,
+) {
     LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp)
-    )
-    {
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp),
+    ) {
         items(Manga.size) { index ->
             Text(
                 text = Manga[index].mangaTitle,
-                modifier = Modifier.clickable { BrowseViewModel.updateMangaEntity(Manga[index]) })
+                modifier = Modifier.clickable { BrowseViewModel.updateMangaEntity(Manga[index]) },
+            )
         }
     }
-    MangaClicked(BrowseViewModel,BrowseViewModel.currentManga.collectAsStateWithLifecycle().value,_UserID,SourceId,navcontrol)
-
+    MangaClicked(BrowseViewModel, BrowseViewModel.currentManga.collectAsStateWithLifecycle().value, _UserID, SourceId, navcontrol)
 }
-
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PopupTextField(
     text1: String, // It will have the text "Select Catagory"
-    //onConfirmation: () ->Unit,
-    //onDissmissRequest: () ->Unit, // dimiss when dismiss button is pressed
+    // onConfirmation: () ->Unit,
+    // onDissmissRequest: () ->Unit, // dimiss when dismiss button is pressed
     browseViewModel: BrowseScreenViewModel,
     navController: NavController,
-    CategoryList: List<CategoryEntity>
+    CategoryList: List<CategoryEntity>,
 ) {
-    var CategoryGotSelected by remember { mutableStateOf(CategoryList[0]) }
+    var selectedCategory by remember { mutableStateOf(CategoryList[0]) }
     Dialog(
         onDismissRequest = { browseViewModel.makeMangaVarNull() },
         // radio button for each option
@@ -165,29 +164,30 @@ fun PopupTextField(
                     verticalAlignment = Alignment.CenterVertically,
                     content = {
                         RadioButton(
-                            selected = (option == CategoryGotSelected),
-                            onClick = { CategoryGotSelected = option }
+                            selected = (option == selectedCategory),
+                            onClick = { selectedCategory = option },
                         )
                         Text(text = option.catTitle, modifier = Modifier.padding(8.dp))
-                    }
+                    },
                 )
             }
             // this is dismiss button
             TextButton(
                 onClick = { browseViewModel.makeMangaVarNull() },
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
             ) {
                 Text("Dismiss")
             }
-            TextButton(                                                         // TODO: LOOK INTO this
-                onClick = {},//{ browseViewModel.pushMangaInCategory(browseViewModel.pushMangaInCategory( browseViewModel.currentManga.collectAsStateWithLifecycle().value,CategoryGotSelected.catID)},
-                modifier = Modifier.padding(8.dp)
+            TextButton( // TODO: LOOK INTO this
+                onClick = {
+                },
+                // { browseViewModel.pushMangaInCategory(browseViewModel.pushMangaInCategory(
+                // browseViewModel.currentManga.collectAsStateWithLifecycle().value,
+                // CategoryGotSelected.catID)},
+                modifier = Modifier.padding(8.dp),
             ) {
                 Text("OK")
             }
-
         },
-
     )
-
 }
