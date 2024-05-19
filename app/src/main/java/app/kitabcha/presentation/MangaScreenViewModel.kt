@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class MangaViewModel
+class MangaScreenViewModel
     @Inject
     constructor(
         private val repository: CategoryRepository,
@@ -31,13 +31,13 @@ class MangaViewModel
             }
         }
 
-        private val MangaChapters = MutableStateFlow(emptyList<ChapterEntity>())
-        val AllChapters = MangaChapters.asStateFlow()
+        private val _mangaChapters = MutableStateFlow(emptyList<ChapterEntity>())
+        val mangaChapters = _mangaChapters.asStateFlow()
 
         suspend fun getchaptersUsingmangaId(id: Int) {
             withContext(IO) {
-                val Mangachps = repository4.getMangaChapters(id)
-                MangaChapters.tryEmit(Mangachps)
+                val chapters = repository4.getMangaChapters(id)
+                _mangaChapters.tryEmit(chapters)
             }
         }
     }

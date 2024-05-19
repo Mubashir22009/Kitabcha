@@ -75,8 +75,7 @@ fun Content1(
                         Modifier
                             .padding(20.dp)
                             .clickable {
-                                navController.navigate("${  Routes.mangaScreen}/$UserId/${categoryMAngas.mangaID}")
-
+                                navController.navigate("${ Routes.mangaScreen}/$UserId/${categoryMAngas.mangaID}")
                             },
                 )
             }

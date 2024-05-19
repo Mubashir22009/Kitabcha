@@ -27,32 +27,33 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import kotlinx.coroutines.runBlocking
 
-@Composable fun mangaScreen(
+@Composable
+fun MangaScreen(
     navController: NavController,
     UserId: Int,
     mangaId: Int,
 ) {
-    val viewModel = hiltViewModel<MangaViewModel>()
+    val viewModel = hiltViewModel<MangaScreenViewModel>()
 
     Content2(viewModel, navController, UserId, mangaId)
 }
 
 @Composable
 fun Content2(
-    manga_ViewModel: MangaViewModel,
+    mangaScreenViewModel: MangaScreenViewModel,
     navController: NavController,
     UserId: Int,
     mangaId: Int,
 ) {
-    val AllChapters by manga_ViewModel.AllChapters.collectAsStateWithLifecycle()
+    val mangaChapters by mangaScreenViewModel.mangaChapters.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Unit) {
         runBlocking {
-            manga_ViewModel.getchaptersUsingmangaId(mangaId)
+            mangaScreenViewModel.getchaptersUsingmangaId(mangaId)
         }
     }
 
-    if (AllChapters.isNotEmpty()) {
+    if (mangaChapters.isNotEmpty()) {
         LazyColumn(
             modifier =
                 Modifier
@@ -60,7 +61,7 @@ fun Content2(
                     .padding(bottom = 30.dp),
         ) {
             itemsIndexed(
-                AllChapters,
+                mangaChapters,
             ) { index, mangaChap ->
 
                 Text(

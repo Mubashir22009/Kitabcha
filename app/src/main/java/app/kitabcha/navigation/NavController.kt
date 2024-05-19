@@ -11,8 +11,8 @@ import androidx.navigation.navArgument
 import app.kitabcha.navigation.Routes
 import app.kitabcha.presentation.LibraryScreen
 import app.kitabcha.presentation.MangaLibraryScreen
+import app.kitabcha.presentation.MangaScreen
 import app.kitabcha.presentation.SourceScreen
-import app.kitabcha.presentation.mangaScreen
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.BrowseScreen
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.LoginScreen
 
@@ -29,9 +29,9 @@ fun NavController() {
             arguments =
                 listOf(navArgument("userId") { type = NavType.IntType }, navArgument("mangaid") { type = NavType.IntType }),
         ) {
-            val mangaID_ = it.arguments!!.getInt("mangaid")
+            val mangaId = it.arguments!!.getInt("mangaid")
             val userId = it.arguments!!.getInt("userId")
-            mangaScreen(navController = navController, UserId = userId, mangaID_)
+            MangaScreen(navController = navController, UserId = userId, mangaId)
         }
         composable(
             route = "${Routes.libraryScreen}/{id}",
