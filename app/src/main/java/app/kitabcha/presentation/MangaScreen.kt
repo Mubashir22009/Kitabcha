@@ -62,8 +62,7 @@ fun Content2(
         ) {
             itemsIndexed(
                 mangaChapters,
-            ) { index, mangaChap ->
-
+            ) { _, mangaChap ->
                 Text(
                     text = " -    chapter no." + mangaChap.chapterNum + "  owner manga id = " + mangaChap.ownerMangaID,
                     style = TextStyle(fontWeight = FontWeight.Bold),

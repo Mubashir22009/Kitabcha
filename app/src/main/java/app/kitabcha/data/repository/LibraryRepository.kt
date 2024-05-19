@@ -34,9 +34,9 @@ class LibraryRepositoryImpl
             }
         }
 
-        override suspend fun getLibID(usrID: Int): Int {
+        override suspend fun getLibID(lib: Int): Int {
             return withContext(IO) {
-                dao.getLibID(usrID)
+                dao.getLibID(lib)
             }
         }
 
