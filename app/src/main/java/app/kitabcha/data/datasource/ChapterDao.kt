@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import app.kitabcha.data.entity.ChapterEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ChapterDao {

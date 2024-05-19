@@ -27,11 +27,11 @@ fun NavController() {
         composable(
             "${Routes.mangaScreen}/{userId}/{Catid}",
             arguments =
-            listOf(navArgument("userId") { type = NavType.IntType }, navArgument("mangaid") { type = NavType.IntType }),
+                listOf(navArgument("userId") { type = NavType.IntType }, navArgument("mangaid") { type = NavType.IntType }),
         ) {
             val mangaID_ = it.arguments!!.getInt("mangaid")
             val userId = it.arguments!!.getInt("userId")
-            mangaScreen(navController = navController, UserId = userId,mangaID_)
+            mangaScreen(navController = navController, UserId = userId, mangaID_)
         }
         composable(
             route = "${Routes.libraryScreen}/{id}",

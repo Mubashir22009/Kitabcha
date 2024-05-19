@@ -3,7 +3,6 @@ package app.kitabcha.data.repository
 import app.kitabcha.data.datasource.ChapterDao
 import app.kitabcha.data.entity.ChapterEntity
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 

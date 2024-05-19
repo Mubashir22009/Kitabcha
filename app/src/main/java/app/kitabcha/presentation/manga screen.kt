@@ -1,6 +1,5 @@
 package app.kitabcha.presentation
 
-
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -56,9 +55,9 @@ fun Content2(
     if (AllChapters.isNotEmpty()) {
         LazyColumn(
             modifier =
-            Modifier
-                .padding(top = 100.dp)
-                .padding(bottom = 30.dp),
+                Modifier
+                    .padding(top = 100.dp)
+                    .padding(bottom = 30.dp),
         ) {
             itemsIndexed(
                 AllChapters,
@@ -69,11 +68,11 @@ fun Content2(
                     style = TextStyle(fontWeight = FontWeight.Bold),
                     fontSize = (20.sp),
                     modifier =
-                    Modifier
-                        .padding(20.dp)
-                        .clickable {
-                            // call to another screen opening manga :  reader
-                        },
+                        Modifier
+                            .padding(20.dp)
+                            .clickable {
+                                // call to another screen opening manga :  reader
+                            },
                 )
             }
         }
@@ -84,8 +83,8 @@ fun Content2(
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.Bottom,
         modifier =
-        Modifier
-            .fillMaxSize().padding(bottom = 15.dp),
+            Modifier
+                .fillMaxSize().padding(bottom = 15.dp),
     ) {
         Button(
             onClick = { },
@@ -102,8 +101,8 @@ fun Content2(
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.Bottom,
         modifier =
-        Modifier
-            .fillMaxSize().padding(bottom = 15.dp),
+            Modifier
+                .fillMaxSize().padding(bottom = 15.dp),
     ) {
         Text(
             // text = "${manga.mangaTitle}        Author = ${manga.mangaAuthor}", after getting manga entity by manga id
@@ -111,8 +110,8 @@ fun Content2(
             style = TextStyle(fontWeight = FontWeight.Bold),
             fontSize = (40.sp),
             modifier =
-            Modifier
-                .padding(15.dp),
+                Modifier
+                    .padding(15.dp),
             color = Color.Yellow,
         )
     }
