@@ -12,7 +12,7 @@ import app.kitabcha.navigation.Routes
 import app.kitabcha.presentation.LibraryScreen
 import app.kitabcha.presentation.MangaLibraryScreen
 import app.kitabcha.presentation.SourceScreen
-import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.BrowseScreenDriver
+import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.BrowseScreen
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.LoginScreen
 
 @Composable
@@ -58,12 +58,12 @@ fun NavController() {
         composable(
             "${Routes.browseScreen}/{id}/{sourceId}",
             arguments =
-                listOf(navArgument("id") { type = NavType.IntType }, navArgument("sourceId") { type = NavType.IntType }),
+                listOf(navArgument("id") { type = NavType.IntType }, navArgument("sourceId") { type = NavType.LongType }),
         ) {
             val sourceId = it.arguments!!.getLong("sourceId")
             val userId = it.arguments!!.getInt("id")
 
-            BrowseScreenDriver(navController, userId, sourceId)
+            BrowseScreen(navController, userId, sourceId)
         }
     })
 }

@@ -10,10 +10,11 @@ import app.kitabcha.data.repository.LibraryRepository
 import app.kitabcha.data.repository.MangaRepository
 import app.kitabcha.source.AvailableSources
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,6 +33,9 @@ class BrowseScreenViewModel
         private var _currentManga = MutableStateFlow<MangaEntity?>(null) // variable used for getting manga clicked in
         var currentManga = _currentManga.asStateFlow()
 
+        private var _currentMangaId = MutableStateFlow<Int?>(null)
+        var currentMangaId = _currentMangaId.asStateFlow()
+
         val lazyListFlag = MutableStateFlow(false)
 
         private val _searchQuery = MutableStateFlow("")
@@ -46,8 +50,6 @@ class BrowseScreenViewModel
         // manga list will be the list we will receive from the server with respect to our query
         val remoteManga = MutableStateFlow(listOf<MangaEntity>()) // TODO: Add data type of this list
 
-// FUNCTIONS: ++++++++++++++++++++++++++++++++++++++++=
-
         fun getMangas(
             sourceID: Long,
             pagenumber: Int,
@@ -55,20 +57,21 @@ class BrowseScreenViewModel
             val source = AvailableSources.sources[sourceID]!!
             viewModelScope.launch {
                 source.getListing(pagenumber)
-                    .map { // TODO: pass page number properly
+                    .map {
                         MangaEntity(
                             mangaURL = it.url,
                             mangaTag = "",
                             mangaDesc = it.description,
                             mangaTitle = it.title,
                             mangaAuthor = it.author,
-                            sourceID = 1L, // TODO:
+                            sourceID = sourceID,
                         )
                     }.also {
                         repository.insert(
                             *it.toTypedArray(),
                         )
-                    }.also { remoteManga.tryEmit(it) }.also { lazyListFlag.tryEmit(true) }
+                    }.also { remoteManga.tryEmit(it) }
+                    .also { lazyListFlag.tryEmit(true) }
                     .also { _page.tryEmit(pagenumber + 1) }
             }
         }
@@ -85,30 +88,35 @@ class BrowseScreenViewModel
 
         // TODO: This function is a simple kotlin function while i am trying to call a suspend function from a simple function
 
-        fun pushMangaInCategory(
-            MangaID: MangaEntity?,
-            CategoryID: Int,
+        suspend fun pushMangaInCategory(
+            mangaId: Int,
+            categoryId: Int,
         ) {
-            runBlocking {
-                if (MangaID != null) {
-                    categoryMangaRepository.insert(CategoryMangaEntity(0, CategoryID, MangaID.mangaID))
-                }
-            }
-            _currentManga.tryEmit(null)
+            categoryMangaRepository.insert(
+                CategoryMangaEntity(
+                    ownerCatID = categoryId,
+                    mangID = mangaId,
+                ),
+            )
+            makeMangaVarNull()
         }
 
         // 1st we have dummy manga id when we are pushing in database after that the data base will assign
-        fun getRealMangaID(
+        suspend fun getRealMangaID(
             MangaURL: String,
             SourceID: Long,
-        ): Int {
-            return MangaRepo.getDBMangaFromSource(MangaURL, SourceID)
+        ) {
+            withContext(IO) {
+                val mangaId = MangaRepo.getDBMangaFromSource(MangaURL, SourceID)
+                _currentMangaId.tryEmit(mangaId)
+            }
         }
 
         // this function makes the manga variable which we got on clicking on the text in manga list,
         // because this also triggers the dialog box
         fun makeMangaVarNull() {
             _currentManga.tryEmit(null)
+            _currentMangaId.tryEmit(null)
         }
 
         // this will detect when something changes in the ui of our search bar
