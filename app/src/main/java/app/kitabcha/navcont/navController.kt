@@ -9,8 +9,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import app.kitabcha.data.entity.UserEntity
 import app.kitabcha.presentation.LibraryScreen
 import app.kitabcha.presentation.SourceScreen
+import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.BrowseScreenDriver
 import app.kitabcha.presentation.mangaLibraryScreen
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.LoginScreen
 
@@ -18,6 +20,7 @@ import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.LoginScreen
 fun navCont()
 {
     val navController = rememberNavController()
+    val a=UserEntity( userName = String() , password = String() )
 
     NavHost(navController = navController, startDestination = Routes.LoginScreen, builder = {
         composable(Routes.LoginScreen)
@@ -62,6 +65,16 @@ fun navCont()
 //
 //            BrowseScreen(navController, Id, sourceId)
 //        }
+
+        //ahmad screen
+        composable("${Routes.browseScreen}/{id}/{sourceId}", arguments =
+        listOf( navArgument("id"){type= NavType.IntType} , navArgument("sourceId"){type= NavType.IntType}))
+        {
+            var sourceId= it.arguments!!.getInt("sourceId")
+            var Id = it.arguments!!.getInt("id")
+
+            BrowseScreenDriver(navController, Id, sourceId.toLong())
+        }
     })
 }
 

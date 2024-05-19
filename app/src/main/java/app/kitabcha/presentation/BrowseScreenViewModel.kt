@@ -1,11 +1,13 @@
 package app.kitabcha.presentation
 
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.kitabcha.data.entity.CategoryEntity
+import app.kitabcha.data.entity.CategoryMangaEntity
 import app.kitabcha.data.entity.MangaEntity
 import app.kitabcha.data.repository.CategoryMangaRepository
 import app.kitabcha.data.repository.CategoryRepository
@@ -21,9 +23,9 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-
 
 
 @HiltViewModel
@@ -37,6 +39,7 @@ class BrowseScreenViewModel @Inject constructor(
 
     private var pageNumber =  MutableStateFlow(1) // page numbers for our browse screen
     var _pagenumber = pageNumber.asStateFlow()
+
 
     private var _currentManga = MutableStateFlow<MangaEntity?>(null) // variable used for getting manga clicked in
     var currentManga = _currentManga.asStateFlow()
@@ -77,7 +80,7 @@ class BrowseScreenViewModel @Inject constructor(
     }
 
     // function for getting categories from database
-    fun getCategory(userID: Int)
+    suspend fun getCategory(userID: Int)
     {
             _ListOfCatagory.tryEmit(libraryRepository.getAllCategoriesOfUser(userID))
     }
@@ -88,10 +91,16 @@ class BrowseScreenViewModel @Inject constructor(
         _currentManga.tryEmit(Manga)
     }
 
-    fun pushMangaInCategory(MangaURL: String,SourceID:Int)
-    {
-        //var MangaId = MangaRepo.getDBMangaFromSource(MangaURL,) // TODO Pass Appropriate parameters here
+    // TODO: This function is a simple kotlin function while i am trying to call a suspend function from a simple function
 
+    fun pushMangaInCategory(MangaID: MangaEntity?,CategoryID:Int)
+    {
+            runBlocking {
+                if (MangaID != null) {
+                    categoryMangaRepository.insert(CategoryMangaEntity(0, CategoryID, MangaID.mangaID ))
+                }
+            }
+        _currentManga.tryEmit(null)
 
     }
 
