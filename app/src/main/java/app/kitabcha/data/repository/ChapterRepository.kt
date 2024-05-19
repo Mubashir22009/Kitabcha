@@ -3,7 +3,6 @@ package app.kitabcha.data.repository
 import app.kitabcha.data.datasource.ChapterDao
 import app.kitabcha.data.entity.ChapterEntity
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -12,7 +11,7 @@ interface ChapterRepository {
 
     suspend fun delete(chp: ChapterEntity)
 
-    suspend fun getMangaChapters(mngaID: Int): Flow<List<ChapterEntity>>
+    suspend fun getMangaChapters(mngaID: Int): List<ChapterEntity>
 }
 
 class ChapterRepositoryImpl
@@ -32,7 +31,7 @@ class ChapterRepositoryImpl
             }
         }
 
-        override suspend fun getMangaChapters(mngaID: Int): Flow<List<ChapterEntity>> {
+        override suspend fun getMangaChapters(mngaID: Int): List<ChapterEntity> {
             return withContext(IO) {
                 dao.getMangaChapters(mngaID)
             }

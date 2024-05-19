@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import app.kitabcha.data.entity.ChapterEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ChapterDao {
@@ -17,5 +16,5 @@ interface ChapterDao {
     suspend fun delete(chp: ChapterEntity)
 
     @Query("SELECT * FROM ChaptersEntity WHERE owner_manga_id = :mngaID ORDER BY chapter_num")
-    fun getMangaChapters(mngaID: Int): Flow<List<ChapterEntity>>
+    fun getMangaChapters(mngaID: Int): List<ChapterEntity>
 }

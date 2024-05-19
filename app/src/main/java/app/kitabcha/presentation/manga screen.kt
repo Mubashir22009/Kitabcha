@@ -1,4 +1,5 @@
 package app.kitabcha.presentation
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -24,59 +25,53 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import app.kitabcha.navigation.Routes
 import kotlinx.coroutines.runBlocking
 
-@Composable fun MangaLibraryScreen(
+@Composable fun mangaScreen(
     navController: NavController,
     UserId: Int,
-    cateId: Int,
+    mangaId: Int,
 ) {
-    val viewModel = hiltViewModel<LibraryViewModel>()
+    val viewModel = hiltViewModel<MangaViewModel>()
 
-    Content1(viewModel, navController, UserId, cateId)
+    Content2(viewModel, navController, UserId, mangaId)
 }
 
 @Composable
-fun Content1(
-    mangalibraryViewModel: LibraryViewModel,
+fun Content2(
+    manga_ViewModel: MangaViewModel,
     navController: NavController,
     UserId: Int,
-    cateId: Int,
+    mangaId: Int,
 ) {
-    val allManga by mangalibraryViewModel.userCategoryManga.collectAsStateWithLifecycle()
+    val AllChapters by manga_ViewModel.AllChapters.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Unit) {
         runBlocking {
-            mangalibraryViewModel.getCategoryIdUsingUserId(UserId)
+            manga_ViewModel.getchaptersUsingmangaId(mangaId)
         }
     }
 
-    runBlocking {
-        mangalibraryViewModel.getMangaIdUsingCategoryId(cateId)
-    }
-
-    if (allManga.isNotEmpty()) {
+    if (AllChapters.isNotEmpty()) {
         LazyColumn(
             modifier =
                 Modifier
-                    .padding(top = 30.dp)
-                    .padding(bottom = 50.dp),
+                    .padding(top = 100.dp)
+                    .padding(bottom = 30.dp),
         ) {
             itemsIndexed(
-                allManga,
-            ) { index, categoryMAngas ->
+                AllChapters,
+            ) { index, mangaChap ->
 
                 Text(
-                    text = (index + 1).toString() + " - " + categoryMAngas.mangaTitle + "       " + categoryMAngas.mangaAuthor,
+                    text = " -    chapter no." + mangaChap.chapterNum + "  owner manga id = " + mangaChap.ownerMangaID,
                     style = TextStyle(fontWeight = FontWeight.Bold),
                     fontSize = (20.sp),
                     modifier =
                         Modifier
                             .padding(20.dp)
                             .clickable {
-                                navController.navigate("${  Routes.mangaScreen}/$UserId/${categoryMAngas.mangaID}")
-
+                                // call to another screen opening manga :  reader
                             },
                 )
             }
@@ -98,9 +93,26 @@ fun Content1(
             colors = ButtonDefaults.buttonColors(Color.Yellow, contentColor = Color.Black),
         ) {
             Text(
-                text = "Delete Category",
-                // style = MaterialTheme.typography.button, // Adjust text style as needed
+                text = "Button if needed",
             )
         }
+    }
+    Row(
+        horizontalArrangement = Arrangement.SpaceAround,
+        verticalAlignment = Alignment.Bottom,
+        modifier =
+            Modifier
+                .fillMaxSize().padding(bottom = 15.dp),
+    ) {
+        Text(
+            // text = "${manga.mangaTitle}        Author = ${manga.mangaAuthor}", after getting manga entity by manga id
+            text = "                            information   ",
+            style = TextStyle(fontWeight = FontWeight.Bold),
+            fontSize = (40.sp),
+            modifier =
+                Modifier
+                    .padding(15.dp),
+            color = Color.Yellow,
+        )
     }
 }
