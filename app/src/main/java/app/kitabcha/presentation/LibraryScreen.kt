@@ -90,13 +90,13 @@ fun Content(
                                     // .padding(bottom = (10).dp)
                                     .clickable {
                                         navController.navigate("${Routes.mangaLibraryScreen}/$UserId/${categoryE.catID}")
-                                    },
+                                    }.fillMaxWidth(),
                         )
                     }
                 }
             }
         } else {
-            Text(modifier = Modifier.padding(30.dp), text = "empty ")
+            Text(modifier = Modifier.padding(30.dp), text = "empty")
         }
     }
 
