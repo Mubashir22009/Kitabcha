@@ -12,6 +12,7 @@ import app.kitabcha.navigation.Routes
 import app.kitabcha.presentation.LibraryScreen
 import app.kitabcha.presentation.MangaLibraryScreen
 import app.kitabcha.presentation.SourceScreen
+import app.kitabcha.presentation.mangaScreen
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.BrowseScreen
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.LoginScreen
 
@@ -23,7 +24,15 @@ fun NavController() {
         composable(Routes.loginScreen) {
             LoginScreen(navController)
         }
-
+        composable(
+            "${Routes.mangaScreen}/{userId}/{Catid}",
+            arguments =
+            listOf(navArgument("userId") { type = NavType.IntType }, navArgument("mangaid") { type = NavType.IntType }),
+        ) {
+            val mangaID_ = it.arguments!!.getInt("mangaid")
+            val userId = it.arguments!!.getInt("userId")
+            mangaScreen(navController = navController, UserId = userId,mangaID_)
+        }
         composable(
             route = "${Routes.libraryScreen}/{id}",
             arguments =
