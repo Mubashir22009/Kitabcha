@@ -7,4 +7,5 @@ object Routes {
     var sourceScreen = "SourceScreen"
     var mangaScreen = "mangaScreen"
     var mangaLibraryScreen = "mangaScreenLibrary"
+    var readerScreen = "reader"
 }

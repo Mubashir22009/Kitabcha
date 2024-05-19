@@ -103,4 +103,8 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.json)
     implementation(libs.jsoup)
+
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
+    implementation(libs.zoomable.image.coil)
 }
