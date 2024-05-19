@@ -12,23 +12,26 @@ import org.json.JSONObject
 import org.jsoup.parser.Parser
 
 class Comick : HttpSource() {
-
     override val name = "Comick"
 
     override val id = 1L
 
     override val domain = "comick.io"
 
-    override suspend fun getListing(page: Int, search: String?): List<SManga> {
-        val response = if (search.isNullOrBlank()) {
-            val url = "https://api.$domain/v1.0/search?sort=follow&limit=20&page=$page&tachiyomi=true"
+    override suspend fun getListing(
+        page: Int,
+        search: String?,
+    ): List<SManga> {
+        val response =
+            if (search.isNullOrBlank()) {
+                val url = "https://api.$domain/v1.0/search?sort=follow&limit=20&page=$page&tachiyomi=true"
 
-            client.get(url, headers)
-        } else {
-            val url = "https://api.$domain/v1.0/search?limit=20&page=1&tachiyomi=true&q=${search.trim()}"
+                client.get(url, headers)
+            } else {
+                val url = "https://api.$domain/v1.0/search?limit=20&page=1&tachiyomi=true&q=${search.trim()}"
 
-            client.get(url, headers)
-        }
+                client.get(url, headers)
+            }
 
         return JSONArray(response.body.string()).mapJSON {
             SManga(
@@ -49,24 +52,28 @@ class Comick : HttpSource() {
             title = comic.getString("title"),
             url = comic.getString("hid"),
             cover = comic.getString("cover_url"),
-            author = json.getJSONArray("authors").mapJSON {
-                it.getString("name")
-            }.joinToString(),
-            artist = json.getJSONArray("artists").mapJSON {
-                it.getString("name")
-            }.joinToString(),
-            description = comic.getString("desc").run {
-                Parser.unescapeEntities(this, false)
-                    .substringBefore("---")
-                    .replace(markdownLinksRegex, "")
-                    .replace(markdownItalicBoldRegex, "")
-                    .replace(markdownItalicRegex, "")
-                    .trim()
-            },
-            tags = comic.getJSONArray("md_comic_md_genres").mapJSON {
-                it.getJSONObject("md_genres").getString("name")
-            },
-            chapters = getChapters(manga.url)
+            author =
+                json.getJSONArray("authors").mapJSON {
+                    it.getString("name")
+                }.joinToString(),
+            artist =
+                json.getJSONArray("artists").mapJSON {
+                    it.getString("name")
+                }.joinToString(),
+            description =
+                comic.getString("desc").run {
+                    Parser.unescapeEntities(this, false)
+                        .substringBefore("---")
+                        .replace(markdownLinksRegex, "")
+                        .replace(markdownItalicBoldRegex, "")
+                        .replace(markdownItalicRegex, "")
+                        .trim()
+                },
+            tags =
+                comic.getJSONArray("md_comic_md_genres").mapJSON {
+                    it.getJSONObject("md_genres").getString("name")
+                },
+            chapters = getChapters(manga.url),
         )
     }
 
@@ -81,7 +88,7 @@ class Comick : HttpSource() {
             SChapter(
                 url = it.getString("hid"),
                 number = it.getString("chap").toFloat(),
-                name = it.getStringOrNull("title") ?: ""
+                name = it.getStringOrNull("title") ?: "",
             )
         }
     }

@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import app.kitabcha.source.AvailableSources
 
-
 @Composable
 fun SourceItem(
     text: String,
@@ -33,33 +32,32 @@ fun SourceItem(
         text = text,
         fontSize = 25.sp,
         fontWeight = FontWeight.SemiBold,
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.primaryContainer)
-            .padding(16.dp)
-            .clickable(onClick = {
-                //TODO
-                //navController.navigate()
-                Toast.makeText(context,"oh yeah baby $sourceId", Toast.LENGTH_SHORT).show()
-            })
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.primaryContainer)
+                .padding(16.dp)
+                .clickable(onClick = {
+                    // TODO
+                    // navController.navigate()
+                    Toast.makeText(context, "oh yeah baby $sourceId", Toast.LENGTH_SHORT).show()
+                }),
     )
     Spacer(modifier = Modifier.height(4.dp))
 }
 
-
 @Composable
 fun SourceScreen(
     userId: Int,
-    navController: NavController
+    navController: NavController,
 ) {
     val src = AvailableSources.sources.values.toList()
-    Column(modifier = Modifier)
-    {
+    Column(modifier = Modifier) {
         Spacer(modifier = Modifier.height(14.dp))
-        Text("Select Source", fontSize =  30.sp, fontWeight= FontWeight.Bold)
+        Text("Select Source", fontSize = 30.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(20.dp))
         LazyColumn(
-            modifier = Modifier
+            modifier = Modifier,
         ) {
             items(src.size) { index ->
                 SourceItem(text = src[index].name, src[index].id, userId, navController)

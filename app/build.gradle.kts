@@ -4,6 +4,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
     kotlin("plugin.serialization") version "1.7.0"
+    id("org.jmailen.kotlinter") version "4.3.0"
 }
 
 android {
@@ -52,6 +53,18 @@ android {
     }
 }
 
+tasks {
+    check {
+        dependsOn("installKotlinterPrePushHook")
+    }
+    preBuild {
+        dependsOn(lintKotlin)
+    }
+    lintKotlin {
+        dependsOn(formatKotlin)
+    }
+}
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -61,7 +74,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation ("androidx.compose.material:material-icons-extended:1.3.1")
+    implementation (libs.androidx.material.icons.extended)
     implementation(libs.androidx.constraintlayout.compose)
 
     testImplementation(libs.junit)

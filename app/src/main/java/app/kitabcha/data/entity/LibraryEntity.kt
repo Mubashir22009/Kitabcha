@@ -6,20 +6,23 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName= LibrariesEntity,foreignKeys = [
-    ForeignKey(
-        entity = UserEntity::class,
-        parentColumns = ["id"],
-        childColumns = ["owner_id"],
-        onDelete = ForeignKey.CASCADE
-    )],indices = [Index(value = ["owner_id"], unique =true)])
-data class LibraryEntity (
-    @PrimaryKey(autoGenerate=true)
+@Entity(
+    tableName = LIBRARIES_ENTITY,
+    foreignKeys = [
+        ForeignKey(
+            entity = UserEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["owner_id"],
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
+    indices = [Index(value = ["owner_id"], unique = true)],
+)
+data class LibraryEntity(
+    @PrimaryKey(autoGenerate = true)
     val libID: Int = 0,
-
-    @ColumnInfo(name ="owner_id")
-    val ownerUserID: Int
+    @ColumnInfo(name = "owner_id")
+    val ownerUserID: Int,
 )
 
-const val LibrariesEntity = "LibrariesEntity"
-
+const val LIBRARIES_ENTITY = "LibrariesEntity"

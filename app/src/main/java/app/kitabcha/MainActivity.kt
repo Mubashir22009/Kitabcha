@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import app.kitabcha.navcont.navCont
+import app.kitabcha.navigation.NavController
 import app.kitabcha.ui.theme.KitabchaTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,9 +21,9 @@ class MainActivity : ComponentActivity() {
             KitabchaTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background,
                 ) {
-                    navCont()
+                    NavController()
                 }
             }
         }

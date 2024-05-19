@@ -10,8 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CategoryDao {
-
-    @Insert(onConflict= OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(cat: CategoryEntity)
 
     @Delete
@@ -19,5 +18,4 @@ interface CategoryDao {
 
     @Query("SELECT * FROM CategoriesEntity WHERE library_id = :lID")
     fun getCategories(lID: Int): Flow<List<CategoryEntity>>
-
 }

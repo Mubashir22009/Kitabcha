@@ -7,10 +7,11 @@ import kotlin.time.Duration.Companion.seconds
 object NetworkHelper {
     private val cookieJar = AndroidCookieJar()
 
-    val client: OkHttpClient = OkHttpClient.Builder()
-        .cookieJar(cookieJar)
-        .connectTimeout(30.seconds)
-        .readTimeout(30.seconds)
-        .callTimeout(2.minutes)
-        .build()
+    val client: OkHttpClient =
+        OkHttpClient.Builder()
+            .cookieJar(cookieJar)
+            .connectTimeout(30.seconds)
+            .readTimeout(30.seconds)
+            .callTimeout(2.minutes)
+            .build()
 }

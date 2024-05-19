@@ -5,12 +5,14 @@ import app.kitabcha.source.model.SChapter
 import app.kitabcha.source.model.SManga
 
 interface Source {
-
     val name: String
 
     val id: Long
 
-    suspend fun getListing(page: Int, search: String? = null): List<SManga>
+    suspend fun getListing(
+        page: Int,
+        search: String? = null,
+    ): List<SManga>
 
     suspend fun getMangaInfo(manga: SManga): SManga
 

@@ -10,8 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MangaDao {
-
-    @Insert(onConflict= OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(vararg manga: MangaEntity)
 
     @Delete

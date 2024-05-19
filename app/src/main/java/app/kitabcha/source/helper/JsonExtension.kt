@@ -6,7 +6,6 @@ import java.util.Locale
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
-
 inline fun <R, C : MutableCollection<in R>> JSONArray.mapJSONTo(
     destination: C,
     block: (JSONObject) -> R,
@@ -49,13 +48,17 @@ fun <T> JSONArray.mapJSONIndexed(block: (Int, JSONObject) -> T): List<T> {
     return result
 }
 
-fun JSONObject.getStringOrNull(name: String): String? = opt(name)?.takeUnless {
-    it === JSONObject.NULL
-}?.toString()?.takeUnless {
-    it.isEmpty()
-}
+fun JSONObject.getStringOrNull(name: String): String? =
+    opt(name)?.takeUnless {
+        it === JSONObject.NULL
+    }?.toString()?.takeUnless {
+        it.isEmpty()
+    }
 
-fun JSONObject.getBooleanOrDefault(name: String, defaultValue: Boolean): Boolean {
+fun JSONObject.getBooleanOrDefault(
+    name: String,
+    defaultValue: Boolean,
+): Boolean {
     return when (val rawValue = opt(name)) {
         null, JSONObject.NULL -> defaultValue
         is Boolean -> rawValue
@@ -65,7 +68,10 @@ fun JSONObject.getBooleanOrDefault(name: String, defaultValue: Boolean): Boolean
     }
 }
 
-fun JSONObject.getLongOrDefault(name: String, defaultValue: Long): Long {
+fun JSONObject.getLongOrDefault(
+    name: String,
+    defaultValue: Long,
+): Long {
     return when (val rawValue = opt(name)) {
         null, JSONObject.NULL -> defaultValue
         is Long -> rawValue
@@ -75,7 +81,10 @@ fun JSONObject.getLongOrDefault(name: String, defaultValue: Long): Long {
     }
 }
 
-fun JSONObject.getIntOrDefault(name: String, defaultValue: Int): Int {
+fun JSONObject.getIntOrDefault(
+    name: String,
+    defaultValue: Int,
+): Int {
     return when (val rawValue = opt(name)) {
         null, JSONObject.NULL -> defaultValue
         is Int -> rawValue
@@ -85,7 +94,10 @@ fun JSONObject.getIntOrDefault(name: String, defaultValue: Int): Int {
     }
 }
 
-fun JSONObject.getDoubleOrDefault(name: String, defaultValue: Double): Double {
+fun JSONObject.getDoubleOrDefault(
+    name: String,
+    defaultValue: Double,
+): Double {
     return when (val rawValue = opt(name)) {
         null, JSONObject.NULL -> defaultValue
         is Double -> rawValue
@@ -95,7 +107,10 @@ fun JSONObject.getDoubleOrDefault(name: String, defaultValue: Double): Double {
     }
 }
 
-fun JSONObject.getFloatOrDefault(name: String, defaultValue: Float): Float {
+fun JSONObject.getFloatOrDefault(
+    name: String,
+    defaultValue: Float,
+): Float {
     return when (val rawValue = opt(name)) {
         null, JSONObject.NULL -> defaultValue
         is Float -> rawValue

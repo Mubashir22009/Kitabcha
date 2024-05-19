@@ -5,12 +5,11 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName= MangasEntity,indices = [Index(value = ["manga_url","source_id"], unique =true)])
-data class MangaEntity (
-    @PrimaryKey(autoGenerate=true)
+@Entity(tableName = MANGAS_ENTITY, indices = [Index(value = ["manga_url", "source_id"], unique = true)])
+data class MangaEntity(
+    @PrimaryKey(autoGenerate = true)
     val mangaID: Int = 0,
-
-    @ColumnInfo(name ="manga_url")
+    @ColumnInfo(name = "manga_url")
     val mangaURL: String,
     @ColumnInfo(name = "manga_title")
     val mangaTitle: String,
@@ -21,7 +20,7 @@ data class MangaEntity (
     @ColumnInfo(name = "author_name")
     val mangaAuthor: String,
     @ColumnInfo(name = "source_id")
-    val sourceID: Long
+    val sourceID: Long,
 )
 
-const val MangasEntity = "MangasEntity"
+const val MANGAS_ENTITY = "MangasEntity"

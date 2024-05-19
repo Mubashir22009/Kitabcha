@@ -1,7 +1,5 @@
 package com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation
 
-
-
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,90 +30,98 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import app.kitabcha.R
 import app.kitabcha.data.entity.UserEntity
-import app.kitabcha.navcont.Routes
+import app.kitabcha.navigation.Routes
 
 @Composable
 fun LoginScreen(navController: NavController) {
     val viewModel = hiltViewModel<LoginScreenViewModel>()
-    Content(loginViewModel = viewModel , navController)
+    Content(loginViewModel = viewModel, navController)
 }
 
 @Composable
-fun Content(loginViewModel: LoginScreenViewModel , navController: NavController) {
-
+fun Content(
+    loginViewModel: LoginScreenViewModel,
+    navController: NavController,
+) {
     // this variable will determine the diplay of login screen or signup screen
     var doLogin by remember { mutableStateOf(true) }
     val showPassword by remember { mutableStateOf(value = false) }
     val localContext = LocalContext.current
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 150.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(top = 150.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-    ){
+    ) {
         val username by loginViewModel.userName.collectAsStateWithLifecycle()
         val password by loginViewModel.userPassword.collectAsStateWithLifecycle()
-        val onUsernameChange: (username: String) -> Unit = remember {
-            return@remember loginViewModel::setUserName
-        }
-        val onPasswordChange: (password: String) -> Unit = remember {
-            return@remember loginViewModel::setUserPassword
-        }
+        val onUsernameChange: (username: String) -> Unit =
+            remember {
+                return@remember loginViewModel::setUserName
+            }
+        val onPasswordChange: (password: String) -> Unit =
+            remember {
+                return@remember loginViewModel::setUserPassword
+            }
 
-        val x: String = if(doLogin) {
-            "Enter Account info to Login"
-        } else {
-            "Enter Account info to Signup"
-        }
+        val x: String =
+            if (doLogin) {
+                "Enter Account info to Login"
+            } else {
+                "Enter Account info to Signup"
+            }
         Text(
             text = x,
-            modifier = Modifier
-                .padding(bottom = 16.dp, top = 40.dp, start = 5.dp)
-                .align(alignment = Alignment.CenterHorizontally)
+            modifier =
+                Modifier
+                    .padding(bottom = 16.dp, top = 40.dp, start = 5.dp)
+                    .align(alignment = Alignment.CenterHorizontally),
         )
         TextField(
-            label= {Text("Enter UserName")},
+            label = { Text("Enter UserName") },
             value = username,
             onValueChange = onUsernameChange,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             keyboardActions = KeyboardActions(),
             maxLines = 1,
-            modifier = Modifier
-                .align(alignment = Alignment.CenterHorizontally)
-                .padding(30.dp)
+            modifier =
+                Modifier
+                    .align(alignment = Alignment.CenterHorizontally)
+                    .padding(30.dp),
         )
         TextField(
-            label= {Text("Enter Password")},
+            label = { Text("Enter Password") },
             value = password,
             onValueChange = onPasswordChange,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             keyboardActions = KeyboardActions(),
             maxLines = 1,
-            visualTransformation = if (showPassword) {
-                VisualTransformation.None
-            } else {
-                PasswordVisualTransformation()
-            },
-            modifier = Modifier
-                .align(alignment = Alignment.CenterHorizontally)
-                .padding(20.dp)
+            visualTransformation =
+                if (showPassword) {
+                    VisualTransformation.None
+                } else {
+                    PasswordVisualTransformation()
+                },
+            modifier =
+                Modifier
+                    .align(alignment = Alignment.CenterHorizontally)
+                    .padding(20.dp),
         )
         Spacer(modifier = Modifier.height(15.dp))
-        Row()
-        {
+        Row {
             Button(onClick = {
                 doLogin = !doLogin
             }) {
-                if(doLogin) {
+                if (doLogin) {
                     Text(text = stringResource(R.string.want_to_signup))
-                }
-                else {
+                } else {
                     Text(text = stringResource(R.string.want_to_login))
                 }
             }
 
-            Spacer(modifier= Modifier.padding(start=10.dp))
+            Spacer(modifier = Modifier.padding(start = 10.dp))
 
             Button(onClick = {
                 if (doLogin) {
@@ -127,22 +133,21 @@ fun Content(loginViewModel: LoginScreenViewModel , navController: NavController)
                             Toast.makeText(localContext, "Logged in :D", Toast.LENGTH_SHORT)
                                 .show()
 
-                             navController.navigate("${Routes.libraryScreen}/${user.id}")
+                            navController.navigate("${Routes.libraryScreen}/${user.id}")
                         }
                     }
                 } else {
                     loginViewModel.insertUser(
                         UserEntity(
                             userName = username,
-                            password = password
-                        )
+                            password = password,
+                        ),
                     )
                 }
             }) {
-                if(doLogin) {
+                if (doLogin) {
                     Text(text = stringResource(R.string.Login))
-                }
-                else {
+                } else {
                     Text(text = stringResource(R.string.Sign_Up))
                 }
             }

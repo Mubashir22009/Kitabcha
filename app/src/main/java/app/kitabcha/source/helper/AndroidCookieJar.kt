@@ -6,10 +6,12 @@ import okhttp3.CookieJar
 import okhttp3.HttpUrl
 
 class AndroidCookieJar : CookieJar {
-
     private val manager = CookieManager.getInstance()
 
-    override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
+    override fun saveFromResponse(
+        url: HttpUrl,
+        cookies: List<Cookie>,
+    ) {
         val urlString = url.toString()
 
         cookies.forEach { manager.setCookie(urlString, it.toString()) }
@@ -29,7 +31,11 @@ class AndroidCookieJar : CookieJar {
         }
     }
 
-    fun remove(url: HttpUrl, cookieNames: List<String>? = null, maxAge: Int = -1): Int {
+    fun remove(
+        url: HttpUrl,
+        cookieNames: List<String>? = null,
+        maxAge: Int = -1,
+    ): Int {
         val urlString = url.toString()
         val cookies = manager.getCookie(urlString) ?: return 0
 

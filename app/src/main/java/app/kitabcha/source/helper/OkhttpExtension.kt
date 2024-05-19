@@ -18,13 +18,14 @@ import kotlin.time.Duration.Companion.minutes
 suspend fun OkHttpClient.get(
     url: HttpUrl,
     headers: Headers,
-    cache: CacheControl = DEFAULT_CACHE_CONTROL
+    cache: CacheControl = DEFAULT_CACHE_CONTROL,
 ): Response {
-    val request = Request.Builder()
-        .url(url)
-        .headers(headers)
-        .cacheControl(cache)
-        .build()
+    val request =
+        Request.Builder()
+            .url(url)
+            .headers(headers)
+            .cacheControl(cache)
+            .build()
 
     return newCall(request).await()
 }
@@ -32,7 +33,7 @@ suspend fun OkHttpClient.get(
 suspend fun OkHttpClient.get(
     url: String,
     headers: Headers,
-    cache: CacheControl = DEFAULT_CACHE_CONTROL
+    cache: CacheControl = DEFAULT_CACHE_CONTROL,
 ): Response {
     return get(url.toHttpUrl(), headers, cache)
 }
@@ -41,14 +42,15 @@ suspend fun OkHttpClient.post(
     url: String,
     headers: Headers,
     body: RequestBody,
-    cache: CacheControl = DEFAULT_CACHE_CONTROL
+    cache: CacheControl = DEFAULT_CACHE_CONTROL,
 ): Response {
-    val request = Request.Builder()
-        .url(url)
-        .headers(headers)
-        .post(body)
-        .cacheControl(cache)
-        .build()
+    val request =
+        Request.Builder()
+            .url(url)
+            .headers(headers)
+            .post(body)
+            .cacheControl(cache)
+            .build()
 
     return newCall(request).await()
 }
@@ -58,13 +60,19 @@ private suspend fun Call.await(callStack: Array<StackTraceElement>): Response {
     return suspendCancellableCoroutine { continuation ->
         val callback =
             object : okhttp3.Callback {
-                override fun onResponse(call: Call, response: Response) {
+                override fun onResponse(
+                    call: Call,
+                    response: Response,
+                ) {
                     continuation.resume(response) {
                         response.body.close()
                     }
                 }
 
-                override fun onFailure(call: Call, e: IOException) {
+                override fun onFailure(
+                    call: Call,
+                    e: IOException,
+                ) {
                     // Don't bother with resuming the continuation if it is already cancelled.
                     if (continuation.isCancelled) return
                     val exception = IOException(e.message, e).apply { stackTrace = callStack }

@@ -8,5 +8,5 @@ class SManga(
     val artist: String = "",
     val description: String = "",
     val tags: List<String> = emptyList(),
-    val chapters: List<SChapter> = emptyList()
+    val chapters: List<SChapter> = emptyList(),
 )

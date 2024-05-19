@@ -7,19 +7,21 @@ import app.kitabcha.data.datasource.CategoryMangaDao
 import app.kitabcha.data.datasource.ChapterDao
 import app.kitabcha.data.datasource.LibraryDao
 import app.kitabcha.data.datasource.MangaDao
-import app.kitabcha.data.entity.UserEntity
 import app.kitabcha.data.datasource.UserDao
 import app.kitabcha.data.entity.CategoryEntity
 import app.kitabcha.data.entity.CategoryMangaEntity
 import app.kitabcha.data.entity.ChapterEntity
 import app.kitabcha.data.entity.LibraryEntity
 import app.kitabcha.data.entity.MangaEntity
-
+import app.kitabcha.data.entity.UserEntity
 
 @Database(
-    entities = [UserEntity::class, MangaEntity::class, LibraryEntity::class,
-               CategoryEntity::class,CategoryMangaEntity::class, ChapterEntity::class],
-    version= 1, exportSchema = false
+    entities = [
+        UserEntity::class, MangaEntity::class, LibraryEntity::class,
+        CategoryEntity::class, CategoryMangaEntity::class, ChapterEntity::class,
+    ],
+    version = 1,
+    exportSchema = false,
 )
 abstract class KitabchaDatabase : RoomDatabase() {
     abstract val userDao: UserDao

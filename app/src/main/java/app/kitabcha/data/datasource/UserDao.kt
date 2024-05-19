@@ -10,18 +10,18 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
-
-    @Insert(onConflict= OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(user: UserEntity)
 
     @Delete
     suspend fun delete(user: UserEntity)
 
     @Query("SELECT * FROM UsersEntity WHERE :userName= user_name AND :userPassword= password")
-    fun getUser(userName: String,userPassword: String): UserEntity?
+    fun getUser(
+        userName: String,
+        userPassword: String,
+    ): UserEntity?
 
     @Query("SELECT user_name FROM UsersEntity")
     fun getAllUserNames(): Flow<List<String>>
-
-
 }

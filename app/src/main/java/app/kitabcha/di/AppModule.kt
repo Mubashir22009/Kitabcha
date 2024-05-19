@@ -24,14 +24,13 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 object AppModule {
-
     @Provides
     @Singleton
     fun provideDatabase(app: Application): KitabchaDatabase {
         return Room.databaseBuilder(
             app,
             KitabchaDatabase::class.java,
-            "Kitabcha-database"
+            "Kitabcha-database",
         ).build()
     }
 
