@@ -18,4 +18,7 @@ interface ChapterDao {
 
     @Query("SELECT * FROM ChaptersEntity WHERE owner_manga_id = :mngaID ORDER BY chapter_num")
     fun getMangaChapters(mngaID: Int): Flow<List<ChapterEntity>>
+
+    @Query("SELECT * FROM CHAPTERSENTITY WHERE chapterID = :chapterId")
+    fun getChapter(chapterId: Int): ChapterEntity
 }

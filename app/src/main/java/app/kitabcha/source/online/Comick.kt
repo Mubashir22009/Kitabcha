@@ -2,7 +2,6 @@ package app.kitabcha.source.online
 
 import app.kitabcha.source.HttpSource
 import app.kitabcha.source.helper.get
-import app.kitabcha.source.helper.getStringOrNull
 import app.kitabcha.source.helper.mapJSON
 import app.kitabcha.source.model.Page
 import app.kitabcha.source.model.SChapter
@@ -84,11 +83,10 @@ class Comick : HttpSource() {
     private suspend fun getChapters(hid: String): List<SChapter> {
         val url = "https://api.$domain/comic/$hid/chapters?lang=en&tachiyomi=true&limit=99999"
         val response = client.get(url, headers)
-        return JSONObject(response.body.string()).getJSONArray("chapters").mapJSON {
+        return JSONObject(response.body.string()).getJSONArray("chapters").mapJSON { chapJson ->
             SChapter(
-                url = it.getString("hid"),
-                number = it.getString("chap").toFloat(),
-                name = it.getStringOrNull("title") ?: "",
+                url = chapJson.getString("hid"),
+                number = chapJson.getString("chap").toFloat(),
             )
         }
     }
