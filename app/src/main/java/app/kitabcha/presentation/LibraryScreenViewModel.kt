@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.kitabcha.data.entity.CategoryEntity
 import app.kitabcha.data.entity.MangaEntity
+import app.kitabcha.data.entity.UserEntity
 import app.kitabcha.data.repository.CategoryMangaRepository
 import app.kitabcha.data.repository.CategoryRepository
 import app.kitabcha.data.repository.LibraryRepository
@@ -45,6 +46,12 @@ class LibraryScreenViewModel
             }
         }
 
+    fun delUser(id: UserEntity) {
+        viewModelScope.launch(IO) {
+            repositoryUser.delete(id)
+        }
+    }
+
         suspend fun getCategories(id: CategoryEntity) {
             return withContext(IO) {
                 repository.getCategories(id.myLibrary)
@@ -70,6 +77,15 @@ class LibraryScreenViewModel
                 _userCategoryManga.tryEmit(categoryManga)
             }
         }
+    private val ue = UserEntity(userName = "33", password = "11")
+    private val UE = MutableStateFlow(ue)
+    val userEnti = UE.asStateFlow()
+    suspend fun getEntity(id: Int) {
+        val  userEnti = repositoryUser.getUserFromID(id)
+        UE.tryEmit(userEnti)
+    }
+
+
     /*fun loginUser(id_ : Int) {
         viewModelScope.launch {
             callback( repositoryUser.delete(id_) )

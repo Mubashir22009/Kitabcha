@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import app.kitabcha.data.entity.CategoryEntity
 import app.kitabcha.navigation.Routes
 import kotlinx.coroutines.runBlocking
 
@@ -51,10 +52,18 @@ fun Content(
 ) {
     // var allCategories = libraryViewModel.getCategoryIdUsingUserId(currentUserEntiity)
     val allCategores by libraryViewModel.userCategories.collectAsStateWithLifecycle()
+    val userEnt by libraryViewModel.userEnti.collectAsStateWithLifecycle()
+
+
 
     LaunchedEffect(key1 = Unit) {
         runBlocking {
             libraryViewModel.getCategoryIdUsingUserId(UserId)
+        }
+    }
+    LaunchedEffect(key1 = Unit) {
+        runBlocking {
+            libraryViewModel.getEntity(UserId)
         }
     }
 
@@ -130,13 +139,14 @@ fun Content(
             )
         }
         Button(
-            onClick = { },
+            onClick = {   libraryViewModel.delUser(userEnt)
+                      navController.navigate(Routes.loginScreen)},
             modifier = Modifier,
             shape = MaterialTheme.shapes.medium, // Adjust shape as needed
             colors = ButtonDefaults.buttonColors(Color.Yellow, contentColor = Color.Black),
         ) {
             Text(
-                text = "Delete User",
+                text = "Delete User  id="+UserId.toString(),
                 // style = MaterialTheme.typography.button, // Adjust text style as needed
             )
         }

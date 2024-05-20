@@ -45,10 +45,16 @@ fun Content1(
     cateId: Int,
 ) {
     val allManga by mangalibraryViewModel.userCategoryManga.collectAsStateWithLifecycle()
+    val mangaEnt by mangalibraryViewModel.CateEnti.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Unit) {
         runBlocking {
             mangalibraryViewModel.getCategoryIdUsingUserId(UserId)
+        }
+    }
+    LaunchedEffect(key1 = Unit) {
+        runBlocking {
+            mangalibraryViewModel.getOnlyCateEntity(UserId)
         }
     }
 
@@ -91,7 +97,7 @@ fun Content1(
                 .fillMaxSize().padding(bottom = 15.dp),
     ) {
         Button(
-            onClick = { },
+            onClick = { mangalibraryViewModel.delCategory(mangaEnt)},
             modifier = Modifier.fillMaxWidth(),
             shape = MaterialTheme.shapes.extraLarge, // Adjust shape as needed
             colors = ButtonDefaults.buttonColors(Color.Yellow, contentColor = Color.Black),
