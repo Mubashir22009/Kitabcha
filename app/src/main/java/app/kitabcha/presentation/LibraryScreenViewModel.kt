@@ -46,11 +46,11 @@ class LibraryScreenViewModel
             }
         }
 
-    fun delUser(id: UserEntity) {
-        viewModelScope.launch(IO) {
-            repositoryUser.delete(id)
+        fun delUser(id: UserEntity) {
+            viewModelScope.launch(IO) {
+                repositoryUser.delete(id)
+            }
         }
-    }
 
         suspend fun getCategories(id: CategoryEntity) {
             return withContext(IO) {
@@ -77,14 +77,15 @@ class LibraryScreenViewModel
                 _userCategoryManga.tryEmit(categoryManga)
             }
         }
-    private val ue = UserEntity(userName = "33", password = "11")
-    private val UE = MutableStateFlow(ue)
-    val userEnti = UE.asStateFlow()
-    suspend fun getEntity(id: Int) {
-        val  userEnti = repositoryUser.getUserFromID(id)
-        UE.tryEmit(userEnti)
-    }
 
+        private val ue = UserEntity(userName = "33", password = "11")
+        private val UE = MutableStateFlow(ue)
+        val userEnti = UE.asStateFlow()
+
+        suspend fun getEntity(id: Int) {
+            val userEnti = repositoryUser.getUserFromID(id)
+            UE.tryEmit(userEnti)
+        }
 
     /*fun loginUser(id_ : Int) {
         viewModelScope.launch {

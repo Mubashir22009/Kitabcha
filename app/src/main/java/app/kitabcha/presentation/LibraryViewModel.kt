@@ -68,11 +68,13 @@ class LibraryViewModel
                 _userCategoryManga.tryEmit(categoryManga)
             }
         }
-    private val ce = CategoryEntity(catTitle = "hdhhd" , myLibrary = 69)
-    private val CE = MutableStateFlow(ce)
-    val CateEnti = CE.asStateFlow()
-    suspend fun getOnlyCateEntity(id: Int) {
-        val  CateEnti =  repository.getCategoryFromID(id)
-        CE.tryEmit(CateEnti)
-    }
+
+        private val ce = CategoryEntity(catTitle = "hdhhd", myLibrary = 69)
+        private val CE = MutableStateFlow(ce)
+        val CateEnti = CE.asStateFlow()
+
+        suspend fun getOnlyCateEntity(id: Int) {
+            val CateEnti = repository.getCategoryFromID(id)
+            CE.tryEmit(CateEnti)
+        }
     }

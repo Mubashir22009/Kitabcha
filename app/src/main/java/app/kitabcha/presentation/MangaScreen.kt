@@ -46,17 +46,10 @@ fun Content2(
     mangaId: Int,
 ) {
     val mangaChapters by mangaScreenViewModel.mangaChapters.collectAsStateWithLifecycle()
-    val mangaEnt by mangaScreenViewModel.CateEnti.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Unit) {
         runBlocking {
             mangaScreenViewModel.getchaptersUsingmangaId(mangaId)
-        }
-    }
-
-    LaunchedEffect(key1 = Unit) {
-        runBlocking {
-            mangaScreenViewModel.getOnlyCateEntity(mangaId)
         }
     }
 

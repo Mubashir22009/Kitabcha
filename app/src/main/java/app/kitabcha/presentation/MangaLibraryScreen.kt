@@ -97,7 +97,7 @@ fun Content1(
                 .fillMaxSize().padding(bottom = 15.dp),
     ) {
         Button(
-            onClick = { mangalibraryViewModel.delCategory(mangaEnt)},
+            onClick = { mangalibraryViewModel.delCategory(mangaEnt) },
             modifier = Modifier.fillMaxWidth(),
             shape = MaterialTheme.shapes.extraLarge, // Adjust shape as needed
             colors = ButtonDefaults.buttonColors(Color.Yellow, contentColor = Color.Black),
