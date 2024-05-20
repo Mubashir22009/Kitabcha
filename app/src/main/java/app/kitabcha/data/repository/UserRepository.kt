@@ -1,6 +1,5 @@
 package com.mkrdeveloper.viewmodeljetpack.app.kitabcha.data.repository
 
-
 import app.kitabcha.data.datasource.UserDao
 import app.kitabcha.data.entity.UserEntity
 import kotlinx.coroutines.Dispatchers.IO
@@ -20,7 +19,7 @@ interface UserRepository {
 
     suspend fun getAllUserNames(): Flow<List<String>>
 
-    suspend fun getUserFromID(usrID: Int):UserEntity
+    suspend fun getUserFromID(usrID: Int): UserEntity
 }
 
 class UserRepositoryImpl
@@ -60,6 +59,4 @@ class UserRepositoryImpl
                 dao.getUserFromID(usrID)
             }
         }
-
-
     }
