@@ -13,6 +13,8 @@ interface CategoryRepository {
     suspend fun delete(cat: CategoryEntity)
 
     suspend fun getCategories(lID: Int): Flow<List<CategoryEntity>>
+
+    suspend fun getCategoryFromID(cID: Int): CategoryEntity
 }
 
 class CategoryRepositoryImpl
@@ -35,6 +37,12 @@ class CategoryRepositoryImpl
         override suspend fun getCategories(lID: Int): Flow<List<CategoryEntity>> {
             return withContext(IO) {
                 dao.getCategories(lID)
+            }
+        }
+
+        override suspend fun getCategoryFromID(cID: Int): CategoryEntity {
+            return withContext(IO) {
+                dao.getCategoryFromID(cID)
             }
         }
     }
