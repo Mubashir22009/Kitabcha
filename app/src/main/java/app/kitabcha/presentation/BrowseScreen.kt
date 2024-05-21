@@ -101,6 +101,19 @@ fun BrowseScreen(
                 Text(text = "search")
             }
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        Row {
+            if (pageNumber > 1) {
+                Button(onClick = { browseScreenViewModel.pageDown(sourceId) }) {
+                    Text(text = "Previous Page")
+                }
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+
+            Button(onClick = { browseScreenViewModel.pageUp(sourceId) }) {
+                Text(text = "Next Page")
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
         // Lazy column to show all results of search
@@ -116,9 +129,12 @@ fun BrowseScreen(
                     Text(
                         text = mangaListToDisplay[index].mangaTitle,
                         modifier =
-                            Modifier.fillMaxWidth().clickable {
-                                browseScreenViewModel.updateMangaEntity(mangaListToDisplay[index])
-                            }.background(color = Color.DarkGray),
+                            Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    browseScreenViewModel.updateMangaEntity(mangaListToDisplay[index])
+                                }
+                                .background(color = Color.DarkGray),
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }

@@ -56,7 +56,7 @@ class BrowseScreenViewModel
         ) {
             val source = AvailableSources.sources[sourceID]!!
             viewModelScope.launch {
-                source.getListing(pagenumber)
+                source.getListing(pagenumber, _searchQuery.value)
                     .map {
                         MangaEntity(
                             mangaURL = it.url,
@@ -72,7 +72,7 @@ class BrowseScreenViewModel
                         )
                     }.also { remoteManga.tryEmit(it) }
                     .also { lazyListFlag.tryEmit(true) }
-                    .also { _page.tryEmit(pagenumber + 1) }
+                // .also { _page.tryEmit(pagenumber + 1) } : TODO: +++++++++++++++++++++++++
             }
         }
 
@@ -122,5 +122,15 @@ class BrowseScreenViewModel
         // this will detect when something changes in the ui of our search bar
         fun onSearchTextChange(text: String) {
             _searchQuery.value = text
+        }
+
+        fun pageUp(sourceID: Long) {
+            _page.tryEmit(_page.value + 1)
+            getMangas(sourceID, _page.value)
+        }
+
+        fun pageDown(sourceID: Long) {
+            _page.tryEmit(_page.value - 1)
+            getMangas(sourceID, _page.value)
         }
     }
