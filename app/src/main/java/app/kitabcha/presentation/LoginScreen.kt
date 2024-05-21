@@ -133,7 +133,7 @@ fun Content(
                             Toast.makeText(localContext, "Logged in :D", Toast.LENGTH_SHORT)
                                 .show()
 
-                            navController.navigate("${Routes.libraryScreen}/${user.id}")
+                            navController.navigate("${Routes.categoryScreen}/${user.id}")
                         }
                     }
                 } else {

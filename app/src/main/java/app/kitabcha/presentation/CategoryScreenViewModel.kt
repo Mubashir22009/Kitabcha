@@ -3,8 +3,6 @@ package app.kitabcha.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.kitabcha.data.entity.CategoryEntity
-import app.kitabcha.data.entity.MangaEntity
-import app.kitabcha.data.repository.CategoryMangaRepository
 import app.kitabcha.data.repository.CategoryRepository
 import app.kitabcha.data.repository.LibraryRepository
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.data.repository.UserRepository
@@ -22,7 +20,6 @@ class CategoryScreenViewModel
     constructor(
         private val repository: CategoryRepository,
         private val repository2: LibraryRepository,
-        private val repository3: CategoryMangaRepository,
         private val repositoryUser: UserRepository,
     ) : ViewModel() {
         fun insertCategory(
@@ -41,15 +38,9 @@ class CategoryScreenViewModel
             }
         }
 
-        fun delCategory(id: CategoryEntity) {
+        fun delUser(userId: Int) {
             viewModelScope.launch(IO) {
-                repository.delete(id)
-            }
-        }
-
-        suspend fun getCategories(id: CategoryEntity) {
-            return withContext(IO) {
-                repository.getCategories(id.myLibrary)
+                repositoryUser.delete(userId)
             }
         }
 
@@ -62,19 +53,4 @@ class CategoryScreenViewModel
                 _userCategories.tryEmit(cats)
             }
         }
-
-        private val _userCategoryManga = MutableStateFlow(emptyList<MangaEntity>())
-        val userCategoryManga = _userCategoryManga.asStateFlow()
-
-        suspend fun getMangaIdUsingCategoryId(id: CategoryEntity) {
-            withContext(IO) {
-                val categoryManga = repository3.getAllMangasIDInCurrCategory(id.catID)
-                _userCategoryManga.tryEmit(categoryManga)
-            }
-        }
-    /*fun loginUser(id_ : Int) {
-        viewModelScope.launch {
-            callback( repositoryUser.delete(id_) )
-        }
-    }*/
     }

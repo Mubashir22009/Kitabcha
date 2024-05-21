@@ -2,10 +2,10 @@ package app.kitabcha.navigation
 
 object Routes {
     var loginScreen = "loginscreen"
-    var libraryScreen = "libraryScreen"
+    var categoryScreen = "categoryScreen"
+    var mangaLibraryScreen = "mangaLibraryScreen"
     var browseScreen = "browseScreen"
     var sourceScreen = "SourceScreen"
     var mangaScreen = "mangaScreen"
-    var mangaLibraryScreen = "mangaScreenLibrary"
     var readerScreen = "reader"
 }

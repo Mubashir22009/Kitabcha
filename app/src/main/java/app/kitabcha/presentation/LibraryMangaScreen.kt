@@ -66,7 +66,10 @@ fun LibraryMangaScreen(
                             .padding(bottom = 15.dp),
                 ) {
                     Button(
-                        onClick = { },
+                        onClick = {
+                            libraryMangaViewModel.delCategory(cateId)
+                            navController.navigate("${Routes.categoryScreen}/$userId")
+                        },
                         shape = MaterialTheme.shapes.medium,
                     ) {
                         Text(

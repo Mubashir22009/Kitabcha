@@ -84,14 +84,17 @@ fun CategoryScreen(
                     Button(
                         onClick = { isPopupVisible = true },
                         modifier = Modifier,
-                        shape = MaterialTheme.shapes.large, // Adjust shape as needed
+                        shape = MaterialTheme.shapes.large,
                     ) {
                         Text(
                             text = "Add Category",
                         )
                     }
                     Button(
-                        onClick = { },
+                        onClick = {
+                            categoryScreenViewModel.delUser(userId)
+                            navController.navigate(Routes.loginScreen)
+                        },
                         modifier = Modifier,
                         shape = MaterialTheme.shapes.medium, // Adjust shape as needed
                     ) {

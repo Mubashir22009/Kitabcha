@@ -35,7 +35,7 @@ fun NavController() {
             MangaScreen(navController = navController, UserId = userId, mangaId)
         }
         composable(
-            route = "${Routes.libraryScreen}/{id}",
+            route = "${Routes.categoryScreen}/{id}",
             arguments =
                 listOf(navArgument("id") { type = NavType.IntType }),
         ) {
