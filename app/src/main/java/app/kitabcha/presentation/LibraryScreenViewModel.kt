@@ -36,6 +36,8 @@ class LibraryScreenViewModel
                         catTitle = id,
                     ),
                 )
+
+                getCategoryIdUsingUserId(userId)
             }
         }
 
