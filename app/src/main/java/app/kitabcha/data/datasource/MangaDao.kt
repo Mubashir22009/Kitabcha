@@ -22,6 +22,9 @@ interface MangaDao {
     @Query("SELECT * FROM MangasEntity")
     fun getAllMangas(): Flow<List<MangaEntity?>>
 
+    @Query("SELECT * FROM MangasEntity WHERE mangaID = :mID")
+    fun getMangaFromMID(mID: Int): MangaEntity
+
     @Query("SELECT mangaID FROM MangasEntity WHERE manga_url = :mUrl AND source_id = :srcId")
     fun getDBMangaFromSource(
         mUrl: String,

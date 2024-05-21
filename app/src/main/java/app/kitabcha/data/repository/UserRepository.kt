@@ -12,6 +12,8 @@ interface UserRepository {
 
     suspend fun delete(user: UserEntity)
 
+    suspend fun delete(usrID: Int)
+
     suspend fun getUser(
         userName: String,
         userPassword: String,
@@ -36,6 +38,12 @@ class UserRepositoryImpl
         override suspend fun delete(user: UserEntity) {
             withContext(IO) {
                 dao.delete(user)
+            }
+        }
+
+        override suspend fun delete(usrID: Int) {
+            withContext(IO) {
+                dao.delete(usrID)
             }
         }
 
