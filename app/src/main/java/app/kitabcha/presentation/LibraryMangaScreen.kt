@@ -1,4 +1,5 @@
 package app.kitabcha.presentation
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -6,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -25,35 +26,29 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import app.kitabcha.navigation.Routes
-import kotlinx.coroutines.runBlocking
+
 
 @Composable fun MangaLibraryScreen(
     navController: NavController,
     UserId: Int,
     cateId: Int,
 ) {
-    val viewModel = hiltViewModel<LibraryViewModel>()
+    val viewModel = hiltViewModel<LibraryMangaViewModel>()
 
     Content1(viewModel, navController, UserId, cateId)
 }
 
 @Composable
 fun Content1(
-    mangalibraryViewModel: LibraryViewModel,
+    mangalibraryMangaViewModel: LibraryMangaViewModel,
     navController: NavController,
     UserId: Int,
     cateId: Int,
 ) {
-    val allManga by mangalibraryViewModel.userCategoryManga.collectAsStateWithLifecycle()
+    val allManga by mangalibraryMangaViewModel.userCategoryManga.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Unit) {
-        runBlocking {
-            mangalibraryViewModel.getCategoryIdUsingUserId(UserId)
-        }
-    }
-
-    runBlocking {
-        mangalibraryViewModel.getMangaIdUsingCategoryId(cateId)
+        mangalibraryMangaViewModel.getMangaIdUsingCategoryId(cateId)
     }
 
     if (allManga.isNotEmpty()) {
@@ -63,25 +58,25 @@ fun Content1(
                     .padding(top = 30.dp)
                     .padding(bottom = 50.dp),
         ) {
-            itemsIndexed(
+            items(
                 allManga,
-            ) { index, categoryMAngas ->
+            ) { manga ->
 
                 Text(
-                    text = (index + 1).toString() + " - " + categoryMAngas.mangaTitle + "       " + categoryMAngas.mangaAuthor,
+                    text = manga.mangaTitle,
                     style = TextStyle(fontWeight = FontWeight.Bold),
                     fontSize = (20.sp),
                     modifier =
                         Modifier
                             .padding(20.dp)
                             .clickable {
-                                navController.navigate("${ Routes.mangaScreen}/$UserId/${categoryMAngas.mangaID}")
+                                navController.navigate("${Routes.mangaScreen}/$UserId/${manga.mangaID}")
                             },
                 )
             }
         }
     } else {
-        Text(text = " Empty ", modifier = Modifier.padding(20.dp))
+        Text(text = "Empty", modifier = Modifier.padding(20.dp))
     }
     Row(
         horizontalArrangement = Arrangement.SpaceAround,
