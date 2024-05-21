@@ -30,19 +30,19 @@ import kotlinx.coroutines.runBlocking
 @Composable
 fun MangaScreen(
     navController: NavController,
-    UserId: Int,
+    userId: Int,
     mangaId: Int,
 ) {
     val viewModel = hiltViewModel<MangaScreenViewModel>()
 
-    Content2(viewModel, navController, UserId, mangaId)
+    Content2(viewModel, navController, userId, mangaId)
 }
 
 @Composable
 fun Content2(
     mangaScreenViewModel: MangaScreenViewModel,
     navController: NavController,
-    UserId: Int,
+    userId: Int,
     mangaId: Int,
 ) {
     val mangaChapters by mangaScreenViewModel.mangaChapters.collectAsStateWithLifecycle()
