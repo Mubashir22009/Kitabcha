@@ -10,7 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import app.kitabcha.navigation.Routes
 import app.kitabcha.presentation.CategoryScreen
-import app.kitabcha.presentation.MangaLibraryScreen
+import app.kitabcha.presentation.LibraryMangaScreen
 import app.kitabcha.presentation.MangaScreen
 import app.kitabcha.presentation.Reader
 import app.kitabcha.presentation.SourceScreen
@@ -62,7 +62,7 @@ fun NavController() {
         ) {
             val categoryId = it.arguments!!.getInt("Catid")
             val userId = it.arguments!!.getInt("userId")
-            MangaLibraryScreen(navController = navController, UserId = userId, cateId = categoryId)
+            LibraryMangaScreen(navController = navController, userId = userId, cateId = categoryId)
         }
 
         composable(

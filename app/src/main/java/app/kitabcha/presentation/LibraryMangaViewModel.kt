@@ -16,7 +16,6 @@ class LibraryMangaViewModel
     constructor(
         private val repository3: CategoryMangaRepository,
     ) : ViewModel() {
-
         private val _userCategoryManga = MutableStateFlow(emptyList<MangaEntity>())
         val userCategoryManga = _userCategoryManga.asStateFlow()
 
