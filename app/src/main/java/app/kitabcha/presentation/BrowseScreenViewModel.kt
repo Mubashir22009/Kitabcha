@@ -125,7 +125,7 @@ class BrowseScreenViewModel
 
         // this will detect when something changes in the ui of our search bar
         fun onSearchTextChange(text: String) {
-            _searchQuery.value = text
+            _searchQuery.tryEmit(text)
         }
 
         // this Sends getManga call to Server after incrementing the page number (search for next page)

@@ -73,7 +73,7 @@ fun NavController() {
             val sourceId = it.arguments!!.getLong("sourceId")
             val userId = it.arguments!!.getInt("id")
 
-            BrowseScreen(navController, userId, sourceId)
+            BrowseScreen(userId, sourceId)
         }
 
         composable(
