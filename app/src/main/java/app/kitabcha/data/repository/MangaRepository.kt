@@ -16,6 +16,8 @@ interface MangaRepository {
 
     suspend fun getAllMangas(): Flow<List<MangaEntity?>>
 
+    suspend fun getMangaFromMID(mID: Int): MangaEntity
+
     fun getDBMangaFromSource(
         mUrl: String,
         srcId: Long,
@@ -48,6 +50,12 @@ class MangaRepositoryImpl
         override suspend fun getAllMangas(): Flow<List<MangaEntity?>> {
             return withContext(IO) {
                 dao.getAllMangas()
+            }
+        }
+
+        override suspend fun getMangaFromMID(mID: Int): MangaEntity {
+            return withContext(IO) {
+                dao.getMangaFromMID(mID)
             }
         }
 
