@@ -145,7 +145,7 @@ fun Content(
             colors = ButtonDefaults.buttonColors(Color.Yellow, contentColor = Color.Black),
         ) {
             Text(
-                text = "Delete User  id=" + UserId.toString(),
+                text = "Delete User  id=" + userEnt.userName.toString(),
                 // style = MaterialTheme.typography.button, // Adjust text style as needed
             )
         }

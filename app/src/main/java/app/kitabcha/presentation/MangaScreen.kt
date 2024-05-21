@@ -77,7 +77,7 @@ fun Content2(
             }
         }
     } else {
-        Text(text = " Empty ", modifier = Modifier.padding(top=100.dp))
+        Text(text = " Empty ", modifier = Modifier.padding(top = 100.dp))
     }
     Row(
         horizontalArrangement = Arrangement.SpaceAround,
@@ -111,7 +111,7 @@ fun Content2(
             fontSize = (40.sp),
             modifier =
                 Modifier
-                    .padding(top=20.dp),
+                    .padding(top = 20.dp),
             color = Color.Yellow,
         )
     }
