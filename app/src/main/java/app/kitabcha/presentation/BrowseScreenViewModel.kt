@@ -27,6 +27,9 @@ class BrowseScreenViewModel
         private val categoryMangaRepository: CategoryMangaRepository,
         private val MangaRepo: MangaRepository,
     ) : ViewModel() {
+        private var _showLoadingCircle = MutableStateFlow(false) // page numbers for our browse screen
+        var showLoadingCircle = _showLoadingCircle.asStateFlow()
+
         private var _page = MutableStateFlow(1) // page numbers for our browse screen
         var page = _page.asStateFlow()
 
@@ -54,6 +57,7 @@ class BrowseScreenViewModel
             sourceID: Long,
             pagenumber: Int,
         ) {
+            _showLoadingCircle.tryEmit(true)
             val source = AvailableSources.sources[sourceID]!!
             viewModelScope.launch {
                 source.getListing(pagenumber, _searchQuery.value)
@@ -72,7 +76,7 @@ class BrowseScreenViewModel
                         )
                     }.also { remoteManga.tryEmit(it) }
                     .also { lazyListFlag.tryEmit(true) }
-                // .also { _page.tryEmit(pagenumber + 1) } : TODO: +++++++++++++++++++++++++
+                    .also { _showLoadingCircle.tryEmit(false) }
             }
         }
 
@@ -124,13 +128,21 @@ class BrowseScreenViewModel
             _searchQuery.value = text
         }
 
+        // this Sends getManga call to Server after incrementing the page number (search for next page)
         fun pageUp(sourceID: Long) {
             _page.tryEmit(_page.value + 1)
             getMangas(sourceID, _page.value)
         }
 
+        // this Sends getManga call to Server after decrementing the page number (search for previous page)
         fun pageDown(sourceID: Long) {
             _page.tryEmit(_page.value - 1)
+            getMangas(sourceID, _page.value)
+        }
+
+        // this resets the page number as new word has been searched
+        fun newSearch(sourceID: Long) {
+            _page.tryEmit(1)
             getMangas(sourceID, _page.value)
         }
     }

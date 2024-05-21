@@ -1,7 +1,9 @@
 package com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +19,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -32,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -58,7 +63,8 @@ fun BrowseScreen(
     val categories by browseScreenViewModel.categories.collectAsStateWithLifecycle()
     val selectedManga by browseScreenViewModel.currentManga.collectAsStateWithLifecycle()
     val selectedMangaId by browseScreenViewModel.currentMangaId.collectAsStateWithLifecycle()
-
+    val showLoadingCircle by browseScreenViewModel.showLoadingCircle.collectAsStateWithLifecycle()
+    val localContext = LocalContext.current
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = Unit) {
@@ -93,7 +99,7 @@ fun BrowseScreen(
             Button(
                 onClick = (
                     {
-                        browseScreenViewModel.getMangas(sourceId, pageNumber)
+                        browseScreenViewModel.newSearch(sourceId)
                     }
                 ),
                 modifier = Modifier.padding(top = 45.dp),
@@ -117,79 +123,118 @@ fun BrowseScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
         // Lazy column to show all results of search
-        if (flag) {
-            LazyColumn(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        // .verticalScroll(rememberScrollState())
-                        .padding(16.dp),
-            ) {
-                items(mangaListToDisplay.size) { index ->
-                    Text(
-                        text = mangaListToDisplay[index].mangaTitle,
-                        modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    browseScreenViewModel.updateMangaEntity(mangaListToDisplay[index])
-                                }
-                                .background(color = Color.DarkGray),
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
+        if (showLoadingCircle == true) {
+            LoadingCircle()
+        } else {
+            if (flag) {
+                LazyColumn(
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            // .verticalScroll(rememberScrollState())
+                            .padding(16.dp),
+                ) {
+                    items(mangaListToDisplay.size) { index ->
+                        Text(
+                            text = mangaListToDisplay[index].mangaTitle,
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        browseScreenViewModel.updateMangaEntity(mangaListToDisplay[index])
+                                    }
+                                    .background(color = Color.DarkGray),
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
                 }
-            }
-            if (selectedManga != null) {
-                LaunchedEffect(Unit) {
-                    browseScreenViewModel.getRealMangaID(selectedManga!!.mangaURL, sourceId)
-                }
-                if (selectedMangaId != null) {
-                    var selectedCategory by remember { mutableStateOf(categories[0]) }
-                    Dialog(
-                        onDismissRequest = { browseScreenViewModel.makeMangaVarNull() },
-                        // radio button for each option
-                        content = {
-                            Card {
-                                categories.forEach { option ->
-                                    Row(
-                                        Modifier
-                                            .fillMaxWidth()
-                                            .padding(8.dp),
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        content = {
-                                            RadioButton(
-                                                selected = (option == selectedCategory),
-                                                onClick = { selectedCategory = option },
-                                            )
-                                            Text(text = option.catTitle, modifier = Modifier.padding(8.dp))
-                                        },
-                                    )
-                                }
-                                // this is dismiss button
-                                TextButton(
-                                    onClick = { browseScreenViewModel.makeMangaVarNull() },
-                                    modifier = Modifier.padding(8.dp),
-                                ) {
-                                    Text("Dismiss")
-                                }
-                                TextButton(
-                                    onClick = {
-                                        scope.launch {
-                                            browseScreenViewModel.pushMangaInCategory(
-                                                selectedMangaId!!,
-                                                selectedCategory.catID,
-                                            )
+                if (selectedManga != null) {
+                    LaunchedEffect(Unit) {
+                        browseScreenViewModel.getRealMangaID(selectedManga!!.mangaURL, sourceId)
+                    }
+                    if (selectedMangaId != null) {
+                        if (categories.isNotEmpty()) {
+                            var selectedCategory by remember { mutableStateOf(categories[0]) }
+
+                            Dialog(
+                                onDismissRequest = { browseScreenViewModel.makeMangaVarNull() },
+                                // radio button for each option
+                                content = {
+                                    Column {
+                                        Card {
+                                            categories.forEach { option ->
+                                                Row(
+                                                    Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(8.dp),
+                                                    content = {
+                                                        RadioButton(
+                                                            selected = (option == selectedCategory),
+                                                            onClick = { selectedCategory = option },
+                                                        )
+                                                        Text(
+                                                            text = option.catTitle,
+                                                            modifier = Modifier.padding(8.dp),
+                                                        )
+                                                    },
+                                                )
+                                            }
+                                            Row {
+                                                TextButton(
+                                                    onClick = { browseScreenViewModel.makeMangaVarNull() },
+                                                    modifier = Modifier.padding(8.dp),
+                                                ) {
+                                                    Text("Dismiss")
+                                                }
+                                                Spacer(modifier = Modifier.width(16.dp))
+                                                TextButton(
+                                                    onClick = {
+                                                        scope.launch {
+                                                            browseScreenViewModel.pushMangaInCategory(
+                                                                selectedMangaId!!,
+                                                                selectedCategory.catID,
+                                                            )
+                                                        }
+                                                    },
+                                                    modifier = Modifier.padding(8.dp),
+                                                ) {
+                                                    Text("OK")
+                                                }
+                                            }
                                         }
-                                    },
-                                    modifier = Modifier.padding(8.dp),
-                                ) {
-                                    Text("OK")
-                                }
-                            }
-                        },
-                    )
+
+                                        // this is dismiss button
+                                    }
+                                },
+                            )
+                        } else {
+                            Toast.makeText(
+                                localContext,
+                                "Category List is Empty, 1st make a category",
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                        }
+                    }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun LoadingCircle() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        LinearProgressIndicator(
+            modifier =
+                Modifier
+                    .width(64.dp)
+                    .fillMaxWidth(),
+            color = MaterialTheme.colorScheme.secondary,
+            trackColor = MaterialTheme.colorScheme.surfaceVariant,
+        )
     }
 }
