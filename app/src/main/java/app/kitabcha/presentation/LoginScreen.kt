@@ -58,6 +58,7 @@ fun Content(
         val username by loginViewModel.userName.collectAsStateWithLifecycle()
         val password by loginViewModel.userPassword.collectAsStateWithLifecycle()
         val alreadyexists by loginViewModel.alreadyExists.collectAsStateWithLifecycle()
+
         val onUsernameChange: (username: String) -> Unit =
             remember {
                 return@remember loginViewModel::setUserName

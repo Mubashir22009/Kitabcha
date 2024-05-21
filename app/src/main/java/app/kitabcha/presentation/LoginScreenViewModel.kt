@@ -21,10 +21,8 @@ class LoginScreenViewModel
         private val libraryRepository: LibraryRepository,
     ) : ViewModel() {
         fun insertUser(user: UserEntity) {
-            var totalBefore: Int
-            var totalNow: Int
             viewModelScope.launch(IO) {
-                totalBefore = repository.getTotalUserCount()
+                val totalBefore = repository.getTotalUserCount()
                 repository.insert(user)
                 val usrID = repository.getUser(user.userName, user.password)
                 if (usrID != null) {
@@ -34,7 +32,7 @@ class LoginScreenViewModel
                         ),
                     )
                 }
-                totalNow = repository.getTotalUserCount()
+                val totalNow = repository.getTotalUserCount()
                 if (totalNow == totalBefore) {
                     _alreadyExists.tryEmit(true)
                 }
