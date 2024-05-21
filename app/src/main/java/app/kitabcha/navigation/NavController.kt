@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import app.kitabcha.navigation.Routes
-import app.kitabcha.presentation.LibraryScreen
+import app.kitabcha.presentation.CategoryScreen
 import app.kitabcha.presentation.MangaLibraryScreen
 import app.kitabcha.presentation.MangaScreen
 import app.kitabcha.presentation.Reader
@@ -43,7 +43,7 @@ fun NavController() {
                 Log.i("LOG_TAG", "Clicked back")
             }
             val userId = it.arguments!!.getInt("id")
-            LibraryScreen(navController, userId)
+            CategoryScreen(navController, userId)
         }
 
         composable(

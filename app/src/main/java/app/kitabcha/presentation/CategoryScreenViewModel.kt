@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class LibraryScreenViewModel
+class CategoryScreenViewModel
     @Inject
     constructor(
         private val repository: CategoryRepository,

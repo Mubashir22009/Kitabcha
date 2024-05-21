@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -33,26 +32,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import app.kitabcha.navigation.Routes
 
-@Composable fun LibraryScreen(
-    navController: NavController,
-    userId: Int,
-) {
-    val viewModel = hiltViewModel<LibraryScreenViewModel>()
-
-    Content(viewModel, navController, userId)
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Content(
-    libraryViewModel: LibraryScreenViewModel,
+fun CategoryScreen(
     navController: NavController,
     userId: Int,
+    categoryScreenViewModel: CategoryScreenViewModel = hiltViewModel(),
 ) {
-    val allCategores by libraryViewModel.userCategories.collectAsStateWithLifecycle()
+    val allCategories by categoryScreenViewModel.userCategories.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Unit) {
-        libraryViewModel.getCategoryIdUsingUserId(userId)
+        categoryScreenViewModel.getCategoryIdUsingUserId(userId)
     }
 
     var isPopupVisible by remember { mutableStateOf(false) }
@@ -117,14 +106,14 @@ fun Content(
         Box(
             modifier =
                 Modifier
-                    .padding(bottom = 80.dp)
+                    .padding(bottom = pad.calculateBottomPadding())
                     .padding(top = pad.calculateTopPadding())
                     .fillMaxSize(),
         ) {
-            if (allCategores.isNotEmpty()) {
+            if (allCategories.isNotEmpty()) {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(
-                        allCategores,
+                        allCategories,
                     ) { cat ->
                         Row(
                             Modifier
@@ -158,7 +147,7 @@ fun Content(
                 text = text,
                 onTextChanged = { text = it },
                 onDismiss = { isPopupVisible = false },
-                libraryViewModel = libraryViewModel,
+                categoryScreenViewModel = categoryScreenViewModel,
                 userId = userId,
                 clearText = { text = "" },
             )
@@ -171,7 +160,7 @@ fun PopupTextField(
     text: String,
     onTextChanged: (String) -> Unit,
     onDismiss: () -> Unit,
-    libraryViewModel: LibraryScreenViewModel,
+    categoryScreenViewModel: CategoryScreenViewModel,
     userId: Int,
     clearText: () -> Unit,
 ) {
@@ -188,7 +177,7 @@ fun PopupTextField(
         confirmButton = {
             Button(onClick = {
                 if (text.isNotEmpty()) {
-                    libraryViewModel.insertCategory(text, userId)
+                    categoryScreenViewModel.insertCategory(text, userId)
                     clearText()
                 }
 
