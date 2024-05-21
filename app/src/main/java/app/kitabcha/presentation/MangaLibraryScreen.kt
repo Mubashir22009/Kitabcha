@@ -45,7 +45,7 @@ fun Content1(
     cateId: Int,
 ) {
     val allManga by mangalibraryViewModel.userCategoryManga.collectAsStateWithLifecycle()
-    val mangaEnt by mangalibraryViewModel.CateEnti.collectAsStateWithLifecycle()
+    val mangaEnt by mangalibraryViewModel.cateEnti.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Unit) {
         runBlocking {
@@ -97,13 +97,16 @@ fun Content1(
                 .fillMaxSize().padding(bottom = 15.dp),
     ) {
         Button(
-            onClick = { mangalibraryViewModel.delCategory(mangaEnt) },
+            onClick = {
+                mangalibraryViewModel.delCategory(mangaEnt)
+                navController.navigate("${Routes.libraryScreen}/$UserId")
+            },
             modifier = Modifier.fillMaxWidth(),
             shape = MaterialTheme.shapes.extraLarge, // Adjust shape as needed
             colors = ButtonDefaults.buttonColors(Color.Yellow, contentColor = Color.Black),
         ) {
             Text(
-                text = "Delete Category",
+                text = "Delete Category" + mangaEnt.catTitle + mangaEnt.catID,
                 // style = MaterialTheme.typography.button, // Adjust text style as needed
             )
         }

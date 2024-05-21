@@ -77,7 +77,7 @@ fun Content2(
             }
         }
     } else {
-        Text(text = " Empty ", modifier = Modifier.padding(20.dp))
+        Text(text = " Empty ", modifier = Modifier.padding(top=100.dp))
     }
     Row(
         horizontalArrangement = Arrangement.SpaceAround,
@@ -99,7 +99,7 @@ fun Content2(
     }
     Row(
         horizontalArrangement = Arrangement.SpaceAround,
-        verticalAlignment = Alignment.Bottom,
+        verticalAlignment = Alignment.Top,
         modifier =
             Modifier
                 .fillMaxSize().padding(bottom = 15.dp),
@@ -111,7 +111,7 @@ fun Content2(
             fontSize = (40.sp),
             modifier =
                 Modifier
-                    .padding(15.dp),
+                    .padding(top=20.dp),
             color = Color.Yellow,
         )
     }

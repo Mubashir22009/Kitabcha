@@ -70,11 +70,11 @@ class LibraryViewModel
         }
 
         private val ce = CategoryEntity(catTitle = "hdhhd", myLibrary = 69)
-        private val CE = MutableStateFlow(ce)
-        val CateEnti = CE.asStateFlow()
+        private val cE = MutableStateFlow(ce)
+        val cateEnti = cE.asStateFlow()
 
         suspend fun getOnlyCateEntity(id: Int) {
-            val CateEnti = repository.getCategoryFromID(id)
-            CE.tryEmit(CateEnti)
+            val cateEnti = repository.getCategoryFromID(id)
+            cE.tryEmit(cateEnti)
         }
     }

@@ -79,12 +79,12 @@ class LibraryScreenViewModel
         }
 
         private val ue = UserEntity(userName = "33", password = "11")
-        private val UE = MutableStateFlow(ue)
-        val userEnti = UE.asStateFlow()
+        private val uE = MutableStateFlow(ue)
+        val userEnti = uE.asStateFlow()
 
         suspend fun getEntity(id: Int) {
             val userEnti = repositoryUser.getUserFromID(id)
-            UE.tryEmit(userEnti)
+            uE.tryEmit(userEnti)
         }
 
     /*fun loginUser(id_ : Int) {
