@@ -126,7 +126,10 @@ fun Content(
             Spacer(modifier = Modifier.padding(start = 10.dp))
 
             Button(onClick = {
-                if (doLogin) {
+                if (username == "" || password == "") {
+                    Toast.makeText(localContext, "Please Enter valid information", Toast.LENGTH_SHORT)
+                        .show()
+                } else if (doLogin) {
                     loginViewModel.loginUser(username, password) { user ->
                         if (user == null) {
                             Toast.makeText(localContext, "Unable to login", Toast.LENGTH_SHORT)
