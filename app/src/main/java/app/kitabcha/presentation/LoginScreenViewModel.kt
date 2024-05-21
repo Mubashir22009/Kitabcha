@@ -21,7 +21,10 @@ class LoginScreenViewModel
         private val libraryRepository: LibraryRepository,
     ) : ViewModel() {
         fun insertUser(user: UserEntity) {
+            var totalBefore: Int
+            var totalNow: Int
             viewModelScope.launch(IO) {
+                totalBefore = repository.getTotalUserCount()
                 repository.insert(user)
                 val usrID = repository.getUser(user.userName, user.password)
                 if (usrID != null) {
@@ -30,6 +33,10 @@ class LoginScreenViewModel
                             ownerUserID = usrID.id,
                         ),
                     )
+                }
+                totalNow = repository.getTotalUserCount()
+                if (totalNow == totalBefore) {
+                    _alreadyExists.tryEmit(true)
                 }
             }
         }
@@ -47,6 +54,9 @@ class LoginScreenViewModel
         private val _userName = MutableStateFlow("")
         val userName = _userName.asStateFlow()
 
+        private val _alreadyExists = MutableStateFlow(false)
+        val alreadyExists = _alreadyExists.asStateFlow()
+
         fun setUserName(name: String) {
             _userName.tryEmit(name)
         }
@@ -56,5 +66,9 @@ class LoginScreenViewModel
 
         fun setUserPassword(name: String) {
             _userPassword.tryEmit(name)
+        }
+
+        fun resetExistFlag() {
+            _alreadyExists.tryEmit(false)
         }
     }
