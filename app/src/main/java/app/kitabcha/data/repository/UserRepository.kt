@@ -22,6 +22,8 @@ interface UserRepository {
     suspend fun getAllUserNames(): Flow<List<String>>
 
     suspend fun getUserFromID(usrID: Int): UserEntity
+
+    suspend fun getTotalUserCount(): Int
 }
 
 class UserRepositoryImpl
@@ -65,6 +67,12 @@ class UserRepositoryImpl
         override suspend fun getUserFromID(usrID: Int): UserEntity {
             return withContext(IO) {
                 dao.getUserFromID(usrID)
+            }
+        }
+
+        override suspend fun getTotalUserCount(): Int {
+            return withContext(IO) {
+                dao.getTotalUserCount()
             }
         }
     }

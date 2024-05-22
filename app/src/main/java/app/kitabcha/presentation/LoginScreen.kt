@@ -43,7 +43,7 @@ fun Content(
     loginViewModel: LoginScreenViewModel,
     navController: NavController,
 ) {
-    // this variable will determine the diplay of login screen or signup screen
+    // this variable will determine the display of login screen or signup screen
     var doLogin by remember { mutableStateOf(true) }
     val showPassword by remember { mutableStateOf(value = false) }
     val localContext = LocalContext.current
@@ -57,6 +57,8 @@ fun Content(
     ) {
         val username by loginViewModel.userName.collectAsStateWithLifecycle()
         val password by loginViewModel.userPassword.collectAsStateWithLifecycle()
+        val alreadyexists by loginViewModel.alreadyExists.collectAsStateWithLifecycle()
+
         val onUsernameChange: (username: String) -> Unit =
             remember {
                 return@remember loginViewModel::setUserName
@@ -124,7 +126,10 @@ fun Content(
             Spacer(modifier = Modifier.padding(start = 10.dp))
 
             Button(onClick = {
-                if (doLogin) {
+                if (username == "" || password == "") {
+                    Toast.makeText(localContext, "Please Enter valid information", Toast.LENGTH_SHORT)
+                        .show()
+                } else if (doLogin) {
                     loginViewModel.loginUser(username, password) { user ->
                         if (user == null) {
                             Toast.makeText(localContext, "Unable to login", Toast.LENGTH_SHORT)
@@ -151,6 +156,11 @@ fun Content(
                     Text(text = stringResource(R.string.Sign_Up))
                 }
             }
+        }
+        if (alreadyexists) {
+            Toast.makeText(localContext, "Username Taken Like Your Waifu", Toast.LENGTH_SHORT)
+                .show()
+            loginViewModel.resetExistFlag()
         }
     }
 }
