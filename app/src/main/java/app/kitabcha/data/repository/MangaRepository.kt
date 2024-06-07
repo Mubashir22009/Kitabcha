@@ -14,6 +14,10 @@ interface MangaRepository {
 
     suspend fun delete(manga: MangaEntity)
 
+    suspend fun upsert(manga: MangaEntity)
+
+    suspend fun upsertV2(manga: MangaEntity)
+
     suspend fun searchMangas(search: String): Flow<List<MangaEntity?>>
 
     suspend fun getAllMangas(): Flow<List<MangaEntity?>>
@@ -46,6 +50,18 @@ class MangaRepositoryImpl
         override suspend fun delete(manga: MangaEntity) {
             withContext(IO) {
                 dao.delete(manga)
+            }
+        }
+
+        override suspend fun upsert(manga: MangaEntity) {
+            withContext(IO) {
+                dao.upsert(manga)
+            }
+        }
+
+        override suspend fun upsertV2(manga: MangaEntity) {
+            withContext(IO) {
+                dao.upsertV2(manga)
             }
         }
 
