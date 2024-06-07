@@ -1,6 +1,6 @@
 [versions]
 coil = "2.6.0"
-hiltAndroid = "2.49"
+hiltAndroid = "2.51.1"
 hiltNavigationCompose = "1.2.0"
 json = "20240303"
 coreKtx = "1.13.1"

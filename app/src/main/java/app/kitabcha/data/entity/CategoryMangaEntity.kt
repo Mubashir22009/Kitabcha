@@ -24,9 +24,9 @@ import androidx.room.PrimaryKey
 data class CategoryMangaEntity(
     @PrimaryKey(autoGenerate = true)
     val cmID: Int = 0,
-    @ColumnInfo(name = "owner_Category_id")
+    @ColumnInfo(name = "owner_Category_id", index = true)
     val ownerCatID: Int,
-    @ColumnInfo(name = "manga_id")
+    @ColumnInfo(name = "manga_id", index = true)
     val mangID: Int,
 )
 

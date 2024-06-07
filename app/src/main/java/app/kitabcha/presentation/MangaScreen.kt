@@ -35,11 +35,11 @@ fun MangaScreen(
 ) {
     val viewModel = hiltViewModel<MangaScreenViewModel>()
 
-    Content2(viewModel, navController, userId, mangaId)
+    MangaScreenContent(viewModel, navController, userId, mangaId)
 }
 
 @Composable
-fun Content2(
+fun MangaScreenContent(
     mangaScreenViewModel: MangaScreenViewModel,
     navController: NavController,
     userId: Int,

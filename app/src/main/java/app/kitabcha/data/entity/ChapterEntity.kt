@@ -19,7 +19,7 @@ import androidx.room.PrimaryKey
 data class ChapterEntity(
     @PrimaryKey(autoGenerate = true)
     val chapterID: Int = 0,
-    @ColumnInfo(name = "owner_manga_id")
+    @ColumnInfo(name = "owner_manga_id", index = true)
     val ownerMangaID: Int,
     @ColumnInfo(name = "chapter_num")
     val chapterNum: Float,
