@@ -10,6 +10,8 @@ import javax.inject.Inject
 interface MangaRepository {
     suspend fun insert(vararg manga: MangaEntity)
 
+    suspend fun update(manga: MangaEntity)
+
     suspend fun delete(manga: MangaEntity)
 
     suspend fun searchMangas(search: String): Flow<List<MangaEntity?>>
@@ -32,6 +34,12 @@ class MangaRepositoryImpl
         override suspend fun insert(vararg manga: MangaEntity) {
             withContext(IO) {
                 dao.insert(*manga)
+            }
+        }
+
+        override suspend fun update(manga: MangaEntity) {
+            withContext(IO) {
+                dao.update(manga)
             }
         }
 

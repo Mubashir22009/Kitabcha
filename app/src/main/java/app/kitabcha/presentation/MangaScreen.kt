@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import kotlinx.coroutines.runBlocking
 
 @Composable
 fun MangaScreen(
@@ -46,10 +45,13 @@ fun MangaScreenContent(
     mangaId: Int,
 ) {
     val mangaChapters by mangaScreenViewModel.mangaChapters.collectAsStateWithLifecycle()
+    val manga by mangaScreenViewModel.manga.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Unit) {
-        runBlocking {
-            mangaScreenViewModel.getchaptersUsingmangaId(mangaId)
+        mangaScreenViewModel.getMangaFromDB(mangaId)
+        if (mangaChapters.isEmpty()) {
+            mangaScreenViewModel.getMangaFromSource(mangaId)
+            mangaScreenViewModel.getMangaFromDB(mangaId)
         }
     }
 

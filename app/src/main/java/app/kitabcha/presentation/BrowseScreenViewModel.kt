@@ -64,9 +64,10 @@ class BrowseScreenViewModel
                     .map {
                         MangaEntity(
                             mangaURL = it.url,
-                            mangaTag = "",
+                            mangaTag = it.tags.joinToString(),
                             mangaDesc = it.description,
                             mangaTitle = it.title,
+                            cover = it.cover,
                             mangaAuthor = it.author,
                             sourceID = sourceID,
                         )

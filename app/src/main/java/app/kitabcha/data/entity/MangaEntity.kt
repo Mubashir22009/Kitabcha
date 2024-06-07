@@ -13,6 +13,8 @@ data class MangaEntity(
     val mangaURL: String,
     @ColumnInfo(name = "manga_title")
     val mangaTitle: String,
+    @ColumnInfo(name = "manga_cover_url")
+    val cover: String,
     @ColumnInfo(name = "manga_description")
     val mangaDesc: String,
     @ColumnInfo(name = "manga_tags")

@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import app.kitabcha.data.entity.MangaEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -12,6 +13,9 @@ import kotlinx.coroutines.flow.Flow
 interface MangaDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(vararg manga: MangaEntity)
+
+    @Update
+    suspend fun update(manga: MangaEntity)
 
     @Delete
     suspend fun delete(manga: MangaEntity)
