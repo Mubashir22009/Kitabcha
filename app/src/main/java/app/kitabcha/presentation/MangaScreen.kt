@@ -28,11 +28,12 @@ import app.kitabcha.navigation.Routes
 fun MangaScreen(
     navController: NavController,
     userId: Int,
+    catId: Int,
     mangaId: Int,
 ) {
     val viewModel = hiltViewModel<MangaScreenViewModel>()
 
-    MangaScreenContent(viewModel, navController, userId, mangaId)
+    MangaScreenContent(viewModel, navController, userId, catId, mangaId)
 }
 
 @Composable
@@ -40,6 +41,7 @@ fun MangaScreenContent(
     mangaScreenViewModel: MangaScreenViewModel,
     navController: NavController,
     userId: Int,
+    catId: Int,
     mangaId: Int,
 ) {
     val mangaChapters by mangaScreenViewModel.mangaChapters.collectAsStateWithLifecycle()

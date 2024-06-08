@@ -26,13 +26,18 @@ fun NavController() {
             LoginScreen(navController)
         }
         composable(
-            "${Routes.mangaScreen}/{userId}/{manga_id}",
+            "${Routes.mangaScreen}/{userId}/{catId}/{manga_id}",
             arguments =
-                listOf(navArgument("userId") { type = NavType.IntType }, navArgument("manga_id") { type = NavType.IntType }),
+                listOf(
+                    navArgument("userId") { type = NavType.IntType },
+                    navArgument("catId") { type = NavType.IntType },
+                    navArgument("manga_id") { type = NavType.IntType },
+                ),
         ) {
             val mangaId = it.arguments!!.getInt("manga_id")
+            val catId = it.arguments!!.getInt("catId")
             val userId = it.arguments!!.getInt("userId")
-            MangaScreen(navController = navController, userId = userId, mangaId = mangaId)
+            MangaScreen(navController = navController, userId = userId, catId = catId, mangaId = mangaId)
         }
         composable(
             route = "${Routes.categoryScreen}/{id}",

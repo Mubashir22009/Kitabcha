@@ -102,7 +102,7 @@ fun LibraryMangaScreen(
                                 modifier =
                                     Modifier
                                         .clickable {
-                                            navController.navigate("${Routes.mangaScreen}/$userId/${manga.mangaID}")
+                                            navController.navigate("${Routes.mangaScreen}/$userId/$cateId/${manga.mangaID}")
                                         },
                             )
                         }
