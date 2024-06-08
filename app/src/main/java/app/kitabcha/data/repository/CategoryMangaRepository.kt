@@ -10,7 +10,10 @@ import javax.inject.Inject
 interface CategoryMangaRepository {
     suspend fun insert(cM: CategoryMangaEntity)
 
-    suspend fun delete(cM: CategoryMangaEntity)
+    suspend fun delete(
+        catID: Int,
+        mangaID: Int,
+    )
 
     suspend fun getAllMangasIDInCurrCategory(categID: Int): List<MangaEntity>
 }
@@ -26,9 +29,12 @@ class CategoryMangaRepositoryImpl
             }
         }
 
-        override suspend fun delete(cM: CategoryMangaEntity) {
+        override suspend fun delete(
+            catID: Int,
+            mangaID: Int,
+        ) {
             withContext(IO) {
-                dao.delete(cM)
+                dao.delete(catID, mangaID)
             }
         }
 
