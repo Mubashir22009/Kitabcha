@@ -1,7 +1,6 @@
 package app.kitabcha.presentation
 
 import androidx.lifecycle.ViewModel
-import app.kitabcha.data.entity.CategoryMangaEntity
 import app.kitabcha.data.entity.ChapterEntity
 import app.kitabcha.data.entity.MangaEntity
 import app.kitabcha.data.repository.CategoryMangaRepository
@@ -23,7 +22,7 @@ class MangaScreenViewModel
     constructor(
         private val mangaRepository: MangaRepository,
         private val chapterRepository: ChapterRepository,
-        private val MangaCategoryRepo: CategoryMangaRepository
+        private val MangaCategoryRepo: CategoryMangaRepository,
     ) : ViewModel() {
         private val _mangaChapters = MutableStateFlow(emptyList<ChapterEntity>())
         val mangaChapters = _mangaChapters.asStateFlow()
@@ -38,11 +37,12 @@ class MangaScreenViewModel
             _loading.tryEmit(value)
         }
 
-        suspend fun deleteMangaFromCategory(catID:Int,MangaID:Int)
-        {
-            withContext(IO)
-            {
-                MangaCategoryRepo.delete(catID,MangaID)
+        suspend fun deleteMangaFromCategory(
+            catID: Int,
+            MangaID: Int,
+        ) {
+            withContext(IO) {
+                MangaCategoryRepo.delete(catID, MangaID)
             }
         }
 

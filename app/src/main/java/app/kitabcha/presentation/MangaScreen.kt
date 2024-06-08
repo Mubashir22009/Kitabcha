@@ -2,6 +2,7 @@ package app.kitabcha.presentation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -83,27 +84,33 @@ fun MangaScreenContent(
                 )
             },
             bottomBar = {
-                BottomAppBar {
-                    Button(
-                        onClick = {
-                            scope.launch {
-                                mangaScreenViewModel.deleteMangaFromCategory()
-                            }
-
-                        },
-                    ){
-                        Text (text="Delete Manga")
+                BottomAppBar(modifier = Modifier) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth().padding(start = 15.dp),
+                    ) {
+                        Button(
+                            onClick = {
+                                scope.launch {
+                                    mangaScreenViewModel.deleteMangaFromCategory(catId, mangaId)
+                                }
+                                // here we will revert back to the previous screen
+                                navController.popBackStack()
+                            },
+                            shape = MaterialTheme.shapes.medium,
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                        ) {
+                            Text(text = "Delete Manga")
+                        }
                     }
-
                 }
-            }
+            },
         ) { pad ->
             Box(
                 modifier =
-                Modifier
-                    .padding(bottom = pad.calculateBottomPadding())
-                    .padding(top = pad.calculateTopPadding())
-                    .fillMaxSize(),
+                    Modifier
+                        .padding(bottom = pad.calculateBottomPadding())
+                        .padding(top = pad.calculateTopPadding())
+                        .fillMaxSize(),
             ) {
                 if (mangaChapters.isNotEmpty()) {
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -125,11 +132,11 @@ fun MangaScreenContent(
                                 Text(
                                     text = "Chapter $num",
                                     modifier =
-                                    Modifier
-                                        .clickable {
-                                            navController.navigate("${Routes.readerScreen}/${mangaChap.chapterID}/${manga!!.sourceID}")
-                                        }
-                                        .fillMaxWidth(),
+                                        Modifier
+                                            .clickable {
+                                                navController.navigate("${Routes.readerScreen}/${mangaChap.chapterID}/${manga!!.sourceID}")
+                                            }
+                                            .fillMaxWidth(),
                                 )
                             }
                         }
