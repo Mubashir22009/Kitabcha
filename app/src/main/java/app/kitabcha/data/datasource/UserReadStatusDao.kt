@@ -18,5 +18,5 @@ interface UserReadStatusDao {
     fun getMangaReadChaptersOfUser(
         userID: Int,
         mangaID: Int,
-    ): List<Int>?
+    ): List<Int>
 }

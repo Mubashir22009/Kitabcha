@@ -12,7 +12,7 @@ interface UserReadStatusRepository {
     suspend fun getMangaReadChaptersOfUser(
         userID: Int,
         mangaID: Int,
-    ): List<Int>?
+    ): List<Int>
 }
 
 class UserReadStatusRepositoryImpl
@@ -29,7 +29,7 @@ class UserReadStatusRepositoryImpl
         override suspend fun getMangaReadChaptersOfUser(
             userID: Int,
             mangaID: Int,
-        ): List<Int>? {
+        ): List<Int> {
             return withContext(IO) {
                 dao.getMangaReadChaptersOfUser(userID, mangaID)
             }
