@@ -8,17 +8,20 @@ import app.kitabcha.data.datasource.ChapterDao
 import app.kitabcha.data.datasource.LibraryDao
 import app.kitabcha.data.datasource.MangaDao
 import app.kitabcha.data.datasource.UserDao
+import app.kitabcha.data.datasource.UserReadStatusDao
 import app.kitabcha.data.entity.CategoryEntity
 import app.kitabcha.data.entity.CategoryMangaEntity
 import app.kitabcha.data.entity.ChapterEntity
 import app.kitabcha.data.entity.LibraryEntity
 import app.kitabcha.data.entity.MangaEntity
 import app.kitabcha.data.entity.UserEntity
+import app.kitabcha.data.entity.UserReadStatusEntity
 
 @Database(
     entities = [
         UserEntity::class, MangaEntity::class, LibraryEntity::class,
         CategoryEntity::class, CategoryMangaEntity::class, ChapterEntity::class,
+        UserReadStatusEntity::class,
     ],
     version = 1,
     exportSchema = false,
@@ -30,4 +33,5 @@ abstract class KitabchaDatabase : RoomDatabase() {
     abstract val categoryDao: CategoryDao
     abstract val categorymangaDao: CategoryMangaDao
     abstract val chapterDao: ChapterDao
+    abstract val userreadstatusDao: UserReadStatusDao
 }
