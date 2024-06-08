@@ -33,9 +33,9 @@ data class UserReadStatusEntity(
     val readID: Int = 0,
     @ColumnInfo(name = "user_read_id")
     val userReadID: String,
-    @ColumnInfo(name = "manga_read_id")
+    @ColumnInfo(name = "manga_read_id", index = true)
     val mangaReadID: String,
-    @ColumnInfo(name = "chapter_read_id")
+    @ColumnInfo(name = "chapter_read_id", index = true)
     val chapterReadID: Int,
 )
 
