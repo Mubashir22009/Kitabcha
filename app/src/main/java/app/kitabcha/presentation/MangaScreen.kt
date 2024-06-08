@@ -1,6 +1,5 @@
 package app.kitabcha.presentation
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -17,7 +16,6 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -25,7 +23,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import app.kitabcha.navigation.Routes
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun MangaScreen(
@@ -38,7 +35,6 @@ fun MangaScreen(
     MangaScreenContent(viewModel, navController, userId, mangaId)
 }
 
-@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun MangaScreenContent(
     mangaScreenViewModel: MangaScreenViewModel,
@@ -48,21 +44,20 @@ fun MangaScreenContent(
 ) {
     val mangaChapters by mangaScreenViewModel.mangaChapters.collectAsStateWithLifecycle()
     val manga by mangaScreenViewModel.manga.collectAsStateWithLifecycle()
-    val showResult: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val loading by mangaScreenViewModel.loading.collectAsStateWithLifecycle()
+
     LaunchedEffect(key1 = Unit) {
-        // true
-        showResult.tryEmit(true)
+        mangaScreenViewModel.loading(true)
         mangaScreenViewModel.getMangaFromDB(mangaId)
         if (mangaChapters.isEmpty()) {
             mangaScreenViewModel.getMangaFromSource(mangaId)
             mangaScreenViewModel.getMangaFromDB(mangaId)
         }
-        // false
-        showResult.tryEmit(false)
+        mangaScreenViewModel.loading(false)
     }
 
-    if (showResult.value) {
-        com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.LoadingCircle()
+    if (loading) {
+        LoadingCircle()
     } else {
         Scaffold(
             topBar = {
@@ -76,7 +71,7 @@ fun MangaScreenContent(
                             scrolledContainerColor = MaterialTheme.colorScheme.secondary,
                         ),
                     title = {
-                        Text("manga name") //manga!!.mangaTitle
+                        Text(manga?.mangaTitle ?: "Unknown")
                     },
                 )
             },
@@ -95,9 +90,9 @@ fun MangaScreenContent(
                         ) { mangaChap ->
                             val num =
                                 if (mangaChap.chapterNum.toInt().toFloat() != mangaChap.chapterNum) {
-                                    "Chapter " + mangaChap.chapterNum
+                                    mangaChap.chapterNum
                                 } else {
-                                    "Chapter " + mangaChap.chapterNum.toInt()
+                                    mangaChap.chapterNum.toInt()
                                 }
 
                             Row(
@@ -106,7 +101,7 @@ fun MangaScreenContent(
                                     .fillMaxSize(),
                             ) {
                                 Text(
-                                    text = num.toString(),
+                                    text = "Chapter $num",
                                     modifier =
                                         Modifier
                                             .clickable {

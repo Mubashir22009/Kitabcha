@@ -28,6 +28,13 @@ class MangaScreenViewModel
         private val _manga = MutableStateFlow<MangaEntity?>(null)
         val manga = _manga.asStateFlow()
 
+        private val _loading = MutableStateFlow(true)
+        val loading = _loading.asStateFlow()
+
+        fun loading(value: Boolean) {
+            _loading.tryEmit(value)
+        }
+
         suspend fun getMangaFromDB(id: Int) {
             withContext(IO) {
                 val chapters =
