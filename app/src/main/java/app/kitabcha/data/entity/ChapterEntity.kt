@@ -3,10 +3,11 @@ package app.kitabcha.data.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = CHAPTERS_ENTITY,
+    tableName = CHAPTERS_ENTITY,indices = [Index(value = ["chapter_url"], unique = true)],
     foreignKeys = [
         ForeignKey(
             entity = MangaEntity::class,

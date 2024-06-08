@@ -5,12 +5,16 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
 import app.kitabcha.data.entity.ChapterEntity
 
 @Dao
 interface ChapterDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(vararg chp: ChapterEntity)
+
+    @Upsert
+    suspend fun upsert(vararg chp: ChapterEntity)
 
     @Delete
     suspend fun delete(chp: ChapterEntity)

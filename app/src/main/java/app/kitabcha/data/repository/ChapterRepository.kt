@@ -9,6 +9,8 @@ import javax.inject.Inject
 interface ChapterRepository {
     suspend fun insert(vararg chp: ChapterEntity)
 
+    suspend fun upsert(vararg chp: ChapterEntity)
+
     suspend fun delete(chp: ChapterEntity)
 
     suspend fun getMangaChapters(mngaID: Int): List<ChapterEntity>
@@ -24,6 +26,12 @@ class ChapterRepositoryImpl
         override suspend fun insert(vararg chp: ChapterEntity) {
             withContext(IO) {
                 dao.insert(*chp)
+            }
+        }
+
+        override suspend fun upsert(vararg chp: ChapterEntity) {
+            withContext(IO){
+                dao.upsert(*chp)
             }
         }
 
