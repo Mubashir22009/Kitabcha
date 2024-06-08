@@ -1,5 +1,6 @@
 package app.kitabcha.presentation
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -41,6 +43,7 @@ fun MangaScreen(
     MangaScreenContent(viewModel, navController, userId, catId, mangaId)
 }
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun MangaScreenContent(
     mangaScreenViewModel: MangaScreenViewModel,
@@ -54,9 +57,12 @@ fun MangaScreenContent(
     val loading by mangaScreenViewModel.loading.collectAsStateWithLifecycle()
     var scope = rememberCoroutineScope()
 
+
+
     LaunchedEffect(key1 = Unit) {
         mangaScreenViewModel.loading(true)
         mangaScreenViewModel.getMangaFromDB(mangaId)
+        mangaScreenViewModel.getAlreadyReadChapters(userId, mangaId)
         if (mangaChapters.isEmpty()) {
             mangaScreenViewModel.getMangaFromSource(mangaId)
             mangaScreenViewModel.getMangaFromDB(mangaId)
@@ -104,6 +110,7 @@ fun MangaScreenContent(
                     }
                 }
             },
+            // +++++++++++++++++++++ modifier = Modifier.
         ) { pad ->
             Box(
                 modifier =
@@ -117,6 +124,8 @@ fun MangaScreenContent(
                         items(
                             mangaChapters,
                         ) { mangaChap ->
+                            // bool to check weather current chapter exists alreadyReadChapter List or not
+                            val chapInList: Boolean = mangaChap.chapterID in mangaScreenViewModel.chaptersReadList.value
                             val num =
                                 if (mangaChap.chapterNum.toInt().toFloat() != mangaChap.chapterNum) {
                                     mangaChap.chapterNum
@@ -135,8 +144,12 @@ fun MangaScreenContent(
                                         Modifier
                                             .clickable {
                                                 navController.navigate("${Routes.readerScreen}/${mangaChap.chapterID}/${manga!!.sourceID}")
+                                                scope.launch {
+                                                    mangaScreenViewModel.insertChapterInAlreadyRead(userId, mangaId, mangaChap.chapterID)
+                                                }
                                             }
                                             .fillMaxWidth(),
+                                    color = if (chapInList) Color.Magenta else Color.White,
                                 )
                             }
                         }
@@ -151,3 +164,23 @@ fun MangaScreenContent(
         }
     }
 }
+
+// AsyncImage(
+//    model =
+//    ImageRequest.Builder(context)
+//    .data(manga?.cover)
+//    .build(),
+//    contentDescription = null,
+//    contentScale = ContentScale.Crop,
+//    modifier =
+//    Modifier
+//    .matchParentSize()
+//    .drawWithContent {
+//        drawContent()
+//        drawRect(
+//            brush = Brush.verticalGradient(colors = backgroundGradient),
+//        )
+//    }
+//    .blur(4.dp)
+//    .alpha(0.2f),
+// )

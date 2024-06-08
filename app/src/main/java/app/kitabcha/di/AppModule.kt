@@ -12,6 +12,8 @@ import app.kitabcha.data.repository.LibraryRepository
 import app.kitabcha.data.repository.LibraryRepositoryImpl
 import app.kitabcha.data.repository.MangaRepository
 import app.kitabcha.data.repository.MangaRepositoryImpl
+import app.kitabcha.data.repository.UserReadStatusRepository
+import app.kitabcha.data.repository.UserReadStatusRepositoryImpl
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.data.datasource.KitabchaDatabase
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.data.repository.UserRepository
 import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.data.repository.UserRepositoryImpl
@@ -68,5 +70,11 @@ object AppModule {
     @Singleton
     fun provideChapterRepository(db: KitabchaDatabase): ChapterRepository {
         return ChapterRepositoryImpl(db.chapterDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserReadStatusRepository(db: KitabchaDatabase): UserReadStatusRepository {
+        return UserReadStatusRepositoryImpl(db.userreadstatusDao)
     }
 }
