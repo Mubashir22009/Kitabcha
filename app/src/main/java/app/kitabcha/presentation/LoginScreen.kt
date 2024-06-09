@@ -1,6 +1,7 @@
 package com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,8 +20,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -43,6 +47,12 @@ fun Content(
     loginViewModel: LoginScreenViewModel,
     navController: NavController,
 ) {
+    val img = painterResource(id = R.drawable.death_note_l_black)
+    Image(
+        painter = img,
+        contentDescription = null,
+        contentScale = ContentScale.Crop,
+    )
     // this variable will determine the display of login screen or signup screen
     var doLogin by remember { mutableStateOf(true) }
     val showPassword by remember { mutableStateOf(value = false) }
@@ -52,7 +62,7 @@ fun Content(
         modifier =
             Modifier
                 .fillMaxWidth()
-                .padding(top = 150.dp),
+                .padding(top = 170.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         val username by loginViewModel.userName.collectAsStateWithLifecycle()
