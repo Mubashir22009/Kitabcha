@@ -32,7 +32,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -41,6 +40,7 @@ import app.kitabcha.navigation.Routes
 import app.kitabcha.presentation.MangaScreenViewModel.LoadingState
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.mkrdeveloper.viewmodeljetpack.app.kitabcha.presentation.LoadingCircle
 import kotlinx.coroutines.launch
 
 @Composable
@@ -129,7 +129,6 @@ fun MangaScreenContent(
             },
             // +++++++++++++++++++++ modifier = Modifier.
         ) { pad ->
-            val layoutDirection = LocalLayoutDirection.current
             LazyColumn(
                 modifier =
                     Modifier
@@ -137,12 +136,6 @@ fun MangaScreenContent(
                         .padding(top = pad.calculateTopPadding())
                         .fillMaxSize(),
                 state = listState,
-//                contentPadding =
-//                PaddingValues(
-//                    start = pad.calculateStartPadding(layoutDirection),
-//                    end = pad.calculateEndPadding(layoutDirection),
-//                    bottom = pad.calculateBottomPadding(),
-//                ),
             ) {
                 item {
                     Box {
