@@ -166,8 +166,8 @@ fun MangaScreenContent(
                                             brush = Brush.verticalGradient(colors = backdropGradientColors),
                                         )
                                     }
-                                    .blur(4.dp)
-                                    .alpha(0.2f),
+                                    .blur(2.dp)
+                                    .alpha(0.5f),
                         )
                         Text(
                             text = manga?.mangaDesc ?: "",

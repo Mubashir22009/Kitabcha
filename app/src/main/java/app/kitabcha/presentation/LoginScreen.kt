@@ -51,6 +51,7 @@ fun Content(
         painter = img,
         contentDescription = null,
         contentScale = ContentScale.Crop,
+        alpha = 0.9F
     )
     // this variable will determine the display of login screen or signup screen
     var doLogin by remember { mutableStateOf(true) }
