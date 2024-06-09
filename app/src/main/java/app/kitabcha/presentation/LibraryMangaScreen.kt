@@ -68,7 +68,7 @@ fun LibraryMangaScreen(
                     Button(
                         onClick = {
                             libraryMangaViewModel.delCategory(cateId)
-                            navController.navigate("${Routes.categoryScreen}/$userId")
+                            navController.popBackStack()
                         },
                         shape = MaterialTheme.shapes.medium,
                     ) {

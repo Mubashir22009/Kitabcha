@@ -93,7 +93,7 @@ fun CategoryScreen(
                     Button(
                         onClick = {
                             categoryScreenViewModel.delUser(userId)
-                            navController.navigate(Routes.loginScreen)
+                            navController.popBackStack()
                         },
                         modifier = Modifier,
                         shape = MaterialTheme.shapes.medium, // Adjust shape as needed
