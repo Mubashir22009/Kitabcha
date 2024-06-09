@@ -18,6 +18,9 @@ class ReaderViewModel
         private var _readerPages = MutableStateFlow(emptyList<String>())
         var readerPages = _readerPages.asStateFlow()
 
+        private var _loadingError = MutableStateFlow("")
+        var loadingError = _loadingError.asStateFlow()
+
         suspend fun loadSourcePages(
             chapterId: Int,
             sourceId: Long,
@@ -30,8 +33,13 @@ class ReaderViewModel
                     number = dbChapter.chapterNum,
                 )
             val pages =
-                source.getPageList(sChapter).map {
-                    source.getImageUrl(it)
+                try {
+                    source.getPageList(sChapter).map {
+                        source.getImageUrl(it)
+                    }
+                } catch (e: Exception) {
+                    _loadingError.tryEmit("${e.javaClass.simpleName}: ${e.message}")
+                    return
                 }
             _readerPages.tryEmit(pages)
         }

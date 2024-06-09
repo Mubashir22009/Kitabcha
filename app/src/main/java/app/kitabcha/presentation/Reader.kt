@@ -1,5 +1,6 @@
 package app.kitabcha.presentation
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import coil.Coil
 import coil.request.ErrorResult
 import coil.request.ImageRequest
@@ -40,10 +42,12 @@ import me.saket.telephoto.zoomable.rememberZoomableState
 fun Reader(
     chapterId: Int,
     sourceId: Long,
+    navigator: NavController,
     readerViewModel: ReaderViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
     val readerPages by readerViewModel.readerPages.collectAsStateWithLifecycle()
+    val loadingError by readerViewModel.loadingError.collectAsStateWithLifecycle()
     var pageNum by remember {
         mutableIntStateOf(0)
     }
@@ -79,6 +83,11 @@ fun Reader(
                 imageLoader.enqueue(request)
             }
         }
+    }
+
+    if (loadingError.isNotEmpty()) {
+        Toast.makeText(context, loadingError, Toast.LENGTH_LONG).show()
+        // navigator.popBackStack()
     }
 
     if (readerPages.isEmpty()) {

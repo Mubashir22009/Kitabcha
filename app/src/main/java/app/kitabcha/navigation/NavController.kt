@@ -96,7 +96,7 @@ fun NavController() {
             val sourceId = it.arguments!!.getLong("sourceId")
             val chapterId = it.arguments!!.getInt("chapId")
 
-            Reader(chapterId = chapterId, sourceId = sourceId)
+            Reader(chapterId = chapterId, sourceId = sourceId, navController)
         }
     })
 }
