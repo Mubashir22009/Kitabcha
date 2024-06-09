@@ -1,6 +1,7 @@
 package app.kitabcha.presentation
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
@@ -66,12 +68,13 @@ fun CategoryScreen(
         bottomBar = {
             BottomAppBar {
                 Row(
-                    horizontalArrangement = Arrangement.SpaceAround,
+                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                     modifier =
                         Modifier
                             .fillMaxSize()
-                            .padding(bottom = 15.dp),
+                            .padding(bottom = 5.dp)
+                            .horizontalScroll(rememberScrollState()),
                 ) {
                     Button(
                         onClick = {
@@ -88,6 +91,17 @@ fun CategoryScreen(
                     ) {
                         Text(
                             text = "Add Category",
+                        )
+                    }
+                    Button(
+                        onClick = {
+                            navController.popBackStack()
+                        },
+                        modifier = Modifier,
+                        shape = MaterialTheme.shapes.medium, // Adjust shape as needed
+                    ) {
+                        Text(
+                            text = "Logout User",
                         )
                     }
                     Button(

@@ -51,7 +51,7 @@ fun Content(
         painter = img,
         contentDescription = null,
         contentScale = ContentScale.Crop,
-        alpha = 0.9F
+        alpha = 0.9F,
     )
     // this variable will determine the display of login screen or signup screen
     var doLogin by remember { mutableStateOf(true) }
@@ -145,6 +145,8 @@ fun Content(
                             Toast.makeText(localContext, "Unable to login", Toast.LENGTH_SHORT)
                                 .show()
                         } else {
+                            loginViewModel.setUserPassword("")
+                            loginViewModel.setUserName("")
                             navController.navigate("${Routes.categoryScreen}/${user.id}")
                         }
                     }
