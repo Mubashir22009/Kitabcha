@@ -147,7 +147,6 @@ fun Content(
                         } else {
                             loginViewModel.setUserPassword("")
                             loginViewModel.setUserName("")
-                            password.removeRange(0, password.length)
                             navController.navigate("${Routes.categoryScreen}/${user.id}")
                         }
                     }
