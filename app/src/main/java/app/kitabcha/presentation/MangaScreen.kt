@@ -1,6 +1,5 @@
 package app.kitabcha.presentation
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,7 +42,6 @@ fun MangaScreen(
     MangaScreenContent(viewModel, navController, userId, catId, mangaId)
 }
 
-@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun MangaScreenContent(
     mangaScreenViewModel: MangaScreenViewModel,
@@ -55,9 +53,8 @@ fun MangaScreenContent(
     val mangaChapters by mangaScreenViewModel.mangaChapters.collectAsStateWithLifecycle()
     val manga by mangaScreenViewModel.manga.collectAsStateWithLifecycle()
     val loading by mangaScreenViewModel.loading.collectAsStateWithLifecycle()
-    var scope = rememberCoroutineScope()
-
-
+    val chaptersRead by mangaScreenViewModel.chaptersReadList.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = Unit) {
         mangaScreenViewModel.loading(true)
@@ -92,7 +89,10 @@ fun MangaScreenContent(
             bottomBar = {
                 BottomAppBar(modifier = Modifier) {
                     Column(
-                        modifier = Modifier.fillMaxWidth().padding(start = 15.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(start = 15.dp),
                     ) {
                         Button(
                             onClick = {
@@ -125,7 +125,7 @@ fun MangaScreenContent(
                             mangaChapters,
                         ) { mangaChap ->
                             // bool to check weather current chapter exists alreadyReadChapter List or not
-                            val chapInList: Boolean = mangaChap.chapterID in mangaScreenViewModel.chaptersReadList.value
+                            val chapInList: Boolean = mangaChap.chapterID in chaptersRead
                             val num =
                                 if (mangaChap.chapterNum.toInt().toFloat() != mangaChap.chapterNum) {
                                     mangaChap.chapterNum
@@ -145,7 +145,11 @@ fun MangaScreenContent(
                                             .clickable {
                                                 navController.navigate("${Routes.readerScreen}/${mangaChap.chapterID}/${manga!!.sourceID}")
                                                 scope.launch {
-                                                    mangaScreenViewModel.insertChapterInAlreadyRead(userId, mangaId, mangaChap.chapterID)
+                                                    mangaScreenViewModel.insertChapterInAlreadyRead(
+                                                        userId,
+                                                        mangaId,
+                                                        mangaChap.chapterID,
+                                                    )
                                                 }
                                             }
                                             .fillMaxWidth(),
