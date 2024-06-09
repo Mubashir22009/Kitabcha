@@ -37,7 +37,7 @@ Mubashir Haroon:
 Manga Fetching, manga Reader Development, and App optimization
 Muhammad Mukees Khan:
 Database development with small logic implementations in user authorization
-Mohammad Ahmad:
+Muhammad Ahmad:
 User Login/Sign Up, Manga Browse, Manga Chapter Screen Logic And UI development
 Tayyab-Ur-Rehman:
 Library/ category Screen and Manga Screen  Logic and UI Development And Navigation Control handling
