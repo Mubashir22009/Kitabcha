@@ -25,7 +25,7 @@ class MangaScreenViewModel
         private val mangaRepository: MangaRepository,
         private val chapterRepository: ChapterRepository,
         private val readStatusRepo: UserReadStatusRepository,
-        private val MangaCategoryRepo: CategoryMangaRepository,
+        private val mangaCategoryRepo: CategoryMangaRepository,
     ) : ViewModel() {
         private val _mangaChapters = MutableStateFlow(emptyList<ChapterEntity>())
         val mangaChapters = _mangaChapters.asStateFlow()
@@ -33,23 +33,29 @@ class MangaScreenViewModel
         private val _manga = MutableStateFlow<MangaEntity?>(null)
         val manga = _manga.asStateFlow()
 
-        private val _loading = MutableStateFlow(true)
+        private val _loading = MutableStateFlow(LoadingState.FromDB)
         val loading = _loading.asStateFlow()
 
-        // these variables tell us the chapters, current user has already read
-        private val _chaptersReadList = MutableStateFlow<List<Int>>(emptyList<Int>())
-        var chaptersReadList = _chaptersReadList.asStateFlow()
+        enum class LoadingState {
+            FromDB,
+            FromSource,
+            Loaded,
+        }
 
-        fun loading(value: Boolean) {
+        fun loading(value: LoadingState) {
             _loading.tryEmit(value)
         }
 
+        // these variables tell us the chapters, current user has already read
+        private val _chaptersReadList = MutableStateFlow(emptyList<Int>())
+        var chaptersReadList = _chaptersReadList.asStateFlow()
+
         suspend fun deleteMangaFromCategory(
             catID: Int,
-            MangaID: Int,
+            mangaID: Int,
         ) {
             withContext(IO) {
-                MangaCategoryRepo.delete(catID, MangaID)
+                mangaCategoryRepo.delete(catID, mangaID)
             }
         }
 
