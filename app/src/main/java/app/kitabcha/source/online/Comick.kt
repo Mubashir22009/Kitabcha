@@ -27,6 +27,9 @@ class Comick : HttpSource() {
 
                 client.get(url, headers)
             } else {
+                if (page > 1) {
+                    throw IllegalStateException("Comick doesn't support page>1 for search")
+                }
                 val url = "https://api.$domain/v1.0/search?limit=20&page=1&tachiyomi=true&q=${search.trim()}"
 
                 client.get(url, headers)

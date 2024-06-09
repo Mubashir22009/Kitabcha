@@ -58,6 +58,7 @@ fun BrowseScreen(
     val selectedManga by browseScreenViewModel.currentManga.collectAsStateWithLifecycle()
     val selectedMangaId by browseScreenViewModel.currentMangaId.collectAsStateWithLifecycle()
     val showLoadingCircle by browseScreenViewModel.showLoadingCircle.collectAsStateWithLifecycle()
+    val loadingError by browseScreenViewModel.loadingError.collectAsStateWithLifecycle()
     val localContext = LocalContext.current
     val scope = rememberCoroutineScope()
 
@@ -118,7 +119,21 @@ fun BrowseScreen(
 
         Spacer(modifier = Modifier.height(4.dp))
         // Lazy column to show all results of search
-        if (showLoadingCircle) {
+        if (loadingError.isNotEmpty()) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                Text(
+                    text = loadingError,
+                    modifier =
+                        Modifier
+                            .padding(all = 16.dp)
+                            .align(Alignment.CenterVertically),
+                )
+            }
+        } else if (showLoadingCircle) {
             LoadingCircle()
         } else {
             if (flag) {

@@ -40,11 +40,15 @@ class MangaScreenViewModel
             FromDB,
             FromSource,
             Loaded,
+            Error,
         }
 
         fun loading(value: LoadingState) {
             _loading.tryEmit(value)
         }
+
+        private val _loadingError = MutableStateFlow("")
+        var loadingError = _loadingError.asStateFlow()
 
         // these variables tell us the chapters, current user has already read
         private val _chaptersReadList = MutableStateFlow(emptyList<Int>())
@@ -103,12 +107,18 @@ class MangaScreenViewModel
 
             val remoteManga =
                 with(manga.value!!) {
-                    source.getMangaInfo(
-                        SManga(
-                            mangaTitle,
-                            mangaURL,
-                        ),
-                    )
+                    try {
+                        source.getMangaInfo(
+                            SManga(
+                                mangaTitle,
+                                mangaURL,
+                            ),
+                        )
+                    } catch (e: Exception) {
+                        _loadingError.tryEmit("${e.javaClass.simpleName}: ${e.message}")
+                        _loading.tryEmit(LoadingState.Error)
+                        return
+                    }
                 }
 
             mangaRepository.update(

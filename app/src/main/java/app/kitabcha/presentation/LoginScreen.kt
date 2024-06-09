@@ -24,7 +24,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -145,9 +144,6 @@ fun Content(
                             Toast.makeText(localContext, "Unable to login", Toast.LENGTH_SHORT)
                                 .show()
                         } else {
-                            Toast.makeText(localContext, "Logged in :D", Toast.LENGTH_SHORT)
-                                .show()
-
                             navController.navigate("${Routes.categoryScreen}/${user.id}")
                         }
                     }

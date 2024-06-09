@@ -1,5 +1,6 @@
 package app.kitabcha.presentation
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -66,6 +67,7 @@ fun MangaScreenContent(
     val mangaChapters by mangaScreenViewModel.mangaChapters.collectAsStateWithLifecycle()
     val manga by mangaScreenViewModel.manga.collectAsStateWithLifecycle()
     val loading by mangaScreenViewModel.loading.collectAsStateWithLifecycle()
+    val loadingError by mangaScreenViewModel.loadingError.collectAsStateWithLifecycle()
     val chaptersRead by mangaScreenViewModel.chaptersReadList.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -81,6 +83,10 @@ fun MangaScreenContent(
             mangaScreenViewModel.getMangaFromDB(mangaId)
         }
         mangaScreenViewModel.loading(LoadingState.Loaded)
+    }
+
+    if (loadingError.isNotEmpty()) {
+        Toast.makeText(context, loadingError, Toast.LENGTH_SHORT).show()
     }
 
     if (loading == LoadingState.FromDB) {

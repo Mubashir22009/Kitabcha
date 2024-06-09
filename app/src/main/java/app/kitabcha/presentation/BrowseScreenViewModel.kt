@@ -51,33 +51,41 @@ class BrowseScreenViewModel
         var categories = _categories.asStateFlow()
 
         // manga list will be the list we will receive from the server with respect to our query
-        val remoteManga = MutableStateFlow(listOf<MangaEntity>()) // TODO: Add data type of this list
+        private val _remoteManga = MutableStateFlow(listOf<MangaEntity>())
+        val remoteManga = _remoteManga.asStateFlow()
 
-        fun getMangas(
+        private val _loadingError = MutableStateFlow("")
+        val loadingError = _loadingError.asStateFlow()
+
+        private fun getMangas(
             sourceID: Long,
             pagenumber: Int,
         ) {
             _showLoadingCircle.tryEmit(true)
             val source = AvailableSources.sources[sourceID]!!
             viewModelScope.launch {
-                source.getListing(pagenumber, _searchQuery.value)
-                    .map {
-                        MangaEntity(
-                            mangaURL = it.url,
-                            mangaTag = it.tags.joinToString(),
-                            mangaDesc = it.description,
-                            mangaTitle = it.title,
-                            cover = it.cover,
-                            mangaAuthor = it.author,
-                            sourceID = sourceID,
-                        )
-                    }.also {
-                        repository.insert(
-                            *it.toTypedArray(),
-                        )
-                    }.also { remoteManga.tryEmit(it) }
-                    .also { lazyListFlag.tryEmit(true) }
-                    .also { _showLoadingCircle.tryEmit(false) }
+                try {
+                    source.getListing(pagenumber, _searchQuery.value)
+                        .map {
+                            MangaEntity(
+                                mangaURL = it.url,
+                                mangaTag = it.tags.joinToString(),
+                                mangaDesc = it.description,
+                                mangaTitle = it.title,
+                                cover = it.cover,
+                                mangaAuthor = it.author,
+                                sourceID = sourceID,
+                            )
+                        }.also {
+                            repository.insert(
+                                *it.toTypedArray(),
+                            )
+                        }.also { _remoteManga.tryEmit(it) }
+                        .also { lazyListFlag.tryEmit(true) }
+                        .also { _showLoadingCircle.tryEmit(false) }
+                } catch (e: Exception) {
+                    _loadingError.tryEmit("${e.javaClass.simpleName}: ${e.message}")
+                }
             }
         }
 
@@ -132,18 +140,21 @@ class BrowseScreenViewModel
         // this Sends getManga call to Server after incrementing the page number (search for next page)
         fun pageUp(sourceID: Long) {
             _page.tryEmit(_page.value + 1)
+            _loadingError.tryEmit("")
             getMangas(sourceID, _page.value)
         }
 
         // this Sends getManga call to Server after decrementing the page number (search for previous page)
         fun pageDown(sourceID: Long) {
             _page.tryEmit(_page.value - 1)
+            _loadingError.tryEmit("")
             getMangas(sourceID, _page.value)
         }
 
         // this resets the page number as new word has been searched
         fun newSearch(sourceID: Long) {
             _page.tryEmit(1)
+            _loadingError.tryEmit("")
             getMangas(sourceID, _page.value)
         }
     }
